@@ -1,4 +1,5 @@
 ﻿using OperationController.Data;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -50,49 +51,59 @@ namespace OperationController.DisplayManage
 
         private void ATPos_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            Point mousePosition = e.GetPosition(myCanvas);
+
+            double relativeX = mousePosition.X;
+            double relativeY = mousePosition.Y;
+
             if (fixAirThreatPox == 1)
             {
                 // Store the current mouse position when the Label is clicked
-                fixedAirThreatStartPosX = e.GetPosition(this).X;
-                fixedAirThreatStartPosY = e.GetPosition(this).Y;
+                fixedAirThreatStartPosX = relativeX;
+                fixedAirThreatStartPosY = relativeY;
                 // Set the flag to prevent updating the label content
                 fixAirThreatPox = 4;
             }
             else if (fixAirThreatPox == 2)
             {
                 // Store the current mouse position when the Label is clicked
-                fixedAirThreatEndPosX = e.GetPosition(this).X;
-                fixedAirThreatEndPosY = e.GetPosition(this).Y;
+                fixedAirThreatEndPosX = relativeX;
+                fixedAirThreatEndPosY = relativeY;
                 // Set the flag to prevent updating the label content
                 fixAirThreatPox = 5;
             }
             else if (fixAirThreatPox == 3)
             {
                 // Store the current mouse position when the Label is clicked
-                fixedMSLStartPosX = e.GetPosition(this).X;
-                fixedMSLStartPosY = e.GetPosition(this).Y;
+                fixedMSLStartPosX = relativeX;
+                fixedMSLStartPosY = relativeY;
                 // Set the flag to prevent updating the label content
                 fixAirThreatPox = 6;
             }
         }
 
         // 공중위협 설정한 출발지 좌표값 출력창에서 입력한 좌표값으로 변경
-        private void Window_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        private void Canvas_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
+            Point mousePosition = e.GetPosition(myCanvas);
+
+            double relativeX = mousePosition.X;
+            double relativeY = mousePosition.Y;
+
             if (fixAirThreatPox == 1)
             {
-                ATStartPosX.Content = $"{e.GetPosition(this).X:F3}";
-                ATStartPosY.Content = $"{e.GetPosition(this).Y:F3}";
+                ATStartPosX.Content = $"{relativeX:F3}";
+                ATStartPosY.Content = $"{relativeY:F3}";
             }
             else if (fixAirThreatPox == 2)
             {
-                ATEndPosX.Content = $"{e.GetPosition(this).X:F3}";
-                ATEndPosY.Content = $"{e.GetPosition(this).Y:F3}";
+                ATEndPosX.Content = $"{relativeX:F3}";
+                ATEndPosY.Content = $"{relativeY:F3}";
             }
             else if (fixAirThreatPox == 3)
             {
-                MSLStartPosX.Content = $"{e.GetPosition(this).X:F3}";
-                MSLStartPosY.Content = $"{e.GetPosition(this).Y:F3}";
+                MSLStartPosX.Content = $"{relativeX:F3}";
+                MSLStartPosY.Content = $"{relativeY:F3}";
             }
             else if (fixAirThreatPox == 4)
             {
@@ -108,6 +119,21 @@ namespace OperationController.DisplayManage
             {
                 MSLStartPosX.Content = $"{fixedMSLStartPosX:F3}";
                 MSLStartPosY.Content = $"{fixedMSLStartPosY:F3}";
+            }
+        }
+        private void InputTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            // Check if the Enter key is pressed
+            if (e.Key == Key.Enter)
+            {
+                // Get the value from the TextBox
+                string inputValue = AirThreatSpeedInput.Text;
+
+                // Do something with the input value, for example, display it in a MessageBox
+                MessageBox.Show($"Input value: {inputValue}");
+
+                // Optionally, you can clear the TextBox after submission
+                AirThreatSpeedInput.Clear();
             }
         }
         //---------------------------------------------------------------

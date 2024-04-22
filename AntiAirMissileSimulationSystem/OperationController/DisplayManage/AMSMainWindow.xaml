@@ -5,7 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OperationController.DisplayManage"
         mc:Ignorable="d"
-        MouseMove="Window_MouseMove"
         Title="대공유도탄 모의시스템" Height="800" Width="1400">
 
     <DockPanel Background="FloralWhite">
@@ -21,7 +20,7 @@
                 <RowDefinition Height="130"/>
             </Grid.RowDefinitions>
 
-            <Canvas Name="myCanvas" HorizontalAlignment="Center" Height="635" VerticalAlignment="Top" Width="990" Grid.Column="1" Grid.Row="0" MouseLeftButtonDown="ATPos_MouseLeftButtonDown">
+            <Canvas Name="myCanvas" HorizontalAlignment="Center" Height="635" VerticalAlignment="Top" Width="990" Grid.Column="1" Grid.Row="0" MouseMove="Canvas_MouseMove" MouseLeftButtonDown="ATPos_MouseLeftButtonDown">
                 <Canvas.Background>
                     <ImageBrush ImageSource="../map/BackGround.jpg"/>
                 </Canvas.Background>
@@ -50,7 +49,7 @@
                 </DockPanel>
                 <DockPanel>
                     <Label Content="속도" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Center"/>
-                    <TextBox HorizontalAlignment="Right" Height="20" TextWrapping="Wrap" Margin="10,0,10,0" Text="600" VerticalAlignment="Center" Width="100"/>
+                    <TextBox x:Name="AirThreatSpeedInput" HorizontalAlignment="Right" Height="20" TextWrapping="Wrap" Margin="10,0,10,0" Text="600" VerticalAlignment="Center" Width="100"/>
                 </DockPanel>
                 <DockPanel>
                     <Button Name="ATStartSetting" Content="시작설정" HorizontalAlignment="Left" Height="30" Margin="10,10,10,0" VerticalAlignment="Center" Width="80" Click="ATStartSetting_Click"/>
@@ -60,11 +59,11 @@
                 <Label Content="좌표" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Top"/>
                 <DockPanel>
                     <Label Content="위도" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                    <Label x:Name="MSLStartPosX" Content="XXX" HorizontalAlignment="Right" Margin="10,0,0,0" VerticalAlignment="Center" Width="100"/>
+                    <Label x:Name="MSLStartPosX" Content="NO DATA" HorizontalAlignment="Right" Margin="10,0,0,0" VerticalAlignment="Center" Width="100"/>
                 </DockPanel>
                 <DockPanel>
                     <Label Content="경도" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                    <Label x:Name="MSLStartPosY" Content="YYY" HorizontalAlignment="Right" Margin="10,0,0,0" VerticalAlignment="Center" Width="100"/>
+                    <Label x:Name="MSLStartPosY" Content="NO DATA" HorizontalAlignment="Right" Margin="10,0,0,0" VerticalAlignment="Center" Width="100"/>
                 </DockPanel>
                 <DockPanel>
                     <Label Content="속도" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Center"/>
