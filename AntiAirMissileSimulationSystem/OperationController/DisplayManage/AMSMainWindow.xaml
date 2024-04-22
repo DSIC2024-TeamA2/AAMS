@@ -21,11 +21,11 @@
                 <RowDefinition Height="130"/>
             </Grid.RowDefinitions>
 
-            <Canvas HorizontalAlignment="Center" Height="635" VerticalAlignment="Top" Width="990" Grid.Column="1" Grid.Row="0" MouseLeftButtonDown="ATPos_MouseLeftButtonDown">
+            <Canvas Name="myCanvas" HorizontalAlignment="Center" Height="635" VerticalAlignment="Top" Width="990" Grid.Column="1" Grid.Row="0" MouseLeftButtonDown="ATPos_MouseLeftButtonDown">
                 <Canvas.Background>
                     <ImageBrush ImageSource="../map/BackGround.jpg"/>
                 </Canvas.Background>
-                <Image x:Name="imgAirplane" Source="../map/plane.jpg" Width="50" Height="50" Canvas.Left="{Binding AAMimgX}" Canvas.Top="{Binding AAMimgY}"/>
+                <!--<Image x:Name="imgAirplane" Source="../map/plane.jpg" Width="50" Height="50" Canvas.Left="{Binding AAMimgX}" Canvas.Top="{Binding AAMimgY}"/>-->
             </Canvas>
 
             <StackPanel Grid.Column="0" Grid.Row="0">
