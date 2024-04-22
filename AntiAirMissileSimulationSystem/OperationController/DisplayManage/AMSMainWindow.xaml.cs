@@ -38,6 +38,9 @@ namespace OperationController.DisplayManage
         private double fixedMSLStartPosX = 0.0;
         private double fixedMSLStartPosY = 0.0;
 
+        private double fixedAirThreatSpeed = 0.0;
+        private double fixedMSLSpeed = 0.0;
+
         // 공중위협 출발지 좌표 설정 버튼 클릭 시
         // 지도 위에서 좌표 클릭하는 이벤트를 실행 시키기 위한 멤버함수
         private void ATStartSetting_Click(object sender, RoutedEventArgs e)
@@ -94,46 +97,88 @@ namespace OperationController.DisplayManage
             {
                 ATStartPosX.Content = $"{relativeX:F3}";
                 ATStartPosY.Content = $"{relativeY:F3}";
+
+                // Update the position of the TextBox to follow the mouse cursor
+                mousePositionTextBox.Margin = new Thickness(mousePosition.X + 16, mousePosition.Y + 16, 0, 0);
+
+                // Update the text of the TextBox to display the current mouse position
+                mousePositionTextBox.Text = $"X: {relativeX:F3}, Y: {relativeY:F3}";
+
+                // Ensure the TextBox is visible
+                mousePositionTextBox.Visibility = Visibility.Visible;
+
             }
             else if (fixAirThreatPox == 2)
             {
                 ATEndPosX.Content = $"{relativeX:F3}";
                 ATEndPosY.Content = $"{relativeY:F3}";
+
+                // Update the position of the TextBox to follow the mouse cursor
+                mousePositionTextBox.Margin = new Thickness(mousePosition.X + 16, mousePosition.Y + 16, 0, 0);
+
+                // Update the text of the TextBox to display the current mouse position
+                mousePositionTextBox.Text = $"X: {relativeX:F3}, Y: {relativeY:F3}";
+
+                // Ensure the TextBox is visible
+                mousePositionTextBox.Visibility = Visibility.Visible;
+
             }
             else if (fixAirThreatPox == 3)
             {
                 MSLStartPosX.Content = $"{relativeX:F3}";
                 MSLStartPosY.Content = $"{relativeY:F3}";
+
+                // Update the position of the TextBox to follow the mouse cursor
+                mousePositionTextBox.Margin = new Thickness(mousePosition.X + 16, mousePosition.Y + 16, 0, 0);
+
+                // Update the text of the TextBox to display the current mouse position
+                mousePositionTextBox.Text = $"X: {relativeX:F3}, Y: {relativeY:F3}";
+
+                // Ensure the TextBox is visible
+                mousePositionTextBox.Visibility = Visibility.Visible;
+
             }
             else if (fixAirThreatPox == 4)
             {
                 ATStartPosX.Content = $"{fixedAirThreatStartPosX:F3}";
                 ATStartPosY.Content = $"{fixedAirThreatStartPosY:F3}";
+
+                mousePositionTextBox.Visibility = Visibility.Hidden;
             }
             else if (fixAirThreatPox == 5)
             {
                 ATEndPosX.Content = $"{fixedAirThreatEndPosX:F3}";
                 ATEndPosY.Content = $"{fixedAirThreatEndPosY:F3}";
+
+                mousePositionTextBox.Visibility = Visibility.Hidden;
             }
             else if (fixAirThreatPox == 6)
             {
                 MSLStartPosX.Content = $"{fixedMSLStartPosX:F3}";
                 MSLStartPosY.Content = $"{fixedMSLStartPosY:F3}";
+
+                mousePositionTextBox.Visibility = Visibility.Hidden;
             }
         }
-        private void InputTextBox_KeyDown(object sender, KeyEventArgs e)
+        private void AirThreatSpeedTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             // Check if the Enter key is pressed
             if (e.Key == Key.Enter)
             {
                 // Get the value from the TextBox
                 string inputValue = AirThreatSpeedInput.Text;
+                fixedAirThreatSpeed = (Double.Parse(inputValue));
+            }
+        }
 
-                // Do something with the input value, for example, display it in a MessageBox
-                MessageBox.Show($"Input value: {inputValue}");
-
-                // Optionally, you can clear the TextBox after submission
-                AirThreatSpeedInput.Clear();
+        private void MSLSpeedTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            // Check if the Enter key is pressed
+            if (e.Key == Key.Enter)
+            {
+                // Get the value from the TextBox
+                string inputValue = MSLSpeedInput.Text;
+                fixedMSLSpeed = (Double.Parse(inputValue));
             }
         }
         //---------------------------------------------------------------

@@ -24,6 +24,7 @@
                 <Canvas.Background>
                     <ImageBrush ImageSource="../map/BackGround.jpg"/>
                 </Canvas.Background>
+                <TextBox x:Name="mousePositionTextBox" Visibility="Hidden" Width="100" Height="20" Background="White" BorderBrush="Black"/>
                 <!--<Image x:Name="imgAirplane" Source="../map/plane.jpg" Width="50" Height="50" Canvas.Left="{Binding AAMimgX}" Canvas.Top="{Binding AAMimgY}"/>-->
             </Canvas>
 
@@ -49,7 +50,7 @@
                 </DockPanel>
                 <DockPanel>
                     <Label Content="속도" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Center"/>
-                    <TextBox x:Name="AirThreatSpeedInput" HorizontalAlignment="Right" Height="20" TextWrapping="Wrap" Margin="10,0,10,0" Text="600" VerticalAlignment="Center" Width="100"/>
+                    <TextBox x:Name="AirThreatSpeedInput" HorizontalAlignment="Right" Height="20" TextWrapping="Wrap" Margin="10,0,10,0" Text="600" VerticalAlignment="Center" Width="100" KeyDown="AirThreatSpeedTextBox_KeyDown"/>
                 </DockPanel>
                 <DockPanel>
                     <Button Name="ATStartSetting" Content="시작설정" HorizontalAlignment="Left" Height="30" Margin="10,10,10,0" VerticalAlignment="Center" Width="80" Click="ATStartSetting_Click"/>
@@ -67,7 +68,7 @@
                 </DockPanel>
                 <DockPanel>
                     <Label Content="속도" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Center"/>
-                    <TextBox HorizontalAlignment="Right" Height="20" TextWrapping="Wrap" Margin="10,0,10,0" Text="600" VerticalAlignment="Center" Width="100"/>
+                    <TextBox x:Name="MSLSpeedInput" HorizontalAlignment="Right" Height="20" TextWrapping="Wrap" Margin="10,0,10,0" Text="600" VerticalAlignment="Center" Width="100" KeyDown="MSLSpeedTextBox_KeyDown"/>
                 </DockPanel>
                 <Button Name="AMSetting" Content="유도탄설정" HorizontalAlignment="Center" Height="30" Margin="10,10,10,0" VerticalAlignment="Top" Width="120" Click="MSLStartSetting_Click"/>
             </StackPanel>
