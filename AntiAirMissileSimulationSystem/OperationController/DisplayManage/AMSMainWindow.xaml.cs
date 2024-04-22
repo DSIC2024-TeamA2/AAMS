@@ -1,15 +1,9 @@
 ﻿using OperationController.Data;
-using System.Diagnostics;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+//using static System.Net.Mime.MediaTypeNames;
 
 namespace OperationController.DisplayManage
 {
@@ -24,7 +18,7 @@ namespace OperationController.DisplayManage
             EventLog.Text += "\n";
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)     
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
             EventLog.Text += AMSConfiguration.GetInstance().Port() + "\n";
             EventLog.Text += AMSConfiguration.GetInstance().UpdateDuration() + "\n";
@@ -56,7 +50,7 @@ namespace OperationController.DisplayManage
 
         private void ATPos_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if(fixAirThreatPox == 1)
+            if (fixAirThreatPox == 1)
             {
                 // Store the current mouse position when the Label is clicked
                 fixedAirThreatStartPosX = e.GetPosition(this).X;
@@ -64,7 +58,7 @@ namespace OperationController.DisplayManage
                 // Set the flag to prevent updating the label content
                 fixAirThreatPox = 4;
             }
-            else if(fixAirThreatPox == 2)
+            else if (fixAirThreatPox == 2)
             {
                 // Store the current mouse position when the Label is clicked
                 fixedAirThreatEndPosX = e.GetPosition(this).X;
@@ -72,7 +66,7 @@ namespace OperationController.DisplayManage
                 // Set the flag to prevent updating the label content
                 fixAirThreatPox = 5;
             }
-            else if(fixAirThreatPox == 3)
+            else if (fixAirThreatPox == 3)
             {
                 // Store the current mouse position when the Label is clicked
                 fixedMSLStartPosX = e.GetPosition(this).X;
@@ -129,6 +123,15 @@ namespace OperationController.DisplayManage
         private void SimulationStart_Click(object sender, RoutedEventArgs e)
         {
             // 시작클릭시 공중위협 모의기, 대공유도탄 모의기에 데이터 설정값 Publisher
+            Image ATimg = new Image();
+            ATimg.Source = new BitmapImage(new Uri(@"../map/plane.jpg", UriKind.Relative));
+            int x = 100;
+            int y = 100;
+            ATimg.Width = 50;
+            ATimg.Height = 50;
+            Canvas.SetLeft(ATimg, x - (ATimg.Width / 2.0));
+            Canvas.SetBottom(ATimg, y - (ATimg.Height / 2.0));
+            myCanvas.Children.Add(ATimg);
         }
 
         private void SimulationEnd_Click(object sender, RoutedEventArgs e)
