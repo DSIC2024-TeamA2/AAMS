@@ -34,3 +34,5 @@
 # Folder Ignore
 AntiAirMissileSimulationSystem/.vs/
 **/obj/*
+**/Debug/*
+**/Release/*
