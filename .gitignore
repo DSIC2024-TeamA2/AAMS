@@ -33,3 +33,4 @@
 
 # Folder Ignore
 AntiAirMissileSimulationSystem/.vs/
+**/obj/*
