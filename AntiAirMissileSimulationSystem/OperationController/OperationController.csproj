@@ -6,14 +6,26 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <LangVersion>preview</LangVersion>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="AMSUDP\nFrameworkConnector.cs" />
+    <Compile Remove="AMSUDP\NOMInfo.cs" />
+    <Compile Remove="MainWindow.xaml.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Remove="map\BackGround.jpg" />
   </ItemGroup>
 
   <ItemGroup>
+    <Page Remove="MainWindow.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="AMSSimulator\" />
+    <Folder Include="AMSUDP\" />
     <Folder Include="ScenarioManage\" />
   </ItemGroup>
 

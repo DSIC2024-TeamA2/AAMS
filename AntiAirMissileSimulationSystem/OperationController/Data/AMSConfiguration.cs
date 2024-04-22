@@ -12,7 +12,7 @@ namespace OperationController.Data
         private static readonly string confFilePath = "conf";
         private long updateDuration;
         private int port;
-        private static readonly AMSConfiguration instance = new();
+        private static readonly AMSConfiguration instance = new AMSConfiguration();
 
         public AMSConfiguration()
         {
