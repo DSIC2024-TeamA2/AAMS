@@ -1,8 +1,10 @@
 ﻿using OperationController.Data;
+using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 //using static System.Net.Mime.MediaTypeNames;
 
 namespace OperationController.DisplayManage
@@ -98,6 +100,14 @@ namespace OperationController.DisplayManage
             {
                 ATStartPosX.Content = $"{fixedAirThreatStartPosX:F3}";
                 ATStartPosY.Content = $"{fixedAirThreatStartPosY:F3}";
+                /*Image ATimg = new Image();
+                ATimg.Source = new BitmapImage(new Uri(@"../map/plane.jpg", UriKind.Relative));
+                ATimg.Width = 50;
+                ATimg.Height = 50;
+                Canvas.SetLeft(ATimg, fixedAirThreatStartPosX - (ATimg.Width / 2.0));
+                Canvas.SetBottom(ATimg, fixedAirThreatStartPosY - (ATimg.Height / 2.0));
+                myCanvas.Children.Add(ATimg);*/
+
             }
             else if (fixAirThreatPox == 5)
             {
@@ -119,19 +129,27 @@ namespace OperationController.DisplayManage
         }
         //---------------------------------------------------------------
 
-        //---------------------------------------------------------------
+        //박우석 수정: 모의시작을 누르면 공중위협 이미지 출력하는 코드. 추후 해당 코드를 fixAirThreatPox == 4 코드와 결합해야함
         private void SimulationStart_Click(object sender, RoutedEventArgs e)
         {
+            //Console.WriteLine("SimulationStart_Click");
             // 시작클릭시 공중위협 모의기, 대공유도탄 모의기에 데이터 설정값 Publisher
             Image ATimg = new Image();
             ATimg.Source = new BitmapImage(new Uri(@"../map/plane.jpg", UriKind.Relative));
-            int x = 100;
-            int y = 100;
             ATimg.Width = 50;
             ATimg.Height = 50;
+            //ATimg.Source = new BitmapImage(new Uri("../map/plane.jpg"));
+            int x = 700;
+            int y = 500;
+            /*System.Windows.Shapes.Rectangle r = new System.Windows.Shapes.Rectangle();
+            r.Width = 100;
+            r.Height = 200;
+            r.StrokeThickness = 10;*/
+            myCanvas.Children.Add(ATimg);
+            Canvas.SetLeft(ATimg, 100);
+            Canvas.SetBottom(ATimg, 200);
             Canvas.SetLeft(ATimg, x - (ATimg.Width / 2.0));
             Canvas.SetBottom(ATimg, y - (ATimg.Height / 2.0));
-            myCanvas.Children.Add(ATimg);
         }
 
         private void SimulationEnd_Click(object sender, RoutedEventArgs e)
