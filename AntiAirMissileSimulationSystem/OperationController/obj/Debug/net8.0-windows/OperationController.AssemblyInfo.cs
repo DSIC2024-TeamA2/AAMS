@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("OperationController")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+27c1f9ae04bdcd3ff519cedb55b6f23486770cfa")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8197dc6026576cadbc3afad8c367a8cbba204839")]
 [assembly: System.Reflection.AssemblyProductAttribute("OperationController")]
 [assembly: System.Reflection.AssemblyTitleAttribute("OperationController")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

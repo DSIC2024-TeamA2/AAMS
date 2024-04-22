@@ -25,6 +25,7 @@
                 <Canvas.Background>
                     <ImageBrush ImageSource="../map/BackGround.jpg"/>
                 </Canvas.Background>
+                <Image x:Name="imgAirplane" Source="../map/plane.jpg" Width="50" Height="50" Canvas.Left="{Binding AAMimgX}" Canvas.Top="{Binding AAMimgY}"/>
             </Canvas>
 
             <StackPanel Grid.Column="0" Grid.Row="0">
