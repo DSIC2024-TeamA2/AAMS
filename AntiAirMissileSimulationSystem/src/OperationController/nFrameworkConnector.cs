@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
 using nframework.nom;
-using TCCSimulator;
+using OperationController.AMSUDP;
 using WpfApplication;
 
 namespace OperationController.AMSUDP
@@ -32,7 +32,7 @@ namespace OperationController.AMSUDP
         public const Int32 UM_ReflectedNOM = WM_USER + 0x02;
         private Window mainWindow;
 
-        public nFrameworkConnector(MainWindow window)
+        public nFrameworkConnector(DisplayManage.MainWindow window)
         {
             Console.WriteLine("nFrameworkConnector(Window window) called");
             mainWindow = window;
