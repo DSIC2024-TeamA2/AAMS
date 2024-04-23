@@ -38,10 +38,17 @@ void AirthreatModel::start()
 	currentY = initY;
 
 	isThreadRunning = true;
-	updateThreatPosition();
+	while (isThreadRunning) {
+		updateThreatPosition();
+		if ((initX < targetX && currentX > targetX) || (initX > targetX && currentX < targetX))
+		{
+			isThreadRunning = false;
+			break;
+		}
+	}
 	//simThread = new std::thread(std::bind(&AirthreatModel::threatSimulationThread, this));
 }
-
+/*
 void AirthreatModel::stop()
 {
 	isThreadRunning = false;
@@ -52,8 +59,8 @@ void AirthreatModel::stop()
 		delete simThread;
 		simThread = nullptr;
 	}
-}
-
+}*/
+/*
 void AirthreatModel::threatSimulationThread()
 {
 	while (isThreadRunning)
@@ -72,7 +79,7 @@ void AirthreatModel::threatSimulationThread()
 
 		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 	}
-}
+}*/
 
 void AirthreatModel::updateThreatPosition()
 {
@@ -108,3 +115,6 @@ int main() {
 	atm.setThreatTargetPosition(90, 120);
 	atm.start();
 }
+
+/**
+/

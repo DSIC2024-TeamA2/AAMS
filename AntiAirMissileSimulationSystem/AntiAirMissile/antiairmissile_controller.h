@@ -1,4 +1,3 @@
-#pragma once
 #include<iostream>
 #include<cstdio>
 #include<string>
@@ -19,18 +18,19 @@ private:
 
 };
 
-class AntiAirMissileConfiguration
+
+
+class AntiAirMissileInfo
 {
 public:
-	AntiAirMissileConfiguration();
-	~AntiAirMissileConfiguration();
+	AntiAirMissileInfo();
+	~AntiAirMissileInfo();
 private:
-	std::string confFilePath = "wonyeong";
-	long updateDuration;
-	long detectionRadius;
+	long currentTime;
+	Position currentPosition;
+	double currentSpeed;
+	double currentAngle;
 };
-
-
 class Position {
 public:
 	Position(double lat, double lon) : latitude(lat), longitude(lon) {}
@@ -41,4 +41,17 @@ public:
 private:
 	double latitude;
 	double longitude;
+};
+
+class AirThreatInfo
+{
+public:
+	AirThreatInfo();
+	~AirThreatInfo();
+private:
+	long currentTime;
+	Position currentPostion;
+	double currentSpeed;
+	double currentAngle;
+
 };
