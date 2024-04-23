@@ -94,7 +94,7 @@ namespace OperationController.DisplayManage
                 // 미사일 반경과 공중위협 경로가 겹치는지 판단
                 if (!Intersect(ellipse, line))
                 {
-                    EventLog.Text += "공중위협 경로와 미사일 반경이 겹치지 않습니다.\n";
+                    EventLog.Text += "경고: 공중위협 경로와 미사일 반경이 겹치지 않습니다.\n";
                 }
                 SimulationStart_Click(sender, e);
             }
