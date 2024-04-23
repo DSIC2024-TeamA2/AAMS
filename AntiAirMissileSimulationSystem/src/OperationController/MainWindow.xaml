@@ -110,37 +110,37 @@
                 <Label Content="좌표" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Top"/>
                 <DockPanel>
                     <Label Content="위도" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                    <Label Name="ATCurrentPosX" Content="XXX" HorizontalAlignment="Right" Margin="10,0,0,0" VerticalAlignment="Center" Width="100"/>
+                    <Label Name="ATCurrentPosX" Content="NO DATA" HorizontalAlignment="Right" Margin="10,0,0,0" VerticalAlignment="Center" Width="100"/>
                 </DockPanel>
                 <DockPanel>
                     <Label Content="경도" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                    <Label Name="ATCurrentPosY" Content="YYY" HorizontalAlignment="Right" Margin="10,0,0,0" VerticalAlignment="Center" Width="100"/>
+                    <Label Name="ATCurrentPosY" Content="NO DATA" HorizontalAlignment="Right" Margin="10,0,0,0" VerticalAlignment="Center" Width="100"/>
                 </DockPanel>
                 <DockPanel>
                     <Label Content="속도" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Center"/>
-                    <Label Content="SPD" HorizontalAlignment="Right" Margin="5,0,0,0" VerticalAlignment="Center" Width="100"/>
+                    <Label Name="ATCurrentSpeed" Content="NO DATA" HorizontalAlignment="Right" Margin="5,0,0,0" VerticalAlignment="Center" Width="100"/>
                 </DockPanel>
                 <DockPanel>
                     <Label Content="방향" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Center"/>
-                    <Label Content="DIR" HorizontalAlignment="Right" Margin="5,0,0,0" VerticalAlignment="Center" Width="100"/>
+                    <Label Name="ATCurrentDIR" Content="NO DATA" HorizontalAlignment="Right" Margin="5,0,0,0" VerticalAlignment="Center" Width="100"/>
                 </DockPanel>
                 <Label Content="대공유도탄 현재 정보" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top"/>
                 <Label Content="좌표" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Top"/>
                 <DockPanel>
                     <Label Content="위도" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                    <Label Name="AMCurrentPosX" Content="XXX" HorizontalAlignment="Right" Margin="10,0,0,0" VerticalAlignment="Center" Width="100"/>
+                    <Label Name="MSLCurrentPosX" Content="NO DATA" HorizontalAlignment="Right" Margin="10,0,0,0" VerticalAlignment="Center" Width="100"/>
                 </DockPanel>
                 <DockPanel>
                     <Label Content="경도" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                    <Label Name="AMCurrentPosY" Content="YYY" HorizontalAlignment="Right" Margin="10,0,0,0" VerticalAlignment="Center" Width="100"/>
+                    <Label Name="MSLCurrentPosY" Content="NO DATA" HorizontalAlignment="Right" Margin="10,0,0,0" VerticalAlignment="Center" Width="100"/>
                 </DockPanel>
                 <DockPanel>
                     <Label Content="속도" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Center"/>
-                    <Label Content="SPD" HorizontalAlignment="Right" Margin="5,0,0,0" VerticalAlignment="Center" Width="100"/>
+                    <Label Name="MLSCurrentSpeed" Content="NO DATA" HorizontalAlignment="Right" Margin="5,0,0,0" VerticalAlignment="Center" Width="100"/>
                 </DockPanel>
                 <DockPanel>
                     <Label Content="방향" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Center"/>
-                    <Label Content="DIR" HorizontalAlignment="Right" Margin="5,0,0,0" VerticalAlignment="Center" Width="100"/>
+                    <Label Name="MLSCurrentDIR" Content="NO DATA" HorizontalAlignment="Right" Margin="5,0,0,0" VerticalAlignment="Center" Width="100"/>
                 </DockPanel>
             </StackPanel>
         </Grid>
