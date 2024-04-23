@@ -36,7 +36,23 @@ namespace OperationController.DisplayManage
                 nf = new nFrameworkConnector(this);
                 Console.WriteLine("nf = new() called");
             }
-            nf.SendMsg();
+            nf.SendSimulationStatusInfoMsg();
+            nf.SendScenarioInfoMsg(10, 11, 12, 101, 102, 5, 51, 52, 15);
+        }
+
+        internal void UpdateAirThreatInfo(AirThreatInfo info)
+        {
+            Console.WriteLine(info.ToString());
+        }
+
+        internal void UpdateAntiAirMissileInfo(AntiAirMissileInfo info)
+        {
+            Console.WriteLine(info.ToString());
+        }
+
+        internal void UpdateSimulationStatusInfo(SimulationStatusInfo info)
+        {
+            Console.WriteLine(info.ToString());
         }
 
         /// 변수
@@ -54,7 +70,6 @@ namespace OperationController.DisplayManage
         // 아직 미사용 //
         private double fixedAirThreatSpeed = 0.0; ///< 입력한 공중위협 속도
         private double fixedMSLSpeed = 0.0; ///< 입력한 대공유도탄 속도
-                                            ///
 
         private double currentAirThreatPosX = 0.0;
         private double currentAirThreatPosY = 0.0;
@@ -65,6 +80,7 @@ namespace OperationController.DisplayManage
         //공중위협, 목적지 연결하는 선 확인 flg
         private int airThreatStartflg = 0;
         private int airThreatEndflg = 0;
+        private double ATangle; //공중위협 방향
         Line line = new Line();
 
         //공중위협, 미사일, 목적지, 반경 최초 선언
@@ -125,6 +141,14 @@ namespace OperationController.DisplayManage
 
             // 직선의 기울기
             double lineSlope = (lineY2 - lineY1) / (lineX2 - lineX1);
+
+            // 공중위협 각도 ATangle 구하기
+            double radians = Math.Atan(-lineSlope);
+            double degrees = 90 - radians * (180 / Math.PI);
+            if(fixedAirThreatStartPosX < fixedAirThreatEndPosX)
+                ATangle = degrees;
+            else
+                ATangle = 180 + degrees;
 
             // 직선의 y절편
             double lineIntercept = lineY1 - lineSlope * lineX1;
@@ -374,8 +398,19 @@ namespace OperationController.DisplayManage
         {
             // 시작클릭시 공중위협 모의기, 대공유도탄 모의기에 데이터 설정값 Publisher
             EventLog.Text += "시나리오 시작.\n";
+            // 회전 변환을 생성합니다.
+            RotateTransform rotateTransform = new RotateTransform();
+            rotateTransform.Angle = ATangle; // 회전 각도 설정
+            // 이미지의 중심을 회전 중심으로 지정합니다.
+            imgControl4.RenderTransformOrigin = new Point(0.5, 0.5);
+            imgControl4.RenderTransform = rotateTransform;
             ATCurrentPosX.Content = $"{fixedAirThreatStartPosX:F3}";
             ATCurrentPosY.Content = $"{fixedAirThreatStartPosY:F3}";
+            if (0 <= ATangle && ATangle <= 90)
+                ATCurrentDIR.Content = $"{90 - ATangle:F0}" + "°";
+            else
+                ATCurrentDIR.Content = $"{450 - ATangle:F0}" + "°";
+
             MSLCurrentPosX.Content = $"{fixedMSLStartPosX:F3}";
             MSLCurrentPosY.Content = $"{fixedMSLStartPosY:F3}";
         }
@@ -383,10 +418,11 @@ namespace OperationController.DisplayManage
         private void SimulationEnd_Click(object sender, RoutedEventArgs e)
         {
             // 모든 시나리오 데이터 설정값 초기화
+            EventLog.Text += "시나리오 종료.\n";
             airThreatStartflg = 0;
             airThreatEndflg = 0;
             setPosMode = 0;
-            EventLog.Text += "시나리오 종료.\n";
+            ATangle = 0;
             ATStartPosX.Content = "NO DATA";
             ATStartPosY.Content = "NO DATA";
             ATEndPosX.Content = "NO DATA";

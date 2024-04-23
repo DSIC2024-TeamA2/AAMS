@@ -1,15 +1,14 @@
-<?xml version="1.0" encoding="euc-kr"?>
-<NOM:Nex1ObjectModel xmlns:NOM="lignex1.sw.nframework.NOM" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="lignex1.sw.nframework.NOM NOM.xsd"
-    version="1.7" name="UI_NOM" date="2020-02-01" author="Junyong Shim, LIGNex1">
+<?xml version="1.0" encoding="EUC-KR"?>
+<NOM:Nex1ObjectModel xmlns:NOM="lignex1.sw.nframework.NOM" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="lignex1.sw.nframework.NOM NOM.xsd" version="0.1" name="UDPCommunicationManager" date="2021-02-09" author="Junyong Shim, LIGNex1">
   <!-- object data -->
   <NOM:objects>
-    <NOM:object name="ICD_Test1" id="111" nameNotes="ICD의 Test1 메시지" sharing="Subscribe" orderType="Receive" alignment="false">
+    <NOM:object name="ICD_Test1" id="111" nameNotes="ICD의 Test1 메시지" sharing="Neither" orderType="Receive" alignment="false">
       <NOM:attribute name="SystemTime1" nameNotes="Logging Time - sec"  dataType="UnsignedIntegerBE"/>
       <NOM:attribute name="SystemTime2" nameNotes="Logging Time - millisec"  dataType="UnsignedIntegerBE"/>
       <NOM:attribute name="Message1" nameNotes="수신 메시지 1" dataType="UnsignedIntegerBE"/>
       <NOM:attribute name="Message2" nameNotes="수신 메시지 2" dataType="UnsignedIntegerBE"/>
     </NOM:object>
-	  <NOM:object name="ScenarioInfo" id="9991" nameNotes="시나리오 정보" sharing="Publish" orderType="Receive" alignment="false">
+	  <NOM:object name="ScenarioInfo" id="9991" nameNotes="시나리오 정보" sharing="PublishSubscribe" orderType="Receive" alignment="false">
 		  <NOM:attribute name="startTime" nameNotes="시나리오 시작 시간"  dataType="IntegerBE"/>
 		  <NOM:attribute name="airThreatStartLatitude" nameNotes="공중위협 시작 위도 좌표"  dataType="IntegerBE"/>
 		  <NOM:attribute name="airThreatStartLongitude" nameNotes="공중위협 시작 경도 좌표"  dataType="IntegerBE"/>
@@ -20,14 +19,14 @@
 		  <NOM:attribute name="antiAirMissileLongitude" nameNotes="대공유도탄 초기위치 경도 좌표"  dataType="IntegerBE"/>
 		  <NOM:attribute name="antiAirMissileSpeed" nameNotes="대공유도탄 초기설정 속도" dataType="FloatBE"/>
 	  </NOM:object>
-	  <NOM:object name="AirThreatInfo" id="9992" nameNotes="공중위협 현재 정보" sharing="Subscribe" orderType="Receive" alignment="false">
+	  <NOM:object name="AirThreatInfo" id="9992" nameNotes="공중위협 현재 정보" sharing="PublishSubscribe" orderType="Receive" alignment="false">
 		  <NOM:attribute name="currentTime" nameNotes="메시지 전달 시간"  dataType="IntegerBE"/>
 		  <NOM:attribute name="currentLatitude" nameNotes="공중위협 현재 위도 좌표"  dataType="IntegerBE"/>
 		  <NOM:attribute name="currentLongitude" nameNotes="공중위협 현재 경도 좌표"  dataType="IntegerBE"/>
 		  <NOM:attribute name="currentSpeed" nameNotes="공중위협 현재 속도" dataType="FloatBE"/>
 		  <NOM:attribute name="currentAngle" nameNotes="공중위협 현재 방향" dataType="FloatBE"/>
 	  </NOM:object>
-	  <NOM:object name="AntiAirMissileInfo" id="9993" nameNotes="대공유도탄 현재 정보" sharing="Subscribe" orderType="Receive" alignment="false">
+	  <NOM:object name="AntiAirMissileInfo" id="9993" nameNotes="대공유도탄 현재 정보" sharing="PublishSubscribe" orderType="Receive" alignment="false">
 		  <NOM:attribute name="currentTime" nameNotes="메시지 전달 시간"  dataType="IntegerBE"/>
 		  <NOM:attribute name="currentLatitude" nameNotes="대공유도탄 현재 위도 좌표"  dataType="IntegerBE"/>
 		  <NOM:attribute name="currentLongitude" nameNotes="대공유도탄 현재 경도 좌표"  dataType="IntegerBE"/>
@@ -40,9 +39,12 @@
   </NOM:objects>
   <!-- interaction data -->
   <NOM:interactions>
-    <NOM:interaction name="GUI_Start" id="1001" nameNotes="시험정보 수집 시작" sharing="Publish" orderType="Receive" alignment="false">
+    <NOM:interaction name="Simulation_Start" id="1001" nameNotes="시작" sharing="Publish" orderType="Receive" alignment="false">
       <NOM:parameter name="Message1" dataType="UnsignedIntegerBE" />
     </NOM:interaction>
+	  <NOM:interaction name="GUI_Start" id="9" nameNotes="시험정보 수집 시작" sharing="Publish" orderType="Receive" alignment="false">
+		  <NOM:parameter name="Message1" dataType="UnsignedIntegerBE" />
+	  </NOM:interaction>
   </NOM:interactions>
   <!-- data types -->
   <NOM:dataTypes>

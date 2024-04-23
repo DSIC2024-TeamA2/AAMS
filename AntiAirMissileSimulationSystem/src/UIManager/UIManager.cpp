@@ -60,8 +60,18 @@ void
 UIManager::updateMsg(shared_ptr<NOM> nomMsg)
 {
 	// you can use the code below, if necessary
-	nomMsg->copyTo(icdTestNom);
-	mec->updateMsg(icdTestNom);
+	if (nomMsg->getName() == _T("ScenarioInfo"))
+	{
+		tcout << _T("UIManager ScenarioInfo OK") << endl;
+		nomMsg->copyTo(scenarioInfoMsg);
+		mec->updateMsg(scenarioInfoMsg);
+	}
+	else if (nomMsg->getName() == _T("SimulationStatusInfo"))
+	{
+		tcout << _T("UIManager SimulationStatusInfo OK") << endl;
+		nomMsg->copyTo(simulationStatusInfoMsg);
+		mec->updateMsg(simulationStatusInfoMsg);
+	}
 }
 
 void
@@ -84,6 +94,16 @@ UIManager::reflectMsg(shared_ptr<NOM> nomMsg)
 	else if (nomMsg->getName() == _T("AirThreatInfo"))
 	{
 		tcout << _T("UIManager AirThreatInfo OK") << endl;
+		auto length = 0;
+		unsigned char* nomBytes = nomMsg->serialize(length);
+
+		NOMInfo nomInfo;
+		_tcscpy(nomInfo.MsgName, nomMsg->getName().c_str());
+		nomInfo.MsgID = nomMsg->getMessageID();
+		nomInfo.MsgLen = length;
+
+		::SendMessage(winHandle, UM_ReflectedNOM, (WPARAM)&nomInfo, (LPARAM)nomBytes);
+		delete[] nomBytes;
 	/*	int currentTime = nomMsg->getValue(_T("currentTime"))->toInt();
 		int currentLatitude = nomMsg->getValue(_T("currentLatitude"))->toInt();
 		int currentLongitude = nomMsg->getValue(_T("currentLongitude"))->toInt();
@@ -92,12 +112,41 @@ UIManager::reflectMsg(shared_ptr<NOM> nomMsg)
 	}
 	else if (nomMsg->getName() == _T("AntiAirMissileInfo"))
 	{
-	/*	tcout << _T("UIManager AntiAirMissileInfo OK") << endl;
-		int currentTime = nomMsg->getValue(_T("currentTime"))->toInt();
+		tcout << _T("UIManager AntiAirMissileInfo OK") << endl;
+		auto length = 0;
+		unsigned char* nomBytes = nomMsg->serialize(length);
+
+		NOMInfo nomInfo;
+		_tcscpy(nomInfo.MsgName, nomMsg->getName().c_str());
+		nomInfo.MsgID = nomMsg->getMessageID();
+		nomInfo.MsgLen = length;
+
+		::SendMessage(winHandle, UM_ReflectedNOM, (WPARAM)&nomInfo, (LPARAM)nomBytes);
+		delete[] nomBytes;
+	/*	int currentTime = nomMsg->getValue(_T("currentTime"))->toInt();
 		int currentLatitude = nomMsg->getValue(_T("currentLatitude"))->toInt();
 		int currentLongitude = nomMsg->getValue(_T("currentLongitude"))->toInt();
 		float currentSpeed = nomMsg->getValue(_T("currentSpeed"))->toFloat();
 		float currentAngle = nomMsg->getValue(_T("currentAngle"))->toFloat();*/
+	}
+	else if (nomMsg->getName() == _T("SimulationStatusInfo"))
+	{
+		auto length = 0;
+		unsigned char* nomBytes = nomMsg->serialize(length);
+
+		NOMInfo nomInfo;
+		_tcscpy(nomInfo.MsgName, nomMsg->getName().c_str());
+		nomInfo.MsgID = nomMsg->getMessageID();
+		nomInfo.MsgLen = length;
+
+		::SendMessage(winHandle, UM_ReflectedNOM, (WPARAM)&nomInfo, (LPARAM)nomBytes);
+		delete[] nomBytes;
+		/*	tcout << _T("UIManager AntiAirMissileInfo OK") << endl;
+			int currentTime = nomMsg->getValue(_T("currentTime"))->toInt();
+			int currentLatitude = nomMsg->getValue(_T("currentLatitude"))->toInt();
+			int currentLongitude = nomMsg->getValue(_T("currentLongitude"))->toInt();
+			float currentSpeed = nomMsg->getValue(_T("currentSpeed"))->toFloat();
+			float currentAngle = nomMsg->getValue(_T("currentAngle"))->toFloat();*/
 	}
 }
 
@@ -169,6 +218,8 @@ bool
 UIManager::start()
 {
 	// if need be, write your code
+	scenarioInfoMsg = this->registerMsg(_T("ScenarioInfo"));
+	simulationStatusInfoMsg = this->registerMsg(_T("SimulationStatusInfo"));
 
 	return true;
 }
@@ -177,6 +228,8 @@ bool
 UIManager::stop()
 {
 	// if need be, write your code
+	this->deleteMsg(scenarioInfoMsg);
+	this->deleteMsg(simulationStatusInfoMsg);
 
 	return true;
 }

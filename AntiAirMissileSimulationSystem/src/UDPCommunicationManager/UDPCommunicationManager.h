@@ -1,17 +1,13 @@
 #pragma once
-#include <nFramework/BaseManager.h>
 #include <nFramework/mec/MECComponent.h>
-#include <nFramework/nom/NOMMain.h>
-#include "AirthreatController.h"
+#include <nFramework/comm/NCommInterface.h>
+#include "CommMessageHandler.h"
 
-using namespace nframework;
-using namespace nom;
-
-class BASEMGRDLL_API AirThreatManager : public BaseManager
+class BASEMGRDLL_API UDPCommunicationManager : public BaseManager
 {
 public:
-	AirThreatManager(void);
-	~AirThreatManager(void);
+	UDPCommunicationManager(void);
+	~UDPCommunicationManager(void);
 
 public:
 	// inherited from the BaseManager class
@@ -29,12 +25,14 @@ public:
 	virtual bool start() override;
 	virtual bool stop() override;
 	virtual void setMEBComponent(IMEBComponent*) override;
-	virtual void sendAirThreatInfoMsg(AirThreatInfo& airThreatInfo);
-	virtual void sendSimulationStatusInfoMsg(int status);
+	
+public:
+	void processRecvMessage(unsigned char* data, int size);
+	
 private:
 	void init();
 	void release();
-
+	
 private:
 	IMEBComponent* meb;
 	MECComponent* mec;
@@ -42,12 +40,8 @@ private:
 	map<unsigned int, shared_ptr<NOM>> registeredMsg;
 	map<unsigned int, shared_ptr<NOM>> discoveredMsg;
 
-	// you can change the code, if necessary
-	shared_ptr<NOM> ICD_TestNOM;
-	shared_ptr<NOM> simulationStatusInfoMsg;
-	shared_ptr<NOM> scenarioInfoMsg;
-	shared_ptr<NOM> airThreatInfoMsg;
-
-	AirthreatController airThreatController;
+	CommunicationInterface* commInterface;
+	CommunicationConfig* commConfig;
+	CommMessageHandler commMsgHandler;
 };
 

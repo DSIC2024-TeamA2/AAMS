@@ -15,24 +15,29 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AntiAirMissileManager.cpp">
+    <ClCompile Include="UDPCommunicationManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="AntiAirMissileController.cpp">
+    <ClCompile Include="CommMessageHandler.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AntiAirMissileManager.h">
+    <ClInclude Include="UDPCommunicationManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="AntiAirMissileController.h">
+    <ClInclude Include="CommMessageHandler.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="..\..\bin\AntiAirMissileManager\AntiAirMissileManager.xml">
+    <Xml Include="..\..\bin\UDPCommunicationManager\UDPCommunicationManager.xml">
       <Filter>리소스 파일</Filter>
     </Xml>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\bin\UDPCommunicationManager\CommLinkInfo.ini">
+      <Filter>리소스 파일</Filter>
+    </None>
   </ItemGroup>
 </Project>
