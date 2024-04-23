@@ -49,24 +49,22 @@
                             </StackPanel>
                         </StackPanel>
 
-                        <StackPanel Background="Black" Margin="1">
-                            <StackPanel Orientation="Vertical" Background="White" Margin="1">
-                                <Label Content="목표좌표" HorizontalAlignment="Center" Margin="5,0,0,0" VerticalAlignment="Top"/>
-                                <DockPanel>
-                                    <Label Content="위도" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                                    <Label x:Name="ATEndPosX" Content="NO DATA" HorizontalAlignment="Right" Margin="10,0,0,0" VerticalAlignment="Center" Width="100"/>
-                                </DockPanel>
-                                <DockPanel>
-                                    <Label Content="경도" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                                    <Label x:Name="ATEndPosY" Content="NO DATA" HorizontalAlignment="Right" Margin="10,0,0,0" VerticalAlignment="Center" Width="100"/>
-                                </DockPanel>
-                            </StackPanel>
+                        <StackPanel Width="200" Height="100" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Label Content="목표좌표" FontSize="15" FontWeight="Bold" Width="190" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
+                            <DockPanel>
+                                <Label Content="위도" FontSize="15" FontWeight="Bold" Width="90" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
+                                <Label x:Name="ATEndPosX" Content="NO DATA" FontSize="14" Width="90" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
+                            </DockPanel>
+                            <DockPanel>
+                                <Label Content="경도" FontSize="15" FontWeight="Bold" Width="90" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
+                                <Label x:Name="ATEndPosY" Content="NO DATA" FontSize="14" Width="90" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
+                            </DockPanel>
                         </StackPanel>
 
 
                         <StackPanel Width="200" Height="40" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Label Content="속도" FontSize="15" FontWeight="Bold" Width="90" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
-                            <TextBox x:Name="AirThreatSpeedInput" Text="600" FontSize="15" TextAlignment="Center" Width="90" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0" TextWrapping="Wrap" BorderThickness="2" KeyDown="SetSpeedEnterKeyDown"/>
+                            <TextBox x:Name="AirThreatSpeedInput" Text="600" FontSize="14" TextAlignment="Center" Width="90" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0" TextWrapping="Wrap" BorderThickness="2" KeyDown="SetSpeedEnterKeyDown"/>
                         </StackPanel>
 
                         <StackPanel Width="200" Height="40" Orientation="Horizontal" HorizontalAlignment="Center">
