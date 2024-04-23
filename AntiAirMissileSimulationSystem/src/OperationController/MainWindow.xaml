@@ -75,8 +75,8 @@
 
             <StackPanel Grid.Column="0" Grid.Row="1">
                 <DockPanel>
-                    <Button Name="Start" Content="모의시작" HorizontalAlignment="Left" Height="30" Margin="10,0,10,0" VerticalAlignment="Center" Width="80" Click="SimulationStart_Click"/>
-                    <Button Name="Stop" Content="모의종료" HorizontalAlignment="Right" Height="30" Margin="10,0,10,0" VerticalAlignment="Center" Width="80" Click="SimulationEnd_Click"/>
+                    <Button Name="Start" Content="모의시작" HorizontalAlignment="Left" Height="30" Margin="10,0,10,0" VerticalAlignment="Center" Width="80" Click="SetPosModeClick"/>
+                    <Button Name="Stop" Content="모의종료" HorizontalAlignment="Right" Height="30" Margin="10,0,10,0" VerticalAlignment="Center" Width="80" Click="SetPosModeClick"/>
                 </DockPanel>
             </StackPanel>
 
