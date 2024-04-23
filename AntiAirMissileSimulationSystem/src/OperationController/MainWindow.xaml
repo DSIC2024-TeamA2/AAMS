@@ -112,48 +112,48 @@
             </StackPanel>
 
             <StackPanel Orientation="Vertical" Grid.Column="2" Grid.Row="0">
-                <StackPanel Background="Black" Margin="2">
+                <StackPanel Background="Black" Margin="2, 0, 2, 10">
                     <StackPanel Orientation="Vertical" Background="FloralWhite" Margin="0">
                         <Label Content="공중위협 현재 정보" FontSize="17" FontWeight="Bold" Width="190" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,5"/>
                         <Label Content="좌표" FontSize="17" FontWeight="Bold" Width="190" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,5"/>
 
-                        <DockPanel Margin="0,2">
+                        <DockPanel Margin="0,5">
                             <Label Content="위도" FontSize="15" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
                             <Label Name="ATCurrentPosX" Content="NO DATA" FontSize="14" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
                         </DockPanel>
-                        <DockPanel Margin="0,2">
+                        <DockPanel Margin="0,5">
                             <Label Content="경도" FontSize="15" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
                             <Label Name="ATCurrentPosY" Content="NO DATA" FontSize="14" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
                         </DockPanel>
-                        <DockPanel Margin="0,2">
+                        <DockPanel Margin="0,5">
                             <Label Content="속도" FontSize="15" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
                             <Label Name="ATCurrentSpeed" Content="NO DATA" FontSize="14" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
                         </DockPanel>
-                        <DockPanel Margin="0,2">
+                        <DockPanel Margin="0,5">
                             <Label Content="방향" FontSize="15" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
                             <Label Name="ATCurrentDIR" Content="NO DATA" FontSize="14" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
                         </DockPanel>
                     </StackPanel>
                 </StackPanel>
 
-                <StackPanel Background="Black" Margin="2">
+                <StackPanel Background="Black" Margin="2, 0, 2,10">
                     <StackPanel Orientation="Vertical" Background="FloralWhite" Margin="0">
                         <Label Content="대공유도탄 현재 정보" FontSize="17" FontWeight="Bold" Width="190" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,5"/>
                         <Label Content="좌표" FontSize="17" FontWeight="Bold" Width="190" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,5"/>
 
-                        <DockPanel>
+                        <DockPanel Margin="0,5">
                             <Label Content="위도" FontSize="15" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
                             <Label Name="MSLCurrentPosX" Content="NO DATA" FontSize="14" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
                         </DockPanel>
-                        <DockPanel>
+                        <DockPanel Margin="0,5">
                             <Label Content="경도" FontSize="15" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
                             <Label Name="MSLCurrentPosY" Content="NO DATA" FontSize="14" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
                         </DockPanel>
-                        <DockPanel>
+                        <DockPanel Margin="0,5">
                             <Label Content="속도" FontSize="15" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
                             <Label Name="MSLCurrentSpeed" Content="NO DATA" FontSize="14" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
                         </DockPanel>
-                        <DockPanel>
+                        <DockPanel Margin="0,5">
                             <Label Content="방향" FontSize="15" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
                             <Label Name="MSLCurrentDIR" Content="NO DATA" FontSize="14" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
                         </DockPanel>
