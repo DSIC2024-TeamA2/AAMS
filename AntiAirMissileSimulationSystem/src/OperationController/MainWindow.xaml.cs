@@ -36,7 +36,23 @@ namespace OperationController.DisplayManage
                 nf = new nFrameworkConnector(this);
                 Console.WriteLine("nf = new() called");
             }
-            nf.SendMsg();
+            nf.SendSimulationStatusInfoMsg();
+            nf.SendScenarioInfoMsg(10, 11, 12, 101, 102, 5, 51, 52, 15);
+        }
+
+        internal void UpdateAirThreatInfo(AirThreatInfo info)
+        {
+            Console.WriteLine(info.ToString());
+        }
+
+        internal void UpdateAntiAirMissileInfo(AntiAirMissileInfo info)
+        {
+            Console.WriteLine(info.ToString());
+        }
+
+        internal void UpdateSimulationStatusInfo(SimulationStatusInfo info)
+        {
+            Console.WriteLine(info.ToString());
         }
 
         /// 변수

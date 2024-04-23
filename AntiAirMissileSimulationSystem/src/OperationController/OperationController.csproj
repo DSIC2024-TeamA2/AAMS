@@ -124,6 +124,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="AMSUDP\AirThreatInfo.cs" />
+    <Compile Include="AMSUDP\AntiAirMissileInfo.cs" />
+    <Compile Include="AMSUDP\nFrameworkConnector.cs" />
+    <Compile Include="AMSUDP\NOMInfo.cs" />
+    <Compile Include="AMSUDP\Position.cs" />
+    <Compile Include="AMSUDP\ScenarioInfo.cs" />
+    <Compile Include="AMSUDP\SimulationStatusInfo.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -134,8 +141,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="nFrameworkConnector.cs" />
-    <Compile Include="NOMInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
