@@ -39,21 +39,22 @@ namespace OperationController.DisplayManage
             nf.SendMsg();
         }
 
-        //---------------------------------------------------------------
-        // 공중위협 시작 좌표 출력 및 지도에서 클릭시 고정 출력값 설정
-        private short fixAirThreatPox = 0;
+        /// 변수
+        private short setPosMode = 0;  ///< 좌표설정모드(공중위협 시작 좌표, 공중위협 목적 좌표, 대공유도탄 좌표)
 
-        private double fixedAirThreatStartPosX = 0.0;
-        private double fixedAirThreatStartPosY = 0.0;
+        private double fixedAirThreatStartPosX = 0.0; ///< 마우스로 선택한 공중위협 시작 좌표 위도
+        private double fixedAirThreatStartPosY = 0.0; ///< 마우스로 선택한 공중위협 시작 좌표 경도
 
-        private double fixedAirThreatEndPosX = 0.0;
-        private double fixedAirThreatEndPosY = 0.0;
+        private double fixedAirThreatEndPosX = 0.0; ///< 마우스로 선택한 공중위협 종료 좌표 위도
+        private double fixedAirThreatEndPosY = 0.0; ///< 마우스로 선택한 공중위협 종료 좌표 경도
 
-        private double fixedMSLStartPosX = 0.0;
-        private double fixedMSLStartPosY = 0.0;
+        private double fixedMSLStartPosX = 0.0; ///< 마우스로 선택한 대공유도탄 좌표 위도
+        private double fixedMSLStartPosY = 0.0; ///< 마우스로 선택한 대공유도탄 좌표 경도
 
-        private double fixedAirThreatSpeed = 0.0;
-        private double fixedMSLSpeed = 0.0;
+        // 아직 미사용 //
+        private double fixedAirThreatSpeed = 0.0; ///< 입력한 공중위협 속도
+        private double fixedMSLSpeed = 0.0; ///< 입력한 대공유도탄 속도
+        ///
 
         private double currentAirThreatPosX = 0.0;
         private double currentAirThreatPosY = 0.0;
@@ -71,108 +72,94 @@ namespace OperationController.DisplayManage
         System.Windows.Controls.Image imgControl5 = null;
         System.Windows.Controls.Image imgControl6 = null;
         Ellipse ellipse = new Ellipse();
-
-        // 공중위협 출발지 좌표 설정 버튼 클릭 시
-        // 지도 위에서 좌표 클릭하는 이벤트를 실행 시키기 위한 멤버함수
-        private void ATStartSetting_Click(object sender, RoutedEventArgs e)
+        
+        /// 함수
+        // 공중위협 시작 좌표, 공중위협 시작 좌표, 대공유도탄 좌표 설정 버튼 3개를 각각 클릭시 현재 선택한 좌표 설정 모드 변경하는 함수
+        private void SetPosModeClick(object sender, RoutedEventArgs e)
         {
-            fixAirThreatPox = 1;
-        }
-        private void ATEndSetting_Click(object sender, RoutedEventArgs e)
-        {
-            fixAirThreatPox = 2;
-        }
-
-        private void ATPos_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            Point mousePosition = e.GetPosition(myCanvas);
-
-            double relativeX = mousePosition.X;
-            double relativeY = mousePosition.Y;
-
-            if (fixAirThreatPox == 1)
+            if(sender == ATStartPosSetBTN) // 클릭한 버튼이 공중위협 시작 좌표 설정 버튼인 경우
             {
-                // Store the current mouse position when the Label is clicked
-                fixedAirThreatStartPosX = relativeX;
-                fixedAirThreatStartPosY = relativeY;
-                // Set the flag to prevent updating the label content
-                fixAirThreatPox = 4;
+                setPosMode = 1; // 좌표 설정 모드를 공중위협 시작 좌표 설정 모드로 변경
             }
-            else if (fixAirThreatPox == 2)
+            else if(sender == ATEndPosSetBTN) // 클릭한 버튼이 공중위협 목적 좌표 설정 버튼인 경우
             {
-                // Store the current mouse position when the Label is clicked
-                fixedAirThreatEndPosX = relativeX;
-                fixedAirThreatEndPosY = relativeY;
-                // Set the flag to prevent updating the label content
-                fixAirThreatPox = 5;
+                setPosMode = 2; // 좌표 설정 모드를 공중위협 목적 좌표 설정 모드로 변경
             }
-            else if (fixAirThreatPox == 3)
+            else if (sender == MSLPosSetBTN) // 클릭한 버튼이 대공유도탄 좌표 설정 버튼인 경우
             {
-                // Store the current mouse position when the Label is clicked
-                fixedMSLStartPosX = relativeX;
-                fixedMSLStartPosY = relativeY;
-                // Set the flag to prevent updating the label content
-                fixAirThreatPox = 6;
+                setPosMode = 3; // 좌표 설정 모드를 대공유도탄 좌표 설정 모드로 변경
             }
         }
-
-        // 공중위협 설정한 출발지 좌표값 출력창에서 입력한 좌표값으로 변경
-        private void Canvas_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        
+        // 지도 위에서 마우스로 좌표를 선택해 클릭했을 때, 해당 좌표값 저장하고 설정 출력창에 출력하는 함수
+        private void ClickPosOnMap(object sender, MouseButtonEventArgs e)
         {
-            Point mousePosition = e.GetPosition(myCanvas);
+            Point currentMousePosXY = e.GetPosition(myCanvas);  ///< 지도(myCanvas) 좌표계에서 마우스의 X, Y 좌표값
+            double relativeX = currentMousePosXY.X; ///< 마우스 X 좌표값
+            double relativeY = currentMousePosXY.Y; ///< 마우스 Y 좌표값
 
-            double relativeX = mousePosition.X;
-            double relativeY = mousePosition.Y;
+            // 클릭한 좌표값을 설정 출력창에 출력하는 함수 호출
+            PrintSetPos(relativeX, relativeY);
+        }
 
-            if (fixAirThreatPox == 1)
+        // 클릭한 좌표값을 설정 출력창에 출력하는 함수
+        private void PrintSetPos(double x, double y)
+        {
+            if (setPosMode == 1) // 공중위협 시작 좌표 설정 버튼을 클릭한 상태
             {
-                ATStartPosX.Content = $"{relativeX:F3}";
-                ATStartPosY.Content = $"{relativeY:F3}";
+                fixedAirThreatStartPosX = x; ///< 클릭한 좌표의 X를 공중위협 시작 위도로 저장
+                fixedAirThreatStartPosY = y; ///< 클릭한 좌표의 Y를 공중위협 시작 경도로 저장
+            }
+            else if (setPosMode == 2) // 공중위협 목적 좌표 설정 버튼을 클릭한 상태
+            {
+                fixedAirThreatEndPosX = x; ///< 클릭한 좌표의 X를 공중위협 목적 위도로 저장
+                fixedAirThreatEndPosY = y; ///< 클릭한 좌표의 Y를 공중위협 목적 경도로 저장
+            }
+            else if (setPosMode == 3) // 대공유도탄 좌표 설정 버튼을 클릭한 상태
+            {
+                fixedMSLStartPosX = x; ///< 클릭한 좌표의 X를 대공유도탄 위도로 저장
+                fixedMSLStartPosY = y; ///< 클릭한 좌표의 Y를 대공유도탄 경도로 저장
+            }
 
-                // Update the position of the TextBox to follow the mouse cursor
-                mousePositionTextBox.Margin = new Thickness(mousePosition.X + 16, mousePosition.Y + 16, 0, 0);
+            setPosMode += 3; ///< 좌표 설정 모드 상태 변경
+        }
 
-                // Update the text of the TextBox to display the current mouse position
-                mousePositionTextBox.Text = $"X: {relativeX:F3}, Y: {relativeY:F3}";
+        // 지도 위에 이동중인 현재 마우스 좌표값을 출력하고 클릭시 설정한 좌표값을 출력하는 함수
+        private void CurrentMousePosOnMap(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            Point currentMousePosXY = e.GetPosition(myCanvas);  ///< 지도(myCanvas) 좌표계에서 마우스의 X, Y 좌표값
+            double relativeX = currentMousePosXY.X; ///< 마우스 X 좌표값
+            double relativeY = currentMousePosXY.Y; ///< 마우스 Y 좌표값
 
-                // Ensure the TextBox is visible
-                mousePositionTextBox.Visibility = Visibility.Visible;
+            if (setPosMode == 1) // 공중위협 시작 좌표 설정 모드인 경우
+            {
+                ATStartPosX.Content = $"{relativeX:F3}"; ///< 현재 이동중인 마우스 좌표 X
+                ATStartPosY.Content = $"{relativeY:F3}"; ///< 현재 이동중인 마우스 좌표 Y
+                // 이동 중인 마우스 옆에 현재 좌표값 출력창 생성하는 함수 호출
+                PrintPosXY(relativeX, relativeY);
 
             }
-            else if (fixAirThreatPox == 2)
+            else if (setPosMode == 2) // 공중위협 목적 좌표 설정 모드인 경우
             {
-                ATEndPosX.Content = $"{relativeX:F3}";
-                ATEndPosY.Content = $"{relativeY:F3}";
-
-                // Update the position of the TextBox to follow the mouse cursor
-                mousePositionTextBox.Margin = new Thickness(mousePosition.X + 16, mousePosition.Y + 16, 0, 0);
-
-                // Update the text of the TextBox to display the current mouse position
-                mousePositionTextBox.Text = $"X: {relativeX:F3}, Y: {relativeY:F3}";
-
-                // Ensure the TextBox is visible
-                mousePositionTextBox.Visibility = Visibility.Visible;
+                ATEndPosX.Content = $"{relativeX:F3}"; ///< 현재 이동중인 마우스 좌표 X
+                ATEndPosY.Content = $"{relativeY:F3}"; ///< 현재 이동중인 마우스 좌표 Y
+                // 이동 중인 마우스 옆에 현재 좌표값 출력창 생성하는 함수 호출
+                PrintPosXY(relativeX, relativeY);
 
             }
-            else if (fixAirThreatPox == 3)
+            else if (setPosMode == 3) // 대공유도탄 좌표 설정 모드인 경우
             {
-                MSLStartPosX.Content = $"{relativeX:F3}";
-                MSLStartPosY.Content = $"{relativeY:F3}";
-
-                // Update the position of the TextBox to follow the mouse cursor
-                mousePositionTextBox.Margin = new Thickness(mousePosition.X + 16, mousePosition.Y + 16, 0, 0);
-
-                // Update the text of the TextBox to display the current mouse position
-                mousePositionTextBox.Text = $"X: {relativeX:F3}, Y: {relativeY:F3}";
-
-                // Ensure the TextBox is visible
-                mousePositionTextBox.Visibility = Visibility.Visible;
+                MSLStartPosX.Content = $"{relativeX:F3}"; ///< 현재 이동중인 마우스 좌표 X
+                MSLStartPosY.Content = $"{relativeY:F3}"; ///< 현재 이동중인 마우스 좌표 Y
+                // 이동 중인 마우스 옆에 현재 좌표값 출력창 생성하는 함수 호출
+                PrintPosXY(relativeX, relativeY);
 
             }
-            else if (fixAirThreatPox == 4)
+            else if (setPosMode == 4) // 설정할 공중위협 시작 좌표를 클릭한 경우
             {
                 ATStartPosX.Content = $"{fixedAirThreatStartPosX:F3}";
                 ATStartPosY.Content = $"{fixedAirThreatStartPosY:F3}";
+                mousePositionTextBox.Visibility = Visibility.Hidden;
 
                 airThreatStartflg = 1;
                 if(airThreatEndflg == 1)
@@ -190,13 +177,12 @@ namespace OperationController.DisplayManage
                 Canvas.SetLeft(imgControl4, fixedAirThreatStartPosX - (imgControl4.Width / 2.0));
                 Canvas.SetTop(imgControl4, fixedAirThreatStartPosY - (imgControl4.Height / 2.0));
                 myCanvas.Children.Add(imgControl4);
-
-                mousePositionTextBox.Visibility = Visibility.Hidden;
             }
-            else if (fixAirThreatPox == 5)
+            else if (setPosMode == 5) // 설정할 공중위협 목적 좌표를 클릭한 경우
             {
                 ATEndPosX.Content = $"{fixedAirThreatEndPosX:F3}";
                 ATEndPosY.Content = $"{fixedAirThreatEndPosY:F3}";
+                mousePositionTextBox.Visibility = Visibility.Hidden;
 
                 airThreatEndflg = 1;
                 if (airThreatStartflg == 1)
@@ -214,13 +200,12 @@ namespace OperationController.DisplayManage
                 Canvas.SetLeft(imgControl5, fixedAirThreatEndPosX - (imgControl5.Width / 2.0));
                 Canvas.SetTop(imgControl5, fixedAirThreatEndPosY - (imgControl5.Height / 2.0));
                 myCanvas.Children.Add(imgControl5);
-
-                mousePositionTextBox.Visibility = Visibility.Hidden;
             }
-            else if (fixAirThreatPox == 6)
+            else if (setPosMode == 6) // 설정할 대공유도탄 좌표를 클릭한 경우
             {
                 MSLStartPosX.Content = $"{fixedMSLStartPosX:F3}";
                 MSLStartPosY.Content = $"{fixedMSLStartPosY:F3}";
+                mousePositionTextBox.Visibility = Visibility.Hidden;
 
                 if (imgControl6 != null)
                     myCanvas.Children.Remove(imgControl6);
@@ -248,8 +233,6 @@ namespace OperationController.DisplayManage
                 Canvas.SetTop(ellipse, fixedMSLStartPosY - (ellipse.Height / 2.0));
                 myCanvas.ClipToBounds = true;
                 myCanvas.Children.Add(ellipse);
-
-                mousePositionTextBox.Visibility = Visibility.Hidden;
             }
         }
 
@@ -269,33 +252,42 @@ namespace OperationController.DisplayManage
             myCanvas.Children.Add(line);
         }
 
-        private void AirThreatSpeedTextBox_KeyDown(object sender, KeyEventArgs e)
+        // 움직이는 마우스 바로 옆에 현재 마우스의 좌표 출력하는 생성하는 함수
+        private void PrintPosXY(double x, double y)
         {
-            // Check if the Enter key is pressed
-            if (e.Key == Key.Enter)
-            {
-                // Get the value from the TextBox
-                string inputValue = AirThreatSpeedInput.Text;
-                fixedAirThreatSpeed = (Double.Parse(inputValue));
-            }
+            // 좌표 선택을 위해 지도 위에 마우스 커서를 올리면 커서 바로 옆에 현재 가리키는 위도, 경도를 출력하는 기능
+            // 현재 마우스 커서가 가리키는 좌표를 출력하는 사각형 형태의 출력창을 마우스 커서를 기준으로 얼만큼 떨어진 곳에 출력할지 설정
+            mousePositionTextBox.Margin = new Thickness(x + 16, y + 16, 0, 0);
+            // 현재 마우스 커서가 가리키는 좌표를 출력창에 출력하는 기능
+            mousePositionTextBox.Text = $"위도 {x:F3}\n경도 {y:F3}";
+            // 좌표 선택하는 중에만 지도 위에 현재 마우스 커서가 가리키는 좌표를 출력하는 출력창을 보이게 하는 기능
+            mousePositionTextBox.Visibility = Visibility.Visible;
         }
 
-        private void MSLSpeedTextBox_KeyDown(object sender, KeyEventArgs e)
+        // 속도 입력 창에서 값을 입력한 후 엔터 입력으로 저장하는 함수
+        private void SetSpeedEnterKeyDown(object sender, KeyEventArgs e)
         {
-            // Check if the Enter key is pressed
-            if (e.Key == Key.Enter)
+            if (e.Key == Key.Enter) // 엔터를 입력한 경우
             {
-                // Get the value from the TextBox
-                string inputValue = MSLSpeedInput.Text;
-                fixedMSLSpeed = (Double.Parse(inputValue));
+                if(sender == AirThreatSpeedInput)
+                {
+                    string inputValue = AirThreatSpeedInput.Text;
+                    if (IsNumeric(inputValue))
+                        fixedAirThreatSpeed = (Double.Parse(inputValue));
+                    else;
+                }
+                else if(sender == MSLSpeedInput)
+                {
+                    string inputValue = MSLSpeedInput.Text;
+                    if (IsNumeric(inputValue))
+                        fixedMSLSpeed = (Double.Parse(inputValue));
+                    else;
+                }
             }
         }
-        //---------------------------------------------------------------
-
-        //---------------------------------------------------------------
-        private void MSLStartSetting_Click(object sender, RoutedEventArgs e)
+        private bool IsNumeric(string value)
         {
-            fixAirThreatPox = 3;
+            return double.TryParse(value, out _);
         }
         //---------------------------------------------------------------
 

@@ -181,7 +181,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="map\BackGround.jpg" />
     <Resource Include="map\plane.jpg" />
   </ItemGroup>
   <ItemGroup>
@@ -189,6 +188,7 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="map\missile.jpg" />
+    <Resource Include="map\BackGround.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
