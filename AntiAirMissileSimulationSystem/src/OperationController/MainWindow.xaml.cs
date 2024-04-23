@@ -95,12 +95,8 @@ namespace OperationController.DisplayManage
                 if (!Intersect(ellipse, line))
                 {
                     EventLog.Text += "공중위협 경로와 미사일 반경이 겹치지 않습니다.\n";
-                    return;
                 }
-                else
-                {
-                    SimulationStart_Click(sender, e);
-                }
+                SimulationStart_Click(sender, e);
             }
             else if (sender == Stop)
             {
