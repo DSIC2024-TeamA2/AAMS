@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="대공유도탄 모의시스템" Height="800" Width="1400">
 
-    <DockPanel Background="FloralWhite">
+    <DockPanel Background="#808080">
 
         <Grid DockPanel.Dock="Top" Margin="10">
             <Grid.ColumnDefinitions>
@@ -20,7 +20,7 @@
                 <RowDefinition Height="130"/>
             </Grid.RowDefinitions>
 
-            <Canvas Name="myCanvas" HorizontalAlignment="Center" Height="635" VerticalAlignment="Top" Width="990" Grid.Column="1" Grid.Row="0" MouseMove="CurrentMousePosOnMap" MouseLeftButtonDown="ClickPosOnMap">
+            <Canvas Name="myCanvas" Width="990" Height="635" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top" MouseMove="CurrentMousePosOnMap" MouseLeftButtonDown="ClickPosOnMap">
                 <Canvas.Background>
                     <ImageBrush ImageSource="./map/BackGround.jpg"/>
                 </Canvas.Background>
@@ -29,78 +29,83 @@
             </Canvas>
 
             <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="0">
-                <StackPanel Background="Black" Margin="1">
-                    <StackPanel Orientation="Vertical" Background="White" Margin="0">
-                        <Label Content="공중위협 초기 정보" HorizontalAlignment="Center" VerticalAlignment="Top" />
+                <StackPanel Background="Black" Margin="2">
+                    <StackPanel Orientation="Vertical" Background="FloralWhite" Margin="0">
+                        <Label Content="공중위협 초기 정보" FontSize="20" FontWeight="Bold" Width="190" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,5"/>
 
-                        <StackPanel Background="Black" Margin="1">
-                            <StackPanel Orientation="Vertical" Background="White" Margin="1">
-                                <Label Content="시작좌표" HorizontalAlignment="Center" Margin="5,0,0,0" VerticalAlignment="Top"/>
-
-                                <DockPanel>
-                                    <Label Content="위도" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                                    <Label x:Name="ATStartPosX" Content="NO DATA" HorizontalAlignment="Right" Margin="10,0,0,0" VerticalAlignment="Center" Width="100"/>
-                                </DockPanel>
-
-                                <DockPanel>
-                                    <Label Content="경도" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                                    <Label x:Name="ATStartPosY" Content="NO DATA" HorizontalAlignment="Right" Margin="10,0,0,0" VerticalAlignment="Center" Width="100"/>
-                                </DockPanel>
-                            </StackPanel>
-                        </StackPanel>
-
-                        <StackPanel Width="200" Height="100" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <Label Content="목표좌표" FontSize="15" FontWeight="Bold" Width="190" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
-                            <DockPanel>
-                                <Label Content="위도" FontSize="15" FontWeight="Bold" Width="90" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
-                                <Label x:Name="ATEndPosX" Content="NO DATA" FontSize="14" Width="90" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
+                        <StackPanel Width="200" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5">
+                            <Label Content="시작좌표" FontSize="17" FontWeight="Bold" Width="190" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,2"/>
+                            <DockPanel Margin="0,2">
+                                <Label Content="위도" FontSize="15" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
+                                <Label x:Name="ATStartPosX" Content="NO DATA" FontSize="14" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
                             </DockPanel>
-                            <DockPanel>
-                                <Label Content="경도" FontSize="15" FontWeight="Bold" Width="90" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
-                                <Label x:Name="ATEndPosY" Content="NO DATA" FontSize="14" Width="90" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
+                            <DockPanel Margin="0,2">
+                                <Label Content="경도" FontSize="15" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
+                                <Label x:Name="ATStartPosY" Content="NO DATA" FontSize="14" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
                             </DockPanel>
                         </StackPanel>
 
-
-                        <StackPanel Width="200" Height="40" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <Label Content="속도" FontSize="15" FontWeight="Bold" Width="90" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
-                            <TextBox x:Name="AirThreatSpeedInput" Text="600" FontSize="14" TextAlignment="Center" Width="90" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0" TextWrapping="Wrap" BorderThickness="2" KeyDown="SetSpeedEnterKeyDown"/>
+                        <StackPanel Width="200" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5">
+                            <Label Content="목표좌표" FontSize="17" FontWeight="Bold" Width="190" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,2"/>
+                            <DockPanel Margin="0,2">
+                                <Label Content="위도" FontSize="15" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
+                                <Label x:Name="ATEndPosX" Content="NO DATA" FontSize="14" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
+                            </DockPanel>
+                            <DockPanel Margin="0,2">
+                                <Label Content="경도" FontSize="15" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
+                                <Label x:Name="ATEndPosY" Content="NO DATA" FontSize="14" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
+                            </DockPanel>
                         </StackPanel>
 
-                        <StackPanel Width="200" Height="40" Orientation="Horizontal" HorizontalAlignment="Center">
-                            <Button Name="ATStartPosSetBTN" Content="시작설정" Width="90" Height="30" HorizontalAlignment="Center" Margin="5,0" Click="SetPosModeClick"/>
-                            <Button Name="ATEndPosSetBTN" Content="목표설정" Width="90" Height="30" HorizontalAlignment="Center" Margin="5,0" Click="SetPosModeClick"/>
+                        <StackPanel Width="200" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5">
+                            <Label Content="속도" FontSize="15" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
+                            <TextBox x:Name="AirThreatSpeedInput" Text="600" FontSize="14" TextAlignment="Center" Width="90" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,2" TextWrapping="Wrap" BorderThickness="2" KeyDown="SetSpeedEnterKeyDown"/>
+                        </StackPanel>
+
+                        <StackPanel Width="200" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,2">
+                            <Button Name="ATStartPosSetBTN" Content="시작설정" FontSize="15" FontWeight="Bold" BorderThickness="2" Width="90" Padding="0,5" HorizontalAlignment="Center" Margin="5,0" Click="SetPosModeClick"/>
+                            <Button Name="ATEndPosSetBTN" Content="목표설정" FontSize="15" FontWeight="Bold" BorderThickness="2" Width="90" Padding="0,5" HorizontalAlignment="Center" Margin="5,0" Click="SetPosModeClick"/>
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>
 
-                <Label Content="대공유도탄 초기 정보" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top"/>
-                <Label Content="좌표" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Top"/>
-                <DockPanel>
-                    <Label Content="위도" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                    <Label x:Name="MSLStartPosX" Content="NO DATA" HorizontalAlignment="Right" Margin="10,0,0,0" VerticalAlignment="Center" Width="100"/>
-                </DockPanel>
-                <DockPanel>
-                    <Label Content="경도" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                    <Label x:Name="MSLStartPosY" Content="NO DATA" HorizontalAlignment="Right" Margin="10,0,0,0" VerticalAlignment="Center" Width="100"/>
-                </DockPanel>
-                <DockPanel>
-                    <Label Content="속도" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Center"/>
-                    <TextBox x:Name="MSLSpeedInput" HorizontalAlignment="Right" Height="20" TextWrapping="Wrap" Margin="10,0,10,0" Text="600" VerticalAlignment="Center" Width="100" KeyDown="SetSpeedEnterKeyDown"/>
-                </DockPanel>
-                <Button Name="MSLPosSetBTN" Content="유도탄설정" HorizontalAlignment="Center" Height="30" Margin="10,10,10,0" VerticalAlignment="Top" Width="120" Click="SetPosModeClick"/>
+                <StackPanel Margin="0,10"/>
+
+                <StackPanel Background="Black" Margin="2">
+                    <StackPanel Orientation="Vertical" Background="White" Margin="0">
+                        <Label Content="대공유도탄 초기 정보" FontSize="17" FontWeight="Bold" Width="190" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,5"/>
+
+                        <StackPanel Width="200" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5">
+                            <Label Content="좌표" FontSize="17" FontWeight="Bold" Width="190" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,2"/>
+                            <DockPanel Margin="0,2">
+                                <Label Content="위도" FontSize="15" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
+                                <Label x:Name="MSLStartPosX" Content="NO DATA" FontSize="14" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
+                            </DockPanel>
+
+                            <DockPanel Margin="0,2">
+                                <Label Content="경도" FontSize="15" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
+                                <Label x:Name="MSLStartPosY" Content="NO DATA" FontSize="14" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
+                            </DockPanel>
+
+                            <StackPanel Width="200" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5">
+                                <Label Content="속도" FontSize="15" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
+                                <TextBox x:Name="MSLSpeedInput" Text="600" FontSize="14" TextAlignment="Center" Width="90" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,2" TextWrapping="Wrap" BorderThickness="2" KeyDown="SetSpeedEnterKeyDown"/>
+                            </StackPanel>
+                            <Button Name="MSLPosSetBTN" Content="유도탄설정" FontSize="15" FontWeight="Bold" BorderThickness="2" Width="90" Padding="0,5" Margin="5,2" HorizontalAlignment="Center" Click="SetPosModeClick"/>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
             </StackPanel>
 
             <StackPanel Grid.Column="0" Grid.Row="1">
-                <DockPanel>
-                    <Button Name="Start" Content="모의시작" HorizontalAlignment="Left" Height="30" Margin="10,0,10,0" VerticalAlignment="Center" Width="80" Click="SetPosModeClick"/>
-                    <Button Name="Stop" Content="모의종료" HorizontalAlignment="Right" Height="30" Margin="10,0,10,0" VerticalAlignment="Center" Width="80" Click="SetPosModeClick"/>
-                </DockPanel>
+                <StackPanel Width="200" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,2">
+                    <Button Name="Start" Content="모의시작" FontSize="15" FontWeight="Bold" BorderThickness="2" Width="90" Padding="0,5" Margin="5,2" HorizontalAlignment="Center" Click="SetPosModeClick"/>
+                    <Button Name="Stop" Content="모의종료" FontSize="15" FontWeight="Bold" BorderThickness="2" Width="90" Padding="0,5" Margin="5,2" HorizontalAlignment="Center" Click="SetPosModeClick"/>
+                </StackPanel>
             </StackPanel>
 
-            <StackPanel Grid.Column="1" Grid.Row="1">
-                <TextBox Name="EventLog" HorizontalAlignment="Center" Height="105" MaxHeight="105" TextWrapping="Wrap" Text="&lt;이벤트 로그&gt;" VerticalAlignment="Center" Width="1000"
-         ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible" />
+            <StackPanel Grid.Column="1" Grid.Row="1" Margin="0,5">
+                <TextBox Name="EventLog" Text="&lt; 이벤트 로그 &gt;" FontSize="15" FontWeight="Bold" TextWrapping="Wrap"  Width="1000" Height="120" HorizontalAlignment="Center" VerticalAlignment="Center" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible" />
             </StackPanel>
 
             <StackPanel Grid.Column="3" Grid.Row="0">
