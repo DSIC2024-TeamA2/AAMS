@@ -18,12 +18,25 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CommMessageHandler.cpp" />
+    <ClCompile Include="UDPCommunicationManager.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CommMessageHandler.h" />
+    <ClInclude Include="UDPCommunicationManager.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\..\bin\UDPCommunicationManager\UDPCommunicationManager.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\bin\UDPCommunicationManager\CommLinkInfo.ini" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
-    <ProjectGuid>{0B4525FB-B18A-4E3F-8C58-906B946D4EC1}</ProjectGuid>
-    <RootNamespace>AntiAirMissile</RootNamespace>
+    <ProjectGuid>{D0397AE5-864E-401F-93CE-1075DCD4A9F7}</ProjectGuid>
+    <RootNamespace>CommandManager</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>AntiAirMissileManager</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -73,8 +86,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)\lib\</OutDir>
-    <IntDir>Debug\</IntDir>
+    <OutDir>$(SolutionDir)/lib</OutDir>
+    <IntDir>Debug</IntDir>
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -101,14 +114,15 @@
       <ConformanceMode>false</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>C:\Nex1\nFrameworkv1.7\include</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_HAS_STD_BYTE=0;BASEMGRDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>%(AdditionalOptions)</AdditionalOptions>
+      <PreprocessorDefinitions>ASIO_STANDALONE;_HAS_STD_BYTE=0;BASEMGRDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>/experimental:preprocessor /wd"5105"
+ %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <OutputFile>$(SolutionDir)/bin/$(ProjectName)/$(ProjectName)d.dll</OutputFile>
       <AdditionalLibraryDirectories>C:\Nex1\nFrameworkv1.7\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>MECd.lib;NOMd.lib;utild.lib</AdditionalDependencies>
+      <AdditionalDependencies>MECd.lib;NOMd.lib;utild.lib;NICEd.lib</AdditionalDependencies>
       <ProgramDatabaseFile>Debug/$(ProjectName)d.pdb</ProgramDatabaseFile>
       <ImportLibrary>$(SolutionDir)/lib/$(ProjectName)d.lib</ImportLibrary>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -139,7 +153,7 @@
       <ConformanceMode>false</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>C:\Nex1\nFrameworkv1.7\include</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_HAS_STD_BYTE=0;BASEMGRDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ASIO_STANDALONE;_HAS_STD_BYTE=0;BASEMGRDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -149,23 +163,12 @@
       </OptimizeReferences>
       <OutputFile>$(SolutionDir)/bin/$(ProjectName)/$(ProjectName).dll</OutputFile>
       <AdditionalLibraryDirectories>C:\Nex1\nFrameworkv1.7\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>MEC.lib;NOM.lib;util.lib</AdditionalDependencies>
+      <AdditionalDependencies>MEC.lib;NOM.lib;util.lib;NICE.lib</AdditionalDependencies>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <ImportLibrary>$(SolutionDir)/lib/$(ProjectName).lib</ImportLibrary>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="AntiAirMissileController.cpp" />
-    <ClCompile Include="AntiAirMissileManager.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="AntiAirMissileController.h" />
-    <ClInclude Include="AntiAirMissileManager.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Xml Include="..\..\bin\AntiAirMissileManager\AntiAirMissileManager.xml" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

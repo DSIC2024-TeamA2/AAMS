@@ -8,10 +8,7 @@
         <NOM:attribute name="Message1" nameNotes="수신 메시지 1" dataType="UnsignedIntegerBE"/>
         <NOM:attribute name="Message2" nameNotes="수신 메시지 2" dataType="UnsignedIntegerBE"/>
     </NOM:object>
-    <NOM:object name="Missile" id="222" sharing="Publish" orderType="Receive" alignment="false">
-        <NOM:attribute name="ID" dataType="UnsignedIntegerBE" />
-    </NOM:object>
-    <NOM:object name="ScenarioInfo" id="1" nameNotes="시나리오 정보" sharing="Subscribe" orderType="Receive" alignment="false">
+    <NOM:object name="ScenarioInfo" id="9991" nameNotes="시나리오 정보" sharing="Subscribe" orderType="Receive" alignment="false">
 	    <NOM:attribute name="startTime" nameNotes="시나리오 시작 시간"  dataType="IntegerBE"/>
 	    <NOM:attribute name="airThreatStartLatitude" nameNotes="공중위협 시작 위도 좌표"  dataType="IntegerBE"/>
 	    <NOM:attribute name="airThreatStartLongitude" nameNotes="공중위협 시작 경도 좌표"  dataType="IntegerBE"/>
@@ -22,36 +19,29 @@
 	    <NOM:attribute name="antiAirMissileLongitude" nameNotes="대공유도탄 초기위치 경도 좌표"  dataType="IntegerBE"/>
 	    <NOM:attribute name="antiAirMissileSpeed" nameNotes="대공유도탄 초기설정 속도" dataType="FloatBE"/>
     </NOM:object>
-    <NOM:object name="AirThreatInfo" id="2" nameNotes="공중위협 현재 정보" sharing="Subscribe" orderType="Receive" alignment="false">
+    <NOM:object name="AirThreatInfo" id="9992" nameNotes="공중위협 현재 정보" sharing="Subscribe" orderType="Receive" alignment="false">
 	    <NOM:attribute name="currentTime" nameNotes="메시지 전달 시간"  dataType="IntegerBE"/>
 	    <NOM:attribute name="currentLatitude" nameNotes="공중위협 현재 위도 좌표"  dataType="IntegerBE"/>
 	    <NOM:attribute name="currentLongitude" nameNotes="공중위협 현재 경도 좌표"  dataType="IntegerBE"/>
 	    <NOM:attribute name="currentSpeed" nameNotes="공중위협 현재 속도" dataType="FloatBE"/>
 	    <NOM:attribute name="currentAngle" nameNotes="공중위협 현재 방향" dataType="FloatBE"/>
     </NOM:object>
-    <NOM:object name="AntiAirMissileInfo" id="3" nameNotes="대공유도탄 현재 정보" sharing="Publish" orderType="Receive" alignment="false">
+    <NOM:object name="AntiAirMissileInfo" id="9993" nameNotes="대공유도탄 현재 정보" sharing="Publish" orderType="Receive" alignment="false">
 	    <NOM:attribute name="currentTime" nameNotes="메시지 전달 시간"  dataType="IntegerBE"/>
 	    <NOM:attribute name="currentLatitude" nameNotes="대공유도탄 현재 위도 좌표"  dataType="IntegerBE"/>
 	    <NOM:attribute name="currentLongitude" nameNotes="대공유도탄 현재 경도 좌표"  dataType="IntegerBE"/>
 	    <NOM:attribute name="currentSpeed" nameNotes="대공유도탄 현재 속도" dataType="FloatBE"/>
 	    <NOM:attribute name="currentAngle" nameNotes="대공유도탄 현재 방향" dataType="FloatBE"/>
     </NOM:object>
+	  <NOM:object name="SimulationStatusInfo" id="9994" nameNotes="시뮬레이션 상태 정보" sharing="PublishSubscribe" orderType="Receive" alignment="false">
+		  <NOM:attribute name="status" nameNotes="현재 상태"  dataType="SimulationStatus"/>
+	  </NOM:object>
   </NOM:objects>
   <!-- interaction data -->
   <NOM:interactions>
     <NOM:interaction name="GUI_Start" id="1001" nameNotes="시작" sharing="Subscribe" orderType="Receive" alignment="false">
       <NOM:parameter name="Message1" dataType="UnsignedIntegerBE" />
     </NOM:interaction>
-	  <NOM:interaction name="IDLE" id="41" nameNotes="초기 상태" sharing="Subscribe" orderType="Receive" alignment="false">
-	  </NOM:interaction>
-	  <NOM:interaction name="DETECTING" id="42" nameNotes="공중위협 탐지 중 상태" sharing="Publish" orderType="Receive" alignment="false">
-	  </NOM:interaction>
-	  <NOM:interaction name="CHASING" id="43" nameNotes="공중위협 추적 중 상태" sharing="Publish" orderType="Receive" alignment="false">
-	  </NOM:interaction>
-	  <NOM:interaction name="SUCCESS" id="44" nameNotes="공중위협 격추 성공 상태" sharing="Publish" orderType="Receive" alignment="false">
-	  </NOM:interaction>
-	  <NOM:interaction name="FAIL" id="45" nameNotes="공중위협 격추 실패 상태" sharing="Subscribe" orderType="Receive" alignment="false">
-	  </NOM:interaction>
   </NOM:interactions>
   <!-- data types -->
   <NOM:dataTypes>
@@ -77,10 +67,13 @@
       <NOM:basicType name="Var" length="0" endian="none" signed="false" type="Variable" note="Variable"/>
     </NOM:basicTypes>
     <NOM:enumerationTypes>
-      <NOM:enumerationType name="TestEnum16" length="2">
-        <NOM:enumerator name="Start" value="1" />
-        <NOM:enumerator name="Stop" value="2" />
-      </NOM:enumerationType>
+		<NOM:enumerationType name="SimulationStatus" length="2">
+			<NOM:enumerator name="IDLE" value="1" />
+			<NOM:enumerator name="DETECTING" value="2" />
+			<NOM:enumerator name="CHASING" value="3" />
+			<NOM:enumerator name="SUCCESS" value="4" />
+			<NOM:enumerator name="FAIL" value="5" />
+		</NOM:enumerationType>
     </NOM:enumerationTypes>
     <NOM:complexTypes>
       <NOM:complexType name="TestStruct">

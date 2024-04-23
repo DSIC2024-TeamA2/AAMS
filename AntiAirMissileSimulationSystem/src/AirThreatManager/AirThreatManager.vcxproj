@@ -156,9 +156,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AirthreatController.cpp" />
     <ClCompile Include="AirThreatManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AirthreatController.h" />
     <ClInclude Include="AirThreatManager.h" />
   </ItemGroup>
   <ItemGroup>
