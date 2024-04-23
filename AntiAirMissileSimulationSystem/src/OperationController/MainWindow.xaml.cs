@@ -12,6 +12,7 @@ using System.Windows.Shapes;
 using System.Numerics;
 using OperationController.AMSUDP;
 using System;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace OperationController.DisplayManage
 {
@@ -53,6 +54,17 @@ namespace OperationController.DisplayManage
 
         private double fixedAirThreatSpeed = 0.0;
         private double fixedMSLSpeed = 0.0;
+
+        //공중위협, 목적지 연결하는 선 확인 flg
+        private int airThreatStartflg = 0;
+        private int airThreatEndflg = 0;
+        Line line = new Line();
+
+        //공중위협, 미사일, 목적지, 반경 최초 선언
+        System.Windows.Controls.Image imgControl4 = null;
+        System.Windows.Controls.Image imgControl5 = null;
+        System.Windows.Controls.Image imgControl6 = null;
+        Ellipse ellipse = new Ellipse();
 
         // 공중위협 출발지 좌표 설정 버튼 클릭 시
         // 지도 위에서 좌표 클릭하는 이벤트를 실행 시키기 위한 멤버함수
@@ -156,12 +168,46 @@ namespace OperationController.DisplayManage
                 ATStartPosX.Content = $"{fixedAirThreatStartPosX:F3}";
                 ATStartPosY.Content = $"{fixedAirThreatStartPosY:F3}";
 
+                airThreatStartflg = 1;
+                if(airThreatEndflg == 1)
+                    ConnectLine();
+
+                if (imgControl4 != null)
+                    myCanvas.Children.Remove(imgControl4);
+
+                //대공위협 이미지 클릭 위치에 추가하기
+                BitmapImage image4 = new BitmapImage(new Uri(@"./map/plane.jpg", UriKind.Relative));
+                imgControl4 = new System.Windows.Controls.Image();
+                imgControl4.Source = image4;
+                imgControl4.Width = 50;
+                imgControl4.Height = 50;
+                Canvas.SetLeft(imgControl4, fixedAirThreatStartPosX - (imgControl4.Width / 2.0));
+                Canvas.SetTop(imgControl4, fixedAirThreatStartPosY - (imgControl4.Height / 2.0));
+                myCanvas.Children.Add(imgControl4);
+
                 mousePositionTextBox.Visibility = Visibility.Hidden;
             }
             else if (fixAirThreatPox == 5)
             {
                 ATEndPosX.Content = $"{fixedAirThreatEndPosX:F3}";
                 ATEndPosY.Content = $"{fixedAirThreatEndPosY:F3}";
+
+                airThreatEndflg = 1;
+                if (airThreatStartflg == 1)
+                    ConnectLine();
+
+                if (imgControl5 != null)
+                    myCanvas.Children.Remove(imgControl5);
+
+                //대공위협 목적지 이미지 클릭 위치에 추가하기
+                BitmapImage image5 = new BitmapImage(new Uri(@"./map/ATend.jpg", UriKind.Relative));
+                imgControl5 = new System.Windows.Controls.Image();
+                imgControl5.Source = image5;
+                imgControl5.Width = 20;
+                imgControl5.Height = 20;
+                Canvas.SetLeft(imgControl5, fixedAirThreatEndPosX - (imgControl5.Width / 2.0));
+                Canvas.SetTop(imgControl5, fixedAirThreatEndPosY - (imgControl5.Height / 2.0));
+                myCanvas.Children.Add(imgControl5);
 
                 mousePositionTextBox.Visibility = Visibility.Hidden;
             }
@@ -170,9 +216,53 @@ namespace OperationController.DisplayManage
                 MSLStartPosX.Content = $"{fixedMSLStartPosX:F3}";
                 MSLStartPosY.Content = $"{fixedMSLStartPosY:F3}";
 
+                if (imgControl6 != null)
+                    myCanvas.Children.Remove(imgControl6);
+
+                //미사일 이미지 클릭 위치에 추가하기
+                BitmapImage image6 = new BitmapImage(new Uri(@"./map/missile.jpg", UriKind.Relative));
+                imgControl6 = new System.Windows.Controls.Image();
+                imgControl6.Source = image6;
+                imgControl6.Width = 100;
+                imgControl6.Height = 100;
+                Canvas.SetLeft(imgControl6, fixedMSLStartPosX - (imgControl6.Width / 2.0));
+                Canvas.SetTop(imgControl6, fixedMSLStartPosY - (imgControl6.Height / 2.0));
+                myCanvas.Children.Add(imgControl6);
+
+                if (ellipse != null)
+                    myCanvas.Children.Remove(ellipse);
+
+                //미사일 반경 이미지 클릭 위치에 추가하기
+                ellipse.Stroke = Brushes.Red;
+                ellipse.StrokeThickness = 2;
+                ellipse.Fill = new SolidColorBrush(Color.FromArgb(50, 255, 0, 0)); ;
+                ellipse.Width = 600;
+                ellipse.Height = 600;
+                Canvas.SetLeft(ellipse, fixedMSLStartPosX - (ellipse.Width / 2.0));
+                Canvas.SetTop(ellipse, fixedMSLStartPosY - (ellipse.Height / 2.0));
+                myCanvas.ClipToBounds = true;
+                myCanvas.Children.Add(ellipse);
+
                 mousePositionTextBox.Visibility = Visibility.Hidden;
             }
         }
+
+        private void ConnectLine()
+        {
+            // 이전에 그려진 선이 있으면 제거
+            if (line != null)
+                myCanvas.Children.Remove(line);
+
+            // 새로운 선 그리기
+            line.Stroke = Brushes.Red; // 선의 색상
+            line.StrokeThickness = 2; // 선의 두께
+            line.X1 = fixedAirThreatStartPosX; // 시작점 x 좌표
+            line.Y1 = fixedAirThreatStartPosY; // 시작점 y 좌표
+            line.X2 = fixedAirThreatEndPosX; // 시작점 x 좌표
+            line.Y2 = fixedAirThreatEndPosY; // 시작점 y 좌표
+            myCanvas.Children.Add(line);
+        }
+
         private void AirThreatSpeedTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             // Check if the Enter key is pressed
@@ -203,39 +293,41 @@ namespace OperationController.DisplayManage
         }
         //---------------------------------------------------------------
 
-        //박우석 수정: 모의시작을 누르면 공중위협 이미지 출력하는 코드. 추후 해당 코드를 fixAirThreatPox == 4 코드와 결합해야함
         private void SimulationStart_Click(object sender, RoutedEventArgs e)
         {
-            string projectPath = Environment.CurrentDirectory;
-            Console.WriteLine(projectPath);
             // 시작클릭시 공중위협 모의기, 대공유도탄 모의기에 데이터 설정값 Publisher
-            //System.Windows.Controls.Image ATimg = new System.Windows.Controls.Image();
-            //BitmapImage image = new BitmapImage(new Uri(@"C:\Users\User\Documents\workspace\AAMS\AntiAirMissileSimulationSystem\OperationController\map\plane.jpg"));
-            BitmapImage image = new BitmapImage(new Uri(@"..\OperationController\map\plane.jpg", UriKind.Relative));
-            System.Windows.Controls.Image imgControl = new System.Windows.Controls.Image();
-            imgControl.Source = image;
 
-            Canvas.SetLeft(imgControl, 0);
-            Canvas.SetTop(imgControl, 0);
+            //미사일 반경과 공중위협 경로가 겹치는지 판단
+            if (!Intersect(ellipse, line))
+            {
+                EventLog.Text += "공중위협 경로와 미사일 반경이 겹치지 않습니다.\n";
+            }
+        }
 
-            myCanvas.Children.Add(imgControl);
+        //미사일 반경과 공중위협 경로가 겹치는지 판단
+        private bool Intersect(Ellipse circle, Line line)
+        {
+            // 원의 중심 좌표
+            double circleCenterX = Canvas.GetLeft(circle) + circle.Width / 2;
+            double circleCenterY = Canvas.GetTop(circle) + circle.Height / 2;
 
-            /*BitmapImage ATimgtmp = new BitmapImage(new Uri(@"../map/plane.jpg", UriKind.Relative));
-            System.Windows.Controls.Image ATimg = new System.Windows.Controls.Image();
-            ATimg.Source = ATimgtmp;
-            *//*ATimg.Width = 50;
-            ATimg.Height = 50;*//*
-            int x = 700;
-            int y = 500;
-            *//*System.Windows.Shapes.Rectangle r = new System.Windows.Shapes.Rectangle();
-            r.Width = 100;
-            r.Height = 200;
-            r.Fill = System.Windows.Media.Brushes.Red;*/
-            /*Canvas.SetLeft(ATimg, x - (ATimg.Width / 2.0));
-            Canvas.SetBottom(ATimg, y - (ATimg.Height / 2.0));*//*
-            Canvas.SetLeft(ATimg, x);
-            Canvas.SetBottom(ATimg, y);
-            myCanvas.Children.Add(ATimg);*/
+            // 직선의 시작점과 끝점 좌표
+            double lineX1 = line.X1;
+            double lineY1 = line.Y1;
+            double lineX2 = line.X2;
+            double lineY2 = line.Y2;
+
+            // 직선의 기울기
+            double lineSlope = (lineY2 - lineY1) / (lineX2 - lineX1);
+
+            // 직선의 y절편
+            double lineIntercept = lineY1 - lineSlope * lineX1;
+
+            // 원의 중심에서 직선까지의 거리
+            double distance = Math.Abs((lineSlope * circleCenterX - circleCenterY + lineIntercept) / Math.Sqrt(lineSlope * lineSlope + 1));
+
+            // 거리가 반지름보다 작거나 같으면 겹침
+            return distance <= circle.Width / 2;
         }
 
         private void SimulationEnd_Click(object sender, RoutedEventArgs e)

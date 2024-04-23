@@ -184,6 +184,12 @@
     <Resource Include="map\BackGround.jpg" />
     <Resource Include="map\plane.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="map\ATend.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="map\missile.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>Copy "$(ProjectDir)$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)bin$(PlatformName)$(ConfigurationName)"</PostBuildEvent>
