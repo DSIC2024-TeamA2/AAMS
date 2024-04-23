@@ -54,7 +54,7 @@ namespace OperationController.DisplayManage
         // 아직 미사용 //
         private double fixedAirThreatSpeed = 0.0; ///< 입력한 공중위협 속도
         private double fixedMSLSpeed = 0.0; ///< 입력한 대공유도탄 속도
-        ///
+                                            ///
 
         private double currentAirThreatPosX = 0.0;
         private double currentAirThreatPosY = 0.0;
@@ -72,16 +72,16 @@ namespace OperationController.DisplayManage
         System.Windows.Controls.Image imgControl5 = null;
         System.Windows.Controls.Image imgControl6 = null;
         Ellipse ellipse = new Ellipse();
-        
+
         /// 함수
         // 공중위협 시작 좌표, 공중위협 시작 좌표, 대공유도탄 좌표 설정 버튼 3개를 각각 클릭시 현재 선택한 좌표 설정 모드 변경하는 함수
         private void SetPosModeClick(object sender, RoutedEventArgs e)
         {
-            if(sender == ATStartPosSetBTN) // 클릭한 버튼이 공중위협 시작 좌표 설정 버튼인 경우
+            if (sender == ATStartPosSetBTN) // 클릭한 버튼이 공중위협 시작 좌표 설정 버튼인 경우
             {
                 setPosMode = 1; // 좌표 설정 모드를 공중위협 시작 좌표 설정 모드로 변경
             }
-            else if(sender == ATEndPosSetBTN) // 클릭한 버튼이 공중위협 목적 좌표 설정 버튼인 경우
+            else if (sender == ATEndPosSetBTN) // 클릭한 버튼이 공중위협 목적 좌표 설정 버튼인 경우
             {
                 setPosMode = 2; // 좌표 설정 모드를 공중위협 목적 좌표 설정 모드로 변경
             }
@@ -148,19 +148,20 @@ namespace OperationController.DisplayManage
             {
                 fixedAirThreatStartPosX = x; ///< 클릭한 좌표의 X를 공중위협 시작 위도로 저장
                 fixedAirThreatStartPosY = y; ///< 클릭한 좌표의 Y를 공중위협 시작 경도로 저장
+                setPosMode += 3; ///< 좌표 설정 모드 상태 변경
             }
             else if (setPosMode == 2) // 공중위협 목적 좌표 설정 버튼을 클릭한 상태
             {
                 fixedAirThreatEndPosX = x; ///< 클릭한 좌표의 X를 공중위협 목적 위도로 저장
                 fixedAirThreatEndPosY = y; ///< 클릭한 좌표의 Y를 공중위협 목적 경도로 저장
+                setPosMode += 3; ///< 좌표 설정 모드 상태 변경
             }
             else if (setPosMode == 3) // 대공유도탄 좌표 설정 버튼을 클릭한 상태
             {
                 fixedMSLStartPosX = x; ///< 클릭한 좌표의 X를 대공유도탄 위도로 저장
                 fixedMSLStartPosY = y; ///< 클릭한 좌표의 Y를 대공유도탄 경도로 저장
+                setPosMode += 3; ///< 좌표 설정 모드 상태 변경
             }
-
-            setPosMode += 3; ///< 좌표 설정 모드 상태 변경
         }
 
         // 지도 위에 이동중인 현재 마우스 좌표값을 출력하고 클릭시 설정한 좌표값을 출력하는 함수
@@ -201,7 +202,7 @@ namespace OperationController.DisplayManage
                 mousePositionTextBox.Visibility = Visibility.Hidden;
 
                 airThreatStartflg = 1;
-                if(airThreatEndflg == 1)
+                if (airThreatEndflg == 1)
                     ConnectLine();
 
                 if (imgControl4 != null)
@@ -308,14 +309,14 @@ namespace OperationController.DisplayManage
         {
             if (e.Key == Key.Enter) // 엔터를 입력한 경우
             {
-                if(sender == AirThreatSpeedInput)
+                if (sender == AirThreatSpeedInput)
                 {
                     string inputValue = AirThreatSpeedInput.Text;
                     if (IsNumeric(inputValue))
                         fixedAirThreatSpeed = (Double.Parse(inputValue));
                     else;
                 }
-                else if(sender == MSLSpeedInput)
+                else if (sender == MSLSpeedInput)
                 {
                     string inputValue = MSLSpeedInput.Text;
                     if (IsNumeric(inputValue))
@@ -334,12 +335,36 @@ namespace OperationController.DisplayManage
         {
             // 시작클릭시 공중위협 모의기, 대공유도탄 모의기에 데이터 설정값 Publisher
             EventLog.Text += "시나리오 시작.\n";
+            ATCurrentPosX.Content = $"{fixedAirThreatStartPosX:F3}";
+            ATCurrentPosY.Content = $"{fixedAirThreatStartPosY:F3}";
+            MSLCurrentPosX.Content = $"{fixedMSLStartPosX:F3}";
+            MSLCurrentPosY.Content = $"{fixedMSLStartPosY:F3}";
         }
 
         private void SimulationEnd_Click(object sender, RoutedEventArgs e)
         {
             // 모든 시나리오 데이터 설정값 초기화
+            airThreatStartflg = 0;
+            airThreatEndflg = 0;
+            setPosMode = 0;
             EventLog.Text += "시나리오 종료.\n";
+            ATStartPosX.Content = "NO DATA";
+            ATStartPosY.Content = "NO DATA";
+            ATEndPosX.Content = "NO DATA";
+            ATEndPosY.Content = "NO DATA";
+            AirThreatSpeedInput.Text = "0";
+            MSLStartPosX.Content = "NO DATA";
+            MSLStartPosY.Content = "NO DATA";
+            MSLSpeedInput.Text = "0";
+            ATCurrentPosX.Content = "NO DATA";
+            ATCurrentPosY.Content = "NO DATA";
+            ATCurrentSpeed.Content = "NO DATA";
+            ATCurrentDIR.Content = "NO DATA";
+            MSLCurrentPosX.Content = "NO DATA";
+            MSLCurrentPosY.Content = "NO DATA";
+            MLSCurrentSpeed.Content = "NO DATA";
+            MLSCurrentDIR.Content = "NO DATA";
+            myCanvas.Children.Clear();
         }
         //---------------------------------------------------------------
     }
