@@ -437,8 +437,8 @@ namespace OperationController.DisplayManage
             ATCurrentDIR.Content = "NO DATA";
             MSLCurrentPosX.Content = "NO DATA";
             MSLCurrentPosY.Content = "NO DATA";
-            MLSCurrentSpeed.Content = "NO DATA";
-            MLSCurrentDIR.Content = "NO DATA";
+            MSLCurrentSpeed.Content = "NO DATA";
+            MSLCurrentDIR.Content = "NO DATA";
             myCanvas.Children.Clear();
         }
         //---------------------------------------------------------------
