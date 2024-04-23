@@ -133,7 +133,7 @@ namespace OperationController.AMSUDP
             return SimulationStatusInfo.IDLE;
         }
 
-        public void SendSimulationStatusInfoMsg()
+        public void SendSimulationStatusInfoMsg(SimulationStatusInfo simulationStatusInfo)
         {
             Console.WriteLine("SendSimulationStatusInfoMsg called");
             NOMParser parser = new NOMParser();

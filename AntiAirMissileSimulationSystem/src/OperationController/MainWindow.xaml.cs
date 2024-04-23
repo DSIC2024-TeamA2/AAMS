@@ -28,31 +28,27 @@ namespace OperationController.DisplayManage
             InitializeComponent();
             EventLog.Text += "\n";
         }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private nFrameworkConnector GetNFrameworkConnector()
         {
             if (nf == null)
             {
                 nf = new nFrameworkConnector(this);
-                Console.WriteLine("nf = new() called");
             }
-            nf.SendSimulationStatusInfoMsg();
-            nf.SendScenarioInfoMsg(10, 11, 12, 101, 102, 5, 51, 52, 15);
+            return nf;
         }
-
         internal void UpdateAirThreatInfo(AirThreatInfo info)
         {
-            Console.WriteLine(info.ToString());
+            EventLog.Text += info.ToString() + "\n";
         }
 
         internal void UpdateAntiAirMissileInfo(AntiAirMissileInfo info)
         {
-            Console.WriteLine(info.ToString());
+            EventLog.Text += info.ToString() + "\n";
         }
 
         internal void UpdateSimulationStatusInfo(SimulationStatusInfo info)
         {
-            Console.WriteLine(info.ToString());
+            EventLog.Text += info.ToString() + "\n";
         }
 
         /// 변수
@@ -67,6 +63,8 @@ namespace OperationController.DisplayManage
         private double fixedMSLStartPosX = 0.0; ///< 마우스로 선택한 대공유도탄 좌표 위도
         private double fixedMSLStartPosY = 0.0; ///< 마우스로 선택한 대공유도탄 좌표 경도
 
+        private int MSLRadius = 600; // 대공유도탄 반경
+
         // 아직 미사용 //
         private double fixedAirThreatSpeed = 0.0; ///< 입력한 공중위협 속도
         private double fixedMSLSpeed = 0.0; ///< 입력한 대공유도탄 속도
@@ -80,7 +78,9 @@ namespace OperationController.DisplayManage
         //공중위협, 목적지 연결하는 선 확인 flg
         private int airThreatStartflg = 0;
         private int airThreatEndflg = 0;
-        private double ATangle; //공중위협 방향
+        private int MSLStartflg = 0;
+        private double ATangle = 0.0; //공중위협 방향
+        private double MSLangle = 0.0; //대공유도탄 방향
         Line line = new Line();
 
         //공중위협, 미사일, 목적지, 반경 최초 선언
@@ -89,6 +89,9 @@ namespace OperationController.DisplayManage
         System.Windows.Controls.Image imgControl6 = null;
         Ellipse ellipse = new Ellipse();
 
+        //격추 여부 확인 변수
+        private int crash = 0;
+
         /// 함수
         // 공중위협 시작 좌표, 공중위협 시작 좌표, 대공유도탄 좌표 설정 버튼 3개를 각각 클릭시 현재 선택한 좌표 설정 모드 변경하는 함수
         private void SetPosModeClick(object sender, RoutedEventArgs e)
@@ -96,33 +99,35 @@ namespace OperationController.DisplayManage
             if (sender == ATStartPosSetBTN) // 클릭한 버튼이 공중위협 시작 좌표 설정 버튼인 경우
             {
                 setPosMode = 1; // 좌표 설정 모드를 공중위협 시작 좌표 설정 모드로 변경
-                verticalLine.Visibility = Visibility.Visible;
-                horizontalLine.Visibility = Visibility.Visible;
             }
             else if (sender == ATEndPosSetBTN) // 클릭한 버튼이 공중위협 목적 좌표 설정 버튼인 경우
             {
                 setPosMode = 2; // 좌표 설정 모드를 공중위협 목적 좌표 설정 모드로 변경
-                verticalLine.Visibility = Visibility.Visible;
-                horizontalLine.Visibility = Visibility.Visible;
             }
             else if (sender == MSLPosSetBTN) // 클릭한 버튼이 대공유도탄 좌표 설정 버튼인 경우
             {
                 setPosMode = 3; // 좌표 설정 모드를 대공유도탄 좌표 설정 모드로 변경
-                verticalLine.Visibility = Visibility.Visible;
-                horizontalLine.Visibility = Visibility.Visible;
             }
             else if (sender == Start) // 클릭한 버튼이 모의시작 버튼인 경우
             {
                 // 미사일 반경과 공중위협 경로가 겹치는지 판단
                 if (!Intersect(ellipse, line))
                 {
-                    EventLog.Text += "경고: 공중위협 경로와 미사일 반경이 겹치지 않습니다.\n";
+                    EventLog.Text += "경고: 공중위협 경로와 대공유도탄 반경이 겹치지 않습니다.\n";
+                }
+                if (airThreatStartflg == 0 || airThreatEndflg == 0 || MSLStartflg == 0)
+                {
+                    EventLog.Text += "위험: 공중위협 시작/목표, 대공유도탄의 위치를 확인해주세요.\n";
+                    return;
                 }
                 SimulationStart_Click(sender, e);
+                GetNFrameworkConnector().SendSimulationStatusInfoMsg(SimulationStatusInfo.DETECTEING);
+                GetNFrameworkConnector().SendScenarioInfoMsg(10, 11, 12, 101, 102, 5, 51, 52, 15);
             }
             else if (sender == Stop)
             {
                 SimulationEnd_Click(sender, e);
+                GetNFrameworkConnector().SendSimulationStatusInfoMsg(SimulationStatusInfo.IDLE);
             }
         }
 
@@ -145,7 +150,7 @@ namespace OperationController.DisplayManage
             // 공중위협 각도 ATangle 구하기
             double radians = Math.Atan(-lineSlope);
             double degrees = 90 - radians * (180 / Math.PI);
-            if(fixedAirThreatStartPosX < fixedAirThreatEndPosX)
+            if (fixedAirThreatStartPosX < fixedAirThreatEndPosX)
                 ATangle = degrees;
             else
                 ATangle = 180 + degrees;
@@ -178,42 +183,20 @@ namespace OperationController.DisplayManage
             {
                 fixedAirThreatStartPosX = x; ///< 클릭한 좌표의 X를 공중위협 시작 위도로 저장
                 fixedAirThreatStartPosY = y; ///< 클릭한 좌표의 Y를 공중위협 시작 경도로 저장
-                setPosMode = 4; ///< 좌표 설정 모드 상태 변경
+                setPosMode += 3; ///< 좌표 설정 모드 상태 변경
             }
             else if (setPosMode == 2) // 공중위협 목적 좌표 설정 버튼을 클릭한 상태
             {
                 fixedAirThreatEndPosX = x; ///< 클릭한 좌표의 X를 공중위협 목적 위도로 저장
                 fixedAirThreatEndPosY = y; ///< 클릭한 좌표의 Y를 공중위협 목적 경도로 저장
-                setPosMode = 5; ///< 좌표 설정 모드 상태 변경
+                setPosMode += 3; ///< 좌표 설정 모드 상태 변경
             }
             else if (setPosMode == 3) // 대공유도탄 좌표 설정 버튼을 클릭한 상태
             {
                 fixedMSLStartPosX = x; ///< 클릭한 좌표의 X를 대공유도탄 위도로 저장
                 fixedMSLStartPosY = y; ///< 클릭한 좌표의 Y를 대공유도탄 경도로 저장
-                setPosMode = 6; ///< 좌표 설정 모드 상태 변경
+                setPosMode += 3; ///< 좌표 설정 모드 상태 변경
             }
-        }
-
-        private void CurrentMousePosDotLinePrint(Point mousePos)
-        {
-            verticalLine.X1 = mousePos.X;
-            verticalLine.X2 = mousePos.X;
-
-            horizontalLine.Y1 = mousePos.Y;
-            horizontalLine.Y2 = mousePos.Y;
-        }
-
-        private void HideMouseInfo()
-        {
-            mousePositionTextBox.Visibility = Visibility.Hidden;
-
-            verticalLine.X1 = 0;
-            verticalLine.X2 = 0;
-            horizontalLine.Y1 = 0;
-            horizontalLine.Y2 = 0;
-
-            verticalLine.Visibility = Visibility.Hidden;
-            horizontalLine.Visibility = Visibility.Hidden;
         }
 
         // 지도 위에 이동중인 현재 마우스 좌표값을 출력하고 클릭시 설정한 좌표값을 출력하는 함수
@@ -230,10 +213,6 @@ namespace OperationController.DisplayManage
                 // 이동 중인 마우스 옆에 현재 좌표값 출력창 생성하는 함수 호출
                 PrintPosXY(relativeX, relativeY);
 
-                verticalLine.Stroke = Brushes.Red;
-                horizontalLine.Stroke = Brushes.Red;
-                CurrentMousePosDotLinePrint(currentMousePosXY);
-
             }
             else if (setPosMode == 2) // 공중위협 목적 좌표 설정 모드인 경우
             {
@@ -242,9 +221,6 @@ namespace OperationController.DisplayManage
                 // 이동 중인 마우스 옆에 현재 좌표값 출력창 생성하는 함수 호출
                 PrintPosXY(relativeX, relativeY);
 
-                verticalLine.Stroke = Brushes.Red;
-                horizontalLine.Stroke = Brushes.Red;
-                CurrentMousePosDotLinePrint(currentMousePosXY);
             }
             else if (setPosMode == 3) // 대공유도탄 좌표 설정 모드인 경우
             {
@@ -253,16 +229,12 @@ namespace OperationController.DisplayManage
                 // 이동 중인 마우스 옆에 현재 좌표값 출력창 생성하는 함수 호출
                 PrintPosXY(relativeX, relativeY);
 
-                verticalLine.Stroke = Brushes.Green;
-                horizontalLine.Stroke = Brushes.Green;
-                CurrentMousePosDotLinePrint(currentMousePosXY);
-
             }
             else if (setPosMode == 4) // 설정할 공중위협 시작 좌표를 클릭한 경우
             {
                 ATStartPosX.Content = $"{fixedAirThreatStartPosX:F3}";
                 ATStartPosY.Content = $"{fixedAirThreatStartPosY:F3}";
-                HideMouseInfo();
+                mousePositionTextBox.Visibility = Visibility.Hidden;
 
                 airThreatStartflg = 1;
                 if (airThreatEndflg == 1)
@@ -271,7 +243,7 @@ namespace OperationController.DisplayManage
                 if (imgControl4 != null)
                     myCanvas.Children.Remove(imgControl4);
 
-                //대공위협 이미지 클릭 위치에 추가하기
+                //공중위협 이미지 클릭 위치에 추가하기
                 BitmapImage image4 = new BitmapImage(new Uri(@"./map/plane.jpg", UriKind.Relative));
                 imgControl4 = new System.Windows.Controls.Image();
                 imgControl4.Source = image4;
@@ -285,16 +257,16 @@ namespace OperationController.DisplayManage
             {
                 ATEndPosX.Content = $"{fixedAirThreatEndPosX:F3}";
                 ATEndPosY.Content = $"{fixedAirThreatEndPosY:F3}";
-                HideMouseInfo();
+                mousePositionTextBox.Visibility = Visibility.Hidden;
 
-                 airThreatEndflg = 1;
+                airThreatEndflg = 1;
                 if (airThreatStartflg == 1)
                     ConnectLine();
 
                 if (imgControl5 != null)
                     myCanvas.Children.Remove(imgControl5);
 
-                //대공위협 목적지 이미지 클릭 위치에 추가하기
+                //공중위협 목적지 이미지 클릭 위치에 추가하기
                 BitmapImage image5 = new BitmapImage(new Uri(@"./map/ATend.jpg", UriKind.Relative));
                 imgControl5 = new System.Windows.Controls.Image();
                 imgControl5.Source = image5;
@@ -308,8 +280,9 @@ namespace OperationController.DisplayManage
             {
                 MSLStartPosX.Content = $"{fixedMSLStartPosX:F3}";
                 MSLStartPosY.Content = $"{fixedMSLStartPosY:F3}";
-                HideMouseInfo();
+                mousePositionTextBox.Visibility = Visibility.Hidden;
 
+                MSLStartflg = 1;
                 if (imgControl6 != null)
                     myCanvas.Children.Remove(imgControl6);
 
@@ -330,8 +303,8 @@ namespace OperationController.DisplayManage
                 ellipse.Stroke = Brushes.Red;
                 ellipse.StrokeThickness = 2;
                 ellipse.Fill = new SolidColorBrush(Color.FromArgb(50, 255, 0, 0)); ;
-                ellipse.Width = 600;
-                ellipse.Height = 600;
+                ellipse.Width = MSLRadius;
+                ellipse.Height = MSLRadius;
                 Canvas.SetLeft(ellipse, fixedMSLStartPosX - (ellipse.Width / 2.0));
                 Canvas.SetTop(ellipse, fixedMSLStartPosY - (ellipse.Height / 2.0));
                 myCanvas.ClipToBounds = true;
@@ -398,22 +371,88 @@ namespace OperationController.DisplayManage
         {
             // 시작클릭시 공중위협 모의기, 대공유도탄 모의기에 데이터 설정값 Publisher
             EventLog.Text += "시나리오 시작.\n";
-            // 회전 변환을 생성합니다.
-            RotateTransform rotateTransform = new RotateTransform();
-            rotateTransform.Angle = ATangle; // 회전 각도 설정
-            // 이미지의 중심을 회전 중심으로 지정합니다.
+            // 공중위협을 목적지 방향으로 회전
+            RotateTransform ATrotateTransform = new RotateTransform();
+            RotateTransform MSLrotateTransform = new RotateTransform();
+            ATrotateTransform.Angle = ATangle; // 회전 각도 설정
+            // 공중위협 이미지의 중심을 회전 중심으로 지정
             imgControl4.RenderTransformOrigin = new Point(0.5, 0.5);
-            imgControl4.RenderTransform = rotateTransform;
-            ATCurrentPosX.Content = $"{fixedAirThreatStartPosX:F3}";
-            ATCurrentPosY.Content = $"{fixedAirThreatStartPosY:F3}";
+            imgControl4.RenderTransform = ATrotateTransform;
+            // 공중위협 각도 출력
             if (0 <= ATangle && ATangle <= 90)
                 ATCurrentDIR.Content = $"{90 - ATangle:F0}" + "°";
             else
                 ATCurrentDIR.Content = $"{450 - ATangle:F0}" + "°";
 
+            //최초 입력 값 현재좌표 화면 출력
+            ATCurrentPosX.Content = $"{fixedAirThreatStartPosX:F3}";
+            ATCurrentPosY.Content = $"{fixedAirThreatStartPosY:F3}";
             MSLCurrentPosX.Content = $"{fixedMSLStartPosX:F3}";
             MSLCurrentPosY.Content = $"{fixedMSLStartPosY:F3}";
+
+            //최초 입력 값 현재좌표로 입력
+            currentAirThreatPosX = fixedAirThreatStartPosX;
+            currentAirThreatPosY = fixedAirThreatStartPosY;
+            currentMSLPosX = fixedMSLStartPosX;
+            currentMSLPosY = fixedMSLStartPosY;
+
+            //★공중모의기로 대공유도탄, 공중위협 좌표 송신
+
+
+            //★대공모의기로 대공유도탄, 공중위협 좌표 송신
+
+            //★받아야하는 값: 공중좌표 대공좌표 대공각도 충돌여부
+            //currentAirThreatPos, currentMSLPos, MSLangle, crash
+            while (true)
+            {
+                //★충돌 여부 수신
+                if (crash == 1)
+                    break;
+
+                //★공중위협 좌표 수신
+
+                //공중위협 이미지 배치, 값 출력
+                Canvas.SetLeft(imgControl4, currentAirThreatPosX - (imgControl4.Width / 2.0));
+                Canvas.SetTop(imgControl4, currentAirThreatPosY - (imgControl4.Height / 2.0));
+                ATCurrentPosX.Content = currentAirThreatPosX;
+                ATCurrentPosY.Content = currentAirThreatPosY;
+
+                //★대공유도탄 좌표,각도 수신
+
+                //대공유도탄 이미지 배치, 값 출력
+                Canvas.SetLeft(imgControl6, currentMSLPosX - (imgControl6.Width / 2.0));
+                Canvas.SetTop(imgControl6, currentMSLPosY - (imgControl6.Height / 2.0));
+                MSLCurrentPosX.Content = currentMSLPosX;
+                MSLCurrentPosY.Content = currentMSLPosY;
+
+                //대공유도탄 이미지 회전
+                MSLrotateTransform.Angle = MSLangle;
+                // 대공유도탄 이미지의 중심을 회전 중심으로 지정
+                imgControl6.RenderTransformOrigin = new Point(0.5, 0.5);
+                imgControl6.RenderTransform = MSLrotateTransform;
+                // 대공유도탄 각도 출력
+                if (0 <= MSLangle && MSLangle <= 90)
+                    MSLCurrentDIR.Content = $"{90 - MSLangle:F0}" + "°";
+                else
+                    MSLCurrentDIR.Content = $"{450 - MSLangle:F0}" + "°";
+                crash = 1;
+            }
+
+            /*//거리 연산
+            double distance = AT2MSLDistance();
+            if (distance <= MSLRadius) //대공유도탄 발사 명령
+                MSLLaunch = 1;
+
+            //충돌 여부 확인 (값 지정 필요)
+            if (distance <= 2)
+            {
+                return;
+            }*/
         }
+        /*private double AT2MSLDistance()
+        {
+            return Math.Sqrt(Math.Pow(currentAirThreatPosX - currentMSLPosX, 2) + Math.Pow(currentAirThreatPosY - currentMSLPosY, 2));
+        }*/
 
         private void SimulationEnd_Click(object sender, RoutedEventArgs e)
         {
@@ -421,6 +460,7 @@ namespace OperationController.DisplayManage
             EventLog.Text += "시나리오 종료.\n";
             airThreatStartflg = 0;
             airThreatEndflg = 0;
+            MSLStartflg = 0;
             setPosMode = 0;
             ATangle = 0;
             ATStartPosX.Content = "NO DATA";
@@ -439,7 +479,12 @@ namespace OperationController.DisplayManage
             MSLCurrentPosY.Content = "NO DATA";
             MSLCurrentSpeed.Content = "NO DATA";
             MSLCurrentDIR.Content = "NO DATA";
-            myCanvas.Children.Clear();
+
+            myCanvas.Children.Remove(imgControl4);
+            myCanvas.Children.Remove(imgControl5);
+            myCanvas.Children.Remove(imgControl6);
+            myCanvas.Children.Remove(line);
+            myCanvas.Children.Remove(ellipse);
         }
         //---------------------------------------------------------------
     }
