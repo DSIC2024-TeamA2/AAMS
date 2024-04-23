@@ -371,8 +371,6 @@ namespace OperationController.DisplayManage
                 ATCurrentDIR.Content = $"{90 - ATangle:F0}" + "°";
             else
                 ATCurrentDIR.Content = $"{450 - ATangle:F0}" + "°";
-            Canvas.SetLeft
-
 
             MSLCurrentPosX.Content = $"{fixedMSLStartPosX:F3}";
             MSLCurrentPosY.Content = $"{fixedMSLStartPosY:F3}";
