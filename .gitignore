@@ -37,3 +37,5 @@ AntiAirMissileSimulationSystem/.vs/
 **/Debug/*
 **/Release/*
 **/lib/*
+AntiAirMissileSimulationSystem/bin/OperationController.pdb
+AntiAirMissileSimulationSystem/binx64Debug
