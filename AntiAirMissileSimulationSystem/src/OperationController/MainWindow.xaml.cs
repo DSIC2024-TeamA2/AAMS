@@ -55,6 +55,12 @@ namespace OperationController.DisplayManage
         private double fixedAirThreatSpeed = 0.0;
         private double fixedMSLSpeed = 0.0;
 
+        private double currentAirThreatPosX = 0.0;
+        private double currentAirThreatPosY = 0.0;
+
+        private double currentMSLPosX = 0.0;
+        private double currentMSLPosY = 0.0;
+
         //공중위협, 목적지 연결하는 선 확인 flg
         private int airThreatStartflg = 0;
         private int airThreatEndflg = 0;
