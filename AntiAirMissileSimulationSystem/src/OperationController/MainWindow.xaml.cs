@@ -99,14 +99,20 @@ namespace OperationController.DisplayManage
             if (sender == ATStartPosSetBTN) // 클릭한 버튼이 공중위협 시작 좌표 설정 버튼인 경우
             {
                 setPosMode = 1; // 좌표 설정 모드를 공중위협 시작 좌표 설정 모드로 변경
+                verticalLine.Visibility = Visibility.Visible;
+                horizontalLine.Visibility = Visibility.Visible;
             }
             else if (sender == ATEndPosSetBTN) // 클릭한 버튼이 공중위협 목적 좌표 설정 버튼인 경우
             {
                 setPosMode = 2; // 좌표 설정 모드를 공중위협 목적 좌표 설정 모드로 변경
+                verticalLine.Visibility = Visibility.Visible;
+                horizontalLine.Visibility = Visibility.Visible;
             }
             else if (sender == MSLPosSetBTN) // 클릭한 버튼이 대공유도탄 좌표 설정 버튼인 경우
             {
                 setPosMode = 3; // 좌표 설정 모드를 대공유도탄 좌표 설정 모드로 변경
+                verticalLine.Visibility = Visibility.Visible;
+                horizontalLine.Visibility = Visibility.Visible;
             }
             else if (sender == Start) // 클릭한 버튼이 모의시작 버튼인 경우
             {
@@ -165,6 +171,29 @@ namespace OperationController.DisplayManage
             return distance <= circle.Width / 2;
         }
 
+        private void CurrentMousePosDotLinePrint(Point mousePos)
+        {
+            verticalLine.X1 = mousePos.X;
+            verticalLine.X2 = mousePos.X;
+
+            horizontalLine.Y1 = mousePos.Y;
+            horizontalLine.Y2 = mousePos.Y;
+        }
+
+        private void HideMouseInfo()
+        {
+            mousePositionTextBox.Visibility = Visibility.Hidden;
+
+            verticalLine.X1 = 0;
+            verticalLine.X2 = 0;
+
+            horizontalLine.Y1 = 0;
+            horizontalLine.Y2 = 0;
+
+            verticalLine.Visibility = Visibility.Hidden;
+            horizontalLine.Visibility = Visibility.Hidden;
+        }
+
         // 지도 위에서 마우스로 좌표를 선택해 클릭했을 때, 해당 좌표값 저장하고 설정 출력창에 출력하는 함수
         private void ClickPosOnMap(object sender, MouseButtonEventArgs e)
         {
@@ -183,19 +212,19 @@ namespace OperationController.DisplayManage
             {
                 fixedAirThreatStartPosX = x; ///< 클릭한 좌표의 X를 공중위협 시작 위도로 저장
                 fixedAirThreatStartPosY = y; ///< 클릭한 좌표의 Y를 공중위협 시작 경도로 저장
-                setPosMode += 3; ///< 좌표 설정 모드 상태 변경
+                setPosMode = 4; ///< 좌표 설정 모드 상태 변경
             }
             else if (setPosMode == 2) // 공중위협 목적 좌표 설정 버튼을 클릭한 상태
             {
                 fixedAirThreatEndPosX = x; ///< 클릭한 좌표의 X를 공중위협 목적 위도로 저장
                 fixedAirThreatEndPosY = y; ///< 클릭한 좌표의 Y를 공중위협 목적 경도로 저장
-                setPosMode += 3; ///< 좌표 설정 모드 상태 변경
+                setPosMode = 5; ///< 좌표 설정 모드 상태 변경
             }
             else if (setPosMode == 3) // 대공유도탄 좌표 설정 버튼을 클릭한 상태
             {
                 fixedMSLStartPosX = x; ///< 클릭한 좌표의 X를 대공유도탄 위도로 저장
                 fixedMSLStartPosY = y; ///< 클릭한 좌표의 Y를 대공유도탄 경도로 저장
-                setPosMode += 3; ///< 좌표 설정 모드 상태 변경
+                setPosMode = 6; ///< 좌표 설정 모드 상태 변경
             }
         }
 
@@ -213,6 +242,10 @@ namespace OperationController.DisplayManage
                 // 이동 중인 마우스 옆에 현재 좌표값 출력창 생성하는 함수 호출
                 PrintPosXY(relativeX, relativeY);
 
+                verticalLine.Stroke = Brushes.Red;
+                horizontalLine.Stroke = Brushes.Red;
+                CurrentMousePosDotLinePrint(currentMousePosXY);
+
             }
             else if (setPosMode == 2) // 공중위협 목적 좌표 설정 모드인 경우
             {
@@ -220,6 +253,10 @@ namespace OperationController.DisplayManage
                 ATEndPosY.Content = $"{relativeY:F3}"; ///< 현재 이동중인 마우스 좌표 Y
                 // 이동 중인 마우스 옆에 현재 좌표값 출력창 생성하는 함수 호출
                 PrintPosXY(relativeX, relativeY);
+
+                verticalLine.Stroke = Brushes.Red;
+                horizontalLine.Stroke = Brushes.Red;
+                CurrentMousePosDotLinePrint(currentMousePosXY);
 
             }
             else if (setPosMode == 3) // 대공유도탄 좌표 설정 모드인 경우
@@ -229,12 +266,16 @@ namespace OperationController.DisplayManage
                 // 이동 중인 마우스 옆에 현재 좌표값 출력창 생성하는 함수 호출
                 PrintPosXY(relativeX, relativeY);
 
+                verticalLine.Stroke = Brushes.Green;
+                horizontalLine.Stroke = Brushes.Green;
+                CurrentMousePosDotLinePrint(currentMousePosXY);
+
             }
             else if (setPosMode == 4) // 설정할 공중위협 시작 좌표를 클릭한 경우
             {
                 ATStartPosX.Content = $"{fixedAirThreatStartPosX:F3}";
                 ATStartPosY.Content = $"{fixedAirThreatStartPosY:F3}";
-                mousePositionTextBox.Visibility = Visibility.Hidden;
+                HideMouseInfo();
 
                 airThreatStartflg = 1;
                 if (airThreatEndflg == 1)
@@ -257,7 +298,7 @@ namespace OperationController.DisplayManage
             {
                 ATEndPosX.Content = $"{fixedAirThreatEndPosX:F3}";
                 ATEndPosY.Content = $"{fixedAirThreatEndPosY:F3}";
-                mousePositionTextBox.Visibility = Visibility.Hidden;
+                HideMouseInfo();
 
                 airThreatEndflg = 1;
                 if (airThreatStartflg == 1)
@@ -280,7 +321,7 @@ namespace OperationController.DisplayManage
             {
                 MSLStartPosX.Content = $"{fixedMSLStartPosX:F3}";
                 MSLStartPosY.Content = $"{fixedMSLStartPosY:F3}";
-                mousePositionTextBox.Visibility = Visibility.Hidden;
+                HideMouseInfo();
 
                 MSLStartflg = 1;
                 if (imgControl6 != null)
