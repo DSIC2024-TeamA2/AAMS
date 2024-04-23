@@ -62,7 +62,7 @@
 
                         <StackPanel Width="200" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5">
                             <Label Content="속도" FontSize="15" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
-                            <TextBox x:Name="AirThreatSpeedInput" Text="600" FontSize="14" TextAlignment="Center" Width="90" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,2" TextWrapping="Wrap" BorderThickness="2" KeyDown="SetSpeedEnterKeyDown"/>
+                            <TextBox x:Name="AirThreatSpeedInput" Text="0" FontSize="14" TextAlignment="Center" Width="90" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,2" TextWrapping="Wrap" BorderThickness="2" KeyDown="SetSpeedEnterKeyDown"/>
                         </StackPanel>
 
                         <StackPanel Width="200" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,2">
@@ -92,7 +92,7 @@
 
                             <StackPanel Width="200" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5">
                                 <Label Content="속도" FontSize="15" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
-                                <TextBox x:Name="MSLSpeedInput" Text="600" FontSize="14" TextAlignment="Center" Width="90" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,2" TextWrapping="Wrap" BorderThickness="2" KeyDown="SetSpeedEnterKeyDown"/>
+                                <TextBox x:Name="MSLSpeedInput" Text="0" FontSize="14" TextAlignment="Center" Width="90" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,2" TextWrapping="Wrap" BorderThickness="2" KeyDown="SetSpeedEnterKeyDown"/>
                             </StackPanel>
                             <Button Name="MSLPosSetBTN" Content="유도탄설정" FontSize="15" FontWeight="Bold" BorderThickness="2" Width="90" Padding="0,5" Margin="5,2" HorizontalAlignment="Center" Click="SetPosModeClick"/>
                         </StackPanel>
