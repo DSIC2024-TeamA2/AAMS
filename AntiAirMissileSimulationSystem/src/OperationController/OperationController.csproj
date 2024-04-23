@@ -184,6 +184,10 @@
     <Resource Include="map\plane.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="map\ATend.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="map\missile.jpg" />
     <Resource Include="map\BackGround.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

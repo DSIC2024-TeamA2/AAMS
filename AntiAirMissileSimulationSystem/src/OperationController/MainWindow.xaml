@@ -90,11 +90,11 @@
                 <Label Content="좌표" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Top"/>
                 <DockPanel>
                     <Label Content="위도" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                    <Label Content="XXX" HorizontalAlignment="Right" Margin="10,0,0,0" VerticalAlignment="Center" Width="100"/>
+                    <Label Name="ATCurrentPosX" Content="XXX" HorizontalAlignment="Right" Margin="10,0,0,0" VerticalAlignment="Center" Width="100"/>
                 </DockPanel>
                 <DockPanel>
                     <Label Content="경도" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                    <Label Content="YYY" HorizontalAlignment="Right" Margin="10,0,0,0" VerticalAlignment="Center" Width="100"/>
+                    <Label Name="ATCurrentPosY" Content="YYY" HorizontalAlignment="Right" Margin="10,0,0,0" VerticalAlignment="Center" Width="100"/>
                 </DockPanel>
                 <DockPanel>
                     <Label Content="속도" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Center"/>
@@ -108,11 +108,11 @@
                 <Label Content="좌표" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Top"/>
                 <DockPanel>
                     <Label Content="위도" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                    <Label Content="XXX" HorizontalAlignment="Right" Margin="10,0,0,0" VerticalAlignment="Center" Width="100"/>
+                    <Label Name="AMCurrentPosX" Content="XXX" HorizontalAlignment="Right" Margin="10,0,0,0" VerticalAlignment="Center" Width="100"/>
                 </DockPanel>
                 <DockPanel>
                     <Label Content="경도" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                    <Label Content="YYY" HorizontalAlignment="Right" Margin="10,0,0,0" VerticalAlignment="Center" Width="100"/>
+                    <Label Name="AMCurrentPosY" Content="YYY" HorizontalAlignment="Right" Margin="10,0,0,0" VerticalAlignment="Center" Width="100"/>
                 </DockPanel>
                 <DockPanel>
                     <Label Content="속도" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Center"/>
