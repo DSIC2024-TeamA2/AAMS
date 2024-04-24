@@ -63,6 +63,8 @@ namespace OperationController.DisplayManage
         RotateTransform ATrotateTransform; // 공중위협 이미지 회전 담당
         RotateTransform MSLrotateTransform; // 대공유도탄 이미지 회전 담당
 
+        private SimulationStatusInfo statusInfo;
+
         private int crash = 0; // 공중위협 요격 확인 플래그
         //---------------------------------------------------------------------------------------
 
@@ -120,11 +122,14 @@ namespace OperationController.DisplayManage
             ATCurrentPosX.Content = $"{currentAirThreatPosX:F1}";
             ATCurrentPosY.Content = $"{currentAirThreatPosY:F1}";
 
-            EventLog.AppendText(info.ToString() + "\n");
-            EventLog.ScrollToEnd();
+            if (statusInfo != SimulationStatusInfo.SUCCESS || statusInfo != SimulationStatusInfo.FAIL)
+            {
+                EventLog.AppendText(info.ToString() + "\n");
+                EventLog.ScrollToEnd();
+            }
         }
         
-    internal void UpdateAntiAirMissileInfo(AntiAirMissileInfo info)
+        internal void UpdateAntiAirMissileInfo(AntiAirMissileInfo info)
         {
             currentMSLPosX = info.CurrentPosition.Latitude;
             currentMSLPosY = info.CurrentPosition.Longitude;
@@ -155,9 +160,11 @@ namespace OperationController.DisplayManage
                 else if (-180 <= MSLangle && MSLangle < -90)
                     MSLCurrentDIR.Content = $"{90 - MSLangle:F1}" + "°";
             }
-
-            EventLog.AppendText(info.ToString() + "\n");
-            EventLog.ScrollToEnd();
+            if (statusInfo != SimulationStatusInfo.SUCCESS || statusInfo != SimulationStatusInfo.FAIL)
+            {
+                EventLog.AppendText(info.ToString() + "\n");
+                EventLog.ScrollToEnd();
+            }
         }
 
         private void MSLangleCalc()
@@ -185,6 +192,7 @@ namespace OperationController.DisplayManage
 
         internal void UpdateSimulationStatusInfo(SimulationStatusInfo info)
         {
+            statusInfo = info;
             EventLog.AppendText(info.ToString() + "\n");
             EventLog.ScrollToEnd();
         }
