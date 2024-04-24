@@ -30,11 +30,11 @@ public:
 	virtual bool stop() override;
 	virtual void setMEBComponent(IMEBComponent*) override;
 
-	virtual void sendAntiAirMissileInfoMsg(AntiAirMissileInfo& antiAirMissileInfo);
-	virtual void sendSimulationStatusInfoMsg(int status);
 private:
 	void init();
 	void release();
+	void sendAntiAirMissileInfoMsg(AntiAirMissileInfo& antiAirMissileInfo);
+	void sendSimulationStatusInfoMsg(int status);
 
 private:
 	IMEBComponent* meb;

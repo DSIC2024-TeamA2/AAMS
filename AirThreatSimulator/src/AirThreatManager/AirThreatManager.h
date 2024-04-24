@@ -29,11 +29,11 @@ public:
 	virtual bool start() override;
 	virtual bool stop() override;
 	virtual void setMEBComponent(IMEBComponent*) override;
-	virtual void sendAirThreatInfoMsg(AirThreatInfo& airThreatInfo);
-	virtual void sendSimulationStatusInfoMsg(int status);
 private:
 	void init();
 	void release();
+	void sendAirThreatInfoMsg(AirThreatInfo& airThreatInfo);
+	void sendSimulationStatusInfoMsg(int status);
 
 private:
 	IMEBComponent* meb;
