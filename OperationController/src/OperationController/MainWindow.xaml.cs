@@ -39,6 +39,8 @@ namespace OperationController.DisplayManage
         private float fixedAirThreatSpeed = 0.0f; // 입력한 공중위협 속도
         private float fixedMSLSpeed = 0.0f; // 입력한 대공유도탄 속도
 
+        private int MSLLaunch = 0;
+
         // 현재 좌표 저장 변수 (공중위협, 대공유도탄)
         private double currentAirThreatPosX = 0.0; // 공중위협 모의기에서 수신한 공중위협 현재 좌표 위도
         private double currentAirThreatPosY = 0.0; // 공중위협 모의기에서 수신한 공중위협 현재 좌표 경도
@@ -88,6 +90,13 @@ namespace OperationController.DisplayManage
             this.Top = 0;
             MSLRadius = AMSConfiguration.GetInstance().DetectionRadius;
             Console.WriteLine(AMSConfiguration.GetInstance().DetectionRadius);
+            this.Closed += OnWindowClosed;
+        }
+        private void OnWindowClosed(object sender, EventArgs e)
+        {
+            GetNFrameworkConnector().Close();
+            Thread.Sleep(1000);
+            Console.WriteLine("창이 닫혔습니다.");
         }
 
         // 통신 nFrameWork 연결하는 함수
@@ -115,8 +124,8 @@ namespace OperationController.DisplayManage
             EventLog.AppendText(info.ToString() + "\n");
             EventLog.ScrollToEnd();
         }
-
-        internal void UpdateAntiAirMissileInfo(AntiAirMissileInfo info)
+        
+    internal void UpdateAntiAirMissileInfo(AntiAirMissileInfo info)
         {
             currentMSLPosX = info.CurrentPosition.Latitude;
             currentMSLPosY = info.CurrentPosition.Longitude;
@@ -127,20 +136,53 @@ namespace OperationController.DisplayManage
             Canvas.SetTop(imgControl6, currentMSLPosY - (imgControl6.Height / 2.0));
             MSLCurrentPosX.Content = $"{currentMSLPosX:F1}";
             MSLCurrentPosY.Content = $"{currentMSLPosY:F1}";
-
+            if (AT2MSLDistance() <= 300)
+                MSLLaunch = 1;
             //대공유도탄 이미지 회전
-            MSLrotateTransform.Angle = MSLangle;
-            // 대공유도탄 이미지의 중심을 회전 중심으로 지정
-            imgControl6.RenderTransformOrigin = new Point(0.5, 0.5);
-            imgControl6.RenderTransform = MSLrotateTransform;
-            // 대공유도탄 각도 출력
-            if (0 <= MSLangle && MSLangle <= 90)
-                MSLCurrentDIR.Content = $"{90 - MSLangle:F0}" + "°";
-            else
-                MSLCurrentDIR.Content = $"{450 - MSLangle:F0}" + "°";
+            if (MSLLaunch == 1)
+            {
+                MSLangleCalc();
+                MSLrotateTransform.Angle = MSLangle;
+                EventLog.AppendText("22222222222222" + MSLangle + "\n");
+                // 대공유도탄 이미지의 중심을 회전 중심으로 지정
+                imgControl6.RenderTransformOrigin = new Point(0.5, 0.5);
+                imgControl6.RenderTransform = MSLrotateTransform;
+                // 대공유도탄 각도 출력
+                if (0 <= MSLangle && MSLangle <= 90)
+                    MSLCurrentDIR.Content = $"{90 - MSLangle:F1}" + "°";
+                else if (90 <= MSLangle && MSLangle <= 180)
+                    MSLCurrentDIR.Content = $"{450 - MSLangle:F1}" + "°";
+                else if (-90 <= MSLangle && MSLangle < 0)
+                    MSLCurrentDIR.Content = $"{90 - MSLangle:F1}" + "°";
+                else if (-180 <= MSLangle && MSLangle < -90)
+                    MSLCurrentDIR.Content = $"{90 - MSLangle:F1}" + "°";
+            }
 
             EventLog.AppendText(info.ToString() + "\n");
             EventLog.ScrollToEnd();
+        }
+
+        private void MSLangleCalc()
+        {
+            double degree;
+            double deltaX = currentMSLPosX - currentAirThreatPosX;
+            double deltaY = currentMSLPosY - currentAirThreatPosY;
+            if (deltaX == 0.0)
+            {
+                MSLangle = 90;
+            }
+            else if (deltaY == 0.0)
+            {
+                MSLangle = 0;
+            }
+            else
+            {
+                degree = 90 - Math.Atan(deltaY / deltaX) * 180 / Math.PI;
+                if (currentMSLPosX < currentAirThreatPosX)
+                    MSLangle = 180 - degree;
+                else
+                    MSLangle = -degree;
+            }
         }
 
         internal void UpdateSimulationStatusInfo(SimulationStatusInfo info)

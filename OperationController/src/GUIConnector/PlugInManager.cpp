@@ -85,7 +85,7 @@ void PlugInManager::doPlugOut()
 
 	unsigned int numOfComponents = iniHandler.readInteger(_T("Components"), _T("Count"));
 
-	for (unsigned int cnt = numOfComponents; cnt >= 1; cnt--)
+	for (unsigned int cnt = 1; cnt <= numOfComponents; cnt++)
 	{
 		tstringstream dllPrefix;
 		dllPrefix << _T("Component_") << cnt;
@@ -106,18 +106,9 @@ void PlugInManager::doPlugOut()
 		tstring dllIndex;
 		dllPrefix >> dllIndex;
 
-		tstring dllName = iniHandler.readString(dllIndex, _T("DLL"));
-		tstring NOMName = iniHandler.readString(dllIndex, _T("NOM"));
 		tstring dllPath = iniHandler.readString(dllIndex, _T("PATH"));
 
-		path p(util::tstring2string(dllPath).c_str());
-		current_path(p);
-		path p1 = current_path();
-
 		nIntegrator->plugOutComponent(dllPath);
-
-		path up("..");
-		current_path(up);
 	}
 }
 
