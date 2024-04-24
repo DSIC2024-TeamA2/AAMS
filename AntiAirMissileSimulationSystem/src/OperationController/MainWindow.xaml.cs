@@ -18,43 +18,76 @@ using System.Threading;
 
 namespace OperationController.DisplayManage
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
-        private nFrameworkConnector nf = null;
-        //private Thread workerThread;
-        //private Stopwatch stopwatch;
-        //private DispatcherTimer timer;
+        //---------------------------------------------------------------------------------------
+        private nFrameworkConnector nf = null; // 통신 nFrameWork 생성
+
+        private short setPosMode = 0;  // 클릭한 버튼에 따른 플래그 (공중위협 시작 좌표, 공중위협 목적 좌표, 대공유도탄 좌표, 모의 시작, 모의 종료)
+        
+        // 입력한 좌표 저장 변수 (공중위협, 대공유도탄)
+        private double fixedAirThreatStartPosX = 0.0; // 마우스로 선택한 공중위협 시작 좌표 위도
+        private double fixedAirThreatStartPosY = 0.0; // 마우스로 선택한 공중위협 시작 좌표 경도
+        private double fixedAirThreatEndPosX = 0.0; // 마우스로 선택한 공중위협 종료 좌표 위도
+        private double fixedAirThreatEndPosY = 0.0; // 마우스로 선택한 공중위협 종료 좌표 경도
+        private double fixedMSLStartPosX = 0.0; // 마우스로 선택한 대공유도탄 좌표 위도
+        private double fixedMSLStartPosY = 0.0; // 마우스로 선택한 대공유도탄 좌표 경도
+
+        // 고정된 입력값 변수 (속도, 반경)
+        private int MSLRadius = 600; // 대공유도탄 반경
+        private double fixedAirThreatSpeed = 0.0; // 입력한 공중위협 속도
+        private double fixedMSLSpeed = 0.0; // 입력한 대공유도탄 속도
+
+        // 현재 좌표 저장 변수 (공중위협, 대공유도탄)
+        private double currentAirThreatPosX = 0.0; // 공중위협 모의기에서 수신한 공중위협 현재 좌표 위도
+        private double currentAirThreatPosY = 0.0; // 공중위협 모의기에서 수신한 공중위협 현재 좌표 경도
+        private double currentMSLPosX = 0.0; // 대공유도탄 모의기에서 수신한 대공유도탄 현재 좌표 위도
+        private double currentMSLPosY = 0.0; // 대공유도탄 모의기에서 수신한 대공유도탄 현재 좌표 경도
+
+        // 공중위협, 목적지 연결하는 선 확인 플래그
+        private int airThreatStartflg = 0; // 공중위협 시작 좌표 입력되었는지 확인 플래그
+        private int airThreatEndflg = 0; // 공중위협 목적 좌표 입력되었는지 확인 플래그
+        private int MSLStartflg = 0; // 대공유도탄 좌표 입력되었는지 확인 플래그
+        private double ATangle = 0.0; // 공중위협 방향
+        private double MSLangle = 0.0; // 대공유도탄 방향
+        Line line = new Line(); // 공중위협 시작에서 목적까지 경로를 그리는 선
+
+        //공중위협, 미사일, 목적지, 반경 최초 선언
+        Ellipse ellipse = new Ellipse();
+        System.Windows.Controls.Image imgControl4 = null; // 공중위협 시작 이미지
+        System.Windows.Controls.Image imgControl5 = null; // 공중위협 목적 이미지
+        System.Windows.Controls.Image imgControl6 = null; // 대공유도탄 이미지
+        RotateTransform ATrotateTransform; // 공중위협 이미지 회전 담당
+        RotateTransform MSLrotateTransform; // 대공유도탄 이미지 회전 담당
+
+        private int crash = 0; // 공중위협 요격 확인 플래그
+        //---------------------------------------------------------------------------------------
+
+
+        //---------------------------------------------------------------------------------------
+        // 실행시 가장 첫번째로 프로그램 메인창을 UI 요소를 초기화하는 함수
         public MainWindow()
         {
-            Console.WriteLine("MainWindow called");
+            // UI 요소들을 초기화
             InitializeComponent();
+
+            // 콘솔 출력창에 프로그램 메인창 호출 메시지 출력
+            Console.WriteLine("MainWindow called");
+
+            // 이벤트 출력창 제목 아래에 이벤트 메시지 출력하기 위한 줄바꿈
             EventLog.AppendText("\n");
             EventLog.ScrollToEnd();
-
-            //Window 위치 상단 중앙 고정
+            
+            // 프로그램 메인창을 컴퓨터 화면의 상단 중앙 위치에 고정
             double screenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
             double screenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
             double windowWidth = this.Width;
             double windowHeight = this.Height;
             this.Left = (screenWidth / 2) - (windowWidth / 2);
             this.Top = 0;
-            EventLog.Text += "\n";
-
-            //stopwatch = new Stopwatch();
-
-            //timer = new DispatcherTimer();
-            //timer.Interval = TimeSpan.FromSeconds(1);
-            //timer.Tick += Timer_Tick;
         }
-        //private void Timer_Tick(object sender, EventArgs e)
-        //{
-        //    // Update the TextBlock with the elapsed time
-        //    timeTextBlock.Text = stopwatch.Elapsed.ToString(@"hh\:mm\:ss");
-        //}
 
+        // 통신 nFrameWork 연결하는 함수
         private nFrameworkConnector GetNFrameworkConnector()
         {
             if (nf == null)
@@ -63,6 +96,8 @@ namespace OperationController.DisplayManage
             }
             return nf;
         }
+
+
         internal void UpdateAirThreatInfo(AirThreatInfo info)
         {
             currentAirThreatPosX = info.CurrentPosition.Latitude;
@@ -110,49 +145,6 @@ namespace OperationController.DisplayManage
             EventLog.AppendText(info.ToString() + "\n");
             EventLog.ScrollToEnd();
         }
-
-        /// 변수
-        private short setPosMode = 0;  ///< 좌표설정모드(공중위협 시작 좌표, 공중위협 목적 좌표, 대공유도탄 좌표)
-
-        private double fixedAirThreatStartPosX = 0.0; ///< 마우스로 선택한 공중위협 시작 좌표 위도
-        private double fixedAirThreatStartPosY = 0.0; ///< 마우스로 선택한 공중위협 시작 좌표 경도
-
-        private double fixedAirThreatEndPosX = 0.0; ///< 마우스로 선택한 공중위협 종료 좌표 위도
-        private double fixedAirThreatEndPosY = 0.0; ///< 마우스로 선택한 공중위협 종료 좌표 경도
-
-        private double fixedMSLStartPosX = 0.0; ///< 마우스로 선택한 대공유도탄 좌표 위도
-        private double fixedMSLStartPosY = 0.0; ///< 마우스로 선택한 대공유도탄 좌표 경도
-
-        private int MSLRadius = 600; // 대공유도탄 반경
-
-        private double fixedAirThreatSpeed = 0.0; ///< 입력한 공중위협 속도
-        private double fixedMSLSpeed = 0.0; ///< 입력한 대공유도탄 속도
-
-        private double currentAirThreatPosX = 0.0;
-        private double currentAirThreatPosY = 0.0;
-
-        private double currentMSLPosX = 0.0;
-        private double currentMSLPosY = 0.0;
-
-        //공중위협, 목적지 연결하는 선 확인 flg
-        private int airThreatStartflg = 0;
-        private int airThreatEndflg = 0;
-        private int MSLStartflg = 0;
-        private double ATangle = 0.0; //공중위협 방향
-        private double MSLangle = 0.0; //대공유도탄 방향
-        Line line = new Line();
-
-        //공중위협, 미사일, 목적지, 반경 최초 선언
-        System.Windows.Controls.Image imgControl4 = null;
-        System.Windows.Controls.Image imgControl5 = null;
-        System.Windows.Controls.Image imgControl6 = null;
-        Ellipse ellipse = new Ellipse();
-
-        RotateTransform ATrotateTransform;
-        RotateTransform MSLrotateTransform;
-
-        //격추 여부 확인 변수
-        private int crash = 0;
 
         /// 함수
         // 공중위협 시작 좌표, 공중위협 시작 좌표, 대공유도탄 좌표 설정 버튼 3개를 각각 클릭시 현재 선택한 좌표 설정 모드 변경하는 함수
