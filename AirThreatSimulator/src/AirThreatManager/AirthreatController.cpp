@@ -38,6 +38,8 @@ void AirthreatController::GetCurrentAirThreat()
 // #0-3. 설정한 공중 위협 정보 초기 세팅  
 void AirthreatController::setSimulationStatus(SimulationStatus status)
 {
+	if (status == SUCCESS)
+		stop();
 	this->status = status;
 }
 
@@ -95,14 +97,17 @@ void AirthreatController::threatSimulationThread()
 		sendSimulationStatusInfo(FAIL);
 		tcout << _T("모의 시스템 상태") << status << std::endl;
 		stop();
+		return;
 	}
 	if (status == SUCCESS) { //if (status == 4 || status == 1)
 		stop();
+		return;
 	}
 	if (status == IDLE) { //if (status == 4 || status == 1)
 		airThreatInfo.currentLatitude = 0;
 		airThreatInfo.currentLongitude = 0;
 		stop();
+		return;
 	}
 
 	updateAirThreatInfo();

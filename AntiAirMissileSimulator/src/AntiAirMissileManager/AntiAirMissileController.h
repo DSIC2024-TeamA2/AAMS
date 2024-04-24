@@ -19,7 +19,6 @@ struct AntiAirMissileInfo
 	double currentLongitude;
 	double currentSpeed;
 	double currentAngle;
-	bool chasing;
 };
 
 struct ScenarioInfo

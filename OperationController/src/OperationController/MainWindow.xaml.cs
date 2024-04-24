@@ -88,8 +88,7 @@ namespace OperationController.DisplayManage
             double windowHeight = this.Height;
             this.Left = (screenWidth / 2) - (windowWidth / 2);
             this.Top = 0;
-            MSLRadius = AMSConfiguration.GetInstance().DetectionRadius;
-            Console.WriteLine(AMSConfiguration.GetInstance().DetectionRadius);
+            MSLRadius = AMSConfiguration.GetInstance().DetectionRadius * 2;
             this.Closed += OnWindowClosed;
         }
         private void OnWindowClosed(object sender, EventArgs e)
