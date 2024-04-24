@@ -6,32 +6,33 @@
 struct AirThreatInfo
 {
 	int currentTime;
-	int currentLatitude;
-	int currentLongitude;
-	float currentSpeed;
-	float currentAngle;
+	double currentLatitude;
+	double currentLongitude;
+	double currentSpeed;
+	double currentAngle;
 };
 
 struct AntiAirMissileInfo
 {
 	int currentTime;
-	int currentLatitude;
-	int currentLongitude;
-	float currentSpeed;
-	float currentAngle;
+	double currentLatitude;
+	double currentLongitude;
+	double currentSpeed;
+	double currentAngle;
+	bool chasing;
 };
 
 struct ScenarioInfo
 {
 	int startTime;
-	int airThreatStartLatitude;
-	int airThreatStartLongitude;
-	int airThreatEndLatitude;
-	int airThreatEndLongitude;
-	float airThreatSpeed;
-	int antiAirMissileLatitude;
-	int antiAirMissileLongitude;
-	float antiAirMissileSpeed;
+	double airThreatStartLatitude;
+	double airThreatStartLongitude;
+	double airThreatEndLatitude;
+	double airThreatEndLongitude;
+	double airThreatSpeed;
+	double antiAirMissileLatitude;
+	double antiAirMissileLongitude;
+	double antiAirMissileSpeed;
 };
 
 enum SimulationStatus
@@ -53,6 +54,9 @@ public:
 	void stop();
 	void sendAntiAirMissileInfoMethod(std::function<void(AntiAirMissileInfo&)> sendAntiAirMissileInfo);
 	void setSendSimulationStatusInfoMethod(std::function<void(int)> sendSimulationStatusInfo);
+	void getStartAntiAirMissile();
+	void detectAntiAirMissile();
+	void getCurrentAntiAirMissile();
 
 private:
 	std::thread* simThread = nullptr;

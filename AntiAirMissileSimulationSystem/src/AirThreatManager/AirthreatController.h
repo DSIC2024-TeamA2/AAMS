@@ -6,23 +6,23 @@
 struct AirThreatInfo
 {
 	int currentTime;
-	int currentLatitude;
-	int currentLongitude;
-	float currentSpeed;
-	float currentAngle;
+	double currentLatitude;
+	double currentLongitude;
+	double currentSpeed;
+	double currentAngle;
 };
 
 struct ScenarioInfo
 {
 	int startTime;
-	int airThreatStartLatitude;
-	int airThreatStartLongitude;
-	int airThreatEndLatitude;
-	int airThreatEndLongitude;
-	float airThreatSpeed;
-	int antiAirMissileLatitude;
-	int antiAirMissileLongitude;
-	float antiAirMissileSpeed;
+	double airThreatStartLatitude;
+	double airThreatStartLongitude;
+	double airThreatEndLatitude;
+	double airThreatEndLongitude;
+	double airThreatSpeed;
+	double antiAirMissileLatitude;
+	double antiAirMissileLongitude;
+	double antiAirMissileSpeed;
 };
 
 enum SimulationStatus

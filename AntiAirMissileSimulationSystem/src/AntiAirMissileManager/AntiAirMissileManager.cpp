@@ -61,16 +61,17 @@ AntiAirMissileManager::reflectMsg(shared_ptr<NOM> nomMsg)
 	// if need be, write your code
 	if (nomMsg->getName() == _T("ScenarioInfo"))
 	{
+		// antiAirMissileController.stop();
 		tcout << _T("AntiAirMissileManager ScenarioInfo OK") << endl;
 		int startTime = nomMsg->getValue(_T("startTime"))->toInt();
-		int airThreatStartLatitude = nomMsg->getValue(_T("airThreatStartLatitude"))->toInt();
-		int airThreatStartLongitude = nomMsg->getValue(_T("airThreatStartLongitude"))->toInt();
-		int airThreatEndLatitude = nomMsg->getValue(_T("airThreatEndLatitude"))->toInt();
-		int airThreatEndLongitude = nomMsg->getValue(_T("airThreatEndLongitude"))->toInt();
-		float airThreatSpeed = nomMsg->getValue(_T("airThreatSpeed"))->toFloat();
-		int antiAirMissileLatitude = nomMsg->getValue(_T("antiAirMissileLatitude"))->toInt();
-		int antiAirMissileLongitude = nomMsg->getValue(_T("antiAirMissileLongitude"))->toInt();
-		float antiAirMissileSpeed = nomMsg->getValue(_T("antiAirMissileSpeed"))->toFloat();
+		double airThreatStartLatitude = nomMsg->getValue(_T("airThreatStartLatitude"))->toInt();
+		double airThreatStartLongitude = nomMsg->getValue(_T("airThreatStartLongitude"))->toInt();
+		double airThreatEndLatitude = nomMsg->getValue(_T("airThreatEndLatitude"))->toInt();
+		double airThreatEndLongitude = nomMsg->getValue(_T("airThreatEndLongitude"))->toInt();
+		double airThreatSpeed = nomMsg->getValue(_T("airThreatSpeed"))->toFloat();
+		double antiAirMissileLatitude = nomMsg->getValue(_T("antiAirMissileLatitude"))->toInt();
+		double antiAirMissileLongitude = nomMsg->getValue(_T("antiAirMissileLongitude"))->toInt();
+		double antiAirMissileSpeed = nomMsg->getValue(_T("antiAirMissileSpeed"))->toFloat();
 		tcout << _T("startTime: ") << startTime << endl;
 		tcout << _T("airThreatStartLatitude: ") << airThreatStartLatitude << endl;
 		tcout << _T("airThreatStartLongitude: ") << airThreatStartLongitude << endl;
@@ -91,15 +92,16 @@ AntiAirMissileManager::reflectMsg(shared_ptr<NOM> nomMsg)
 		info.antiAirMissileLongitude = antiAirMissileLongitude;
 		info.antiAirMissileSpeed = antiAirMissileSpeed;
 		antiAirMissileController.setScenarioInfo(info);
+		antiAirMissileController.start();
 	}
 	else if (nomMsg->getName() == _T("AirThreatInfo"))
 	{
 		tcout << _T("AntiAirMissileManager AirThreatInfo OK") << endl;
 		int currentTime = nomMsg->getValue(_T("currentTime"))->toInt();
-		int currentLatitude = nomMsg->getValue(_T("currentLatitude"))->toInt();
-		int currentLongitude = nomMsg->getValue(_T("currentLongitude"))->toInt();
-		float currentSpeed = nomMsg->getValue(_T("currentSpeed"))->toFloat();
-		float currentAngle = nomMsg->getValue(_T("currentAngle"))->toFloat();
+		double currentLatitude = nomMsg->getValue(_T("currentLatitude"))->toInt();
+		double currentLongitude = nomMsg->getValue(_T("currentLongitude"))->toInt();
+		double currentSpeed = nomMsg->getValue(_T("currentSpeed"))->toFloat();
+		double currentAngle = nomMsg->getValue(_T("currentAngle"))->toFloat();
 		AirThreatInfo info;
 		info.currentTime = currentTime;
 		info.currentLatitude = currentLatitude;
@@ -112,6 +114,8 @@ AntiAirMissileManager::reflectMsg(shared_ptr<NOM> nomMsg)
 	{
 		tcout << _T("AntiAirMissileManager SimulationStatusInfo OK") << endl;
 		tcout << nomMsg->getValue(_T("status"))->toInt() << endl;
+		int status = nomMsg->getValue(_T("status"))->toInt();
+		antiAirMissileController.setSimulationStatus(SimulationStatus(status));
 	}
 }
 
@@ -187,16 +191,18 @@ AntiAirMissileManager::start()
 void AntiAirMissileManager::sendSimulationStatusInfoMsg(int status)
 {
 	tcout << _T("AntiAirMissileManager sendSimulationStatusInfoMsg OK") << endl;
-	simulationStatusInfoMsg->setValue(_T("status"), &NUInteger(status));
+	NEnum enumType;
+	enumType.setValue(&NShort(status));
+	simulationStatusInfoMsg->setValue(_T("status"), &enumType);
 	updateMsg(simulationStatusInfoMsg);
 }
 
 void AntiAirMissileManager::sendAntiAirMissileInfoMsg(AntiAirMissileInfo& antiAirMissileInfo)
 {
 	tcout << _T("AirThreatManager sendAntiAirMissileInfoMsg OK") << endl;
-	antiAirMissileInfoMsg->setValue(_T("currentTime"), &NUInteger(antiAirMissileInfo.currentTime));
-	antiAirMissileInfoMsg->setValue(_T("currentLatitude"), &NUInteger(antiAirMissileInfo.currentLatitude));
-	antiAirMissileInfoMsg->setValue(_T("currentLongitude"), &NUInteger(antiAirMissileInfo.currentLongitude));
+	antiAirMissileInfoMsg->setValue(_T("currentTime"), &NInteger(antiAirMissileInfo.currentTime));
+	antiAirMissileInfoMsg->setValue(_T("currentLatitude"), &NInteger(antiAirMissileInfo.currentLatitude));
+	antiAirMissileInfoMsg->setValue(_T("currentLongitude"), &NInteger(antiAirMissileInfo.currentLongitude));
 	antiAirMissileInfoMsg->setValue(_T("currentSpeed"), &NFloat(antiAirMissileInfo.currentSpeed));
 	antiAirMissileInfoMsg->setValue(_T("currentAngle"), &NFloat(antiAirMissileInfo.currentAngle));
 	updateMsg(antiAirMissileInfoMsg);

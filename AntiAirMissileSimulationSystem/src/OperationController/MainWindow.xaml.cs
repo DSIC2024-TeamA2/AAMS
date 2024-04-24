@@ -97,7 +97,6 @@ namespace OperationController.DisplayManage
             return nf;
         }
 
-
         internal void UpdateAirThreatInfo(AirThreatInfo info)
         {
             currentAirThreatPosX = info.CurrentPosition.Latitude;
@@ -230,10 +229,7 @@ namespace OperationController.DisplayManage
 
                 SimulationStart_Click(sender, e);
                 GetNFrameworkConnector().SendSimulationStatusInfoMsg(SimulationStatusInfo.DETECTEING);
-                GetNFrameworkConnector().SendScenarioInfoMsg(10, (int)fixedAirThreatStartPosX, (int)fixedAirThreatStartPosY, (int)fixedAirThreatEndPosX, (int)fixedAirThreatEndPosY, (int)fixedAirThreatSpeed, (int)fixedMSLStartPosX, (int)fixedMSLStartPosY, (int)fixedMSLSpeed);
-
-                //stopwatch.Start();
-                //timer.Start();
+                GetNFrameworkConnector().SendScenarioInfoMsg(10, fixedAirThreatStartPosX, fixedAirThreatStartPosY, fixedAirThreatEndPosX, fixedAirThreatEndPosY, fixedAirThreatSpeed, fixedMSLStartPosX, fixedMSLStartPosY, fixedMSLSpeed);
             }
             else if (sender == Stop)
             {
@@ -531,6 +527,7 @@ namespace OperationController.DisplayManage
             // 시작클릭시 공중위협 모의기, 대공유도탄 모의기에 데이터 설정값 Publisher
             EventLog.AppendText("시나리오 시작.\n");
             EventLog.ScrollToEnd();
+            setPosMode = 0;
 
             //공중위협, 대공유도탄 설정 버튼 비활성화
             ATStartPosSetBTN.IsEnabled = false;

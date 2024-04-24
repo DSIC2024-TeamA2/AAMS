@@ -2,6 +2,7 @@
 #include <nFramework/BaseManager.h>
 #include <nFramework/mec/MECComponent.h>
 #include <nFramework/nom/NOMMain.h>
+#include "AirthreatController.h"
 
 using namespace nframework;
 using namespace nom;
@@ -28,8 +29,8 @@ public:
 	virtual bool start() override;
 	virtual bool stop() override;
 	virtual void setMEBComponent(IMEBComponent*) override;
-	virtual void sendAirThreatInfoMsg(int currentTime, int currentLatitude, int currentLongitude, float currentSpeed, float currentAngle);
-	virtual void sendFailMsg();
+	virtual void sendAirThreatInfoMsg(AirThreatInfo& airThreatInfo);
+	virtual void sendSimulationStatusInfoMsg(int status);
 private:
 	void init();
 	void release();
@@ -43,8 +44,10 @@ private:
 
 	// you can change the code, if necessary
 	shared_ptr<NOM> ICD_TestNOM;
-	shared_ptr<NOM> failMsg;
+	shared_ptr<NOM> simulationStatusInfoMsg;
 	shared_ptr<NOM> scenarioInfoMsg;
 	shared_ptr<NOM> airThreatInfoMsg;
+
+	AirthreatController airThreatController;
 };
 
