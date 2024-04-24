@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OperationController.DisplayManage"
         mc:Ignorable="d"
-        Title="대공유도탄 모의시스템" Height="800" Width="1460">
+        Title="대공유도탄 모의시스템" Height="820" Width="1460">
 
     <DockPanel Background="#808080">
 
@@ -20,7 +20,7 @@
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
 
-            <Canvas Name="myCanvas" Width="990" Height="635" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top" MouseMove="CurrentMousePosOnMap" MouseLeftButtonDown="ClickPosOnMap">
+            <Canvas Name="myCanvas" Width="990" Height="635" Margin="0,2" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top" MouseMove="CurrentMousePosOnMap" MouseLeftButtonDown="ClickPosOnMap">
                 <Canvas.Background>
                     <ImageBrush ImageSource="./map/BackGround.jpg"/>
                 </Canvas.Background>
@@ -74,7 +74,7 @@
 
 
                 <StackPanel Background="Black" Margin="2,10,2,0">
-                    <StackPanel Orientation="Vertical" Background="White" Margin="0">
+                    <StackPanel Orientation="Vertical" Background="FloralWhite" Margin="0">
                         <Label Content="대공유도탄 초기 정보" FontSize="17" FontWeight="Bold" Width="190" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,5"/>
 
                         <StackPanel Width="200" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5">
@@ -110,7 +110,7 @@
                 <TextBox x:Name="EventLog" Text="&lt; 이벤트 로그 &gt;" FontSize="15" FontWeight="Bold" TextWrapping="Wrap"  Width="1000" Height="120" HorizontalAlignment="Center" VerticalAlignment="Center" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible" />
             </StackPanel>
 
-            <StackPanel Orientation="Vertical" Grid.Column="2" Grid.Row="0">
+            <StackPanel Orientation="Vertical" Grid.Column="2" Grid.Row="0" Margin="0,2">
                 <StackPanel Height="300" Background="Black" Margin="2, 0, 2, 10">
                     <StackPanel Height="300" Orientation="Vertical" Background="FloralWhite" Margin="0">
                         <Label Content="공중위협 현재 정보" FontSize="17" FontWeight="Bold" Width="190" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,5"/>

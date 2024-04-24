@@ -522,8 +522,8 @@ namespace OperationController.DisplayManage
             currentMSLPosY = fixedMSLStartPosY;
 
             //불변 값인 공중위협, 대공유도탄 속도 출력
-            ATCurrentSpeed.Content = fixedAirThreatSpeed;
-            MSLCurrentSpeed.Content = fixedMSLSpeed;
+            ATCurrentSpeed.Content = fixedAirThreatSpeed + " Km/h";
+            MSLCurrentSpeed.Content = fixedMSLSpeed + " Km/h";
 
             // 공중위협을 목적지 방향으로 회전
             RotateTransform ATrotateTransform = new RotateTransform();
