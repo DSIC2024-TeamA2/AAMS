@@ -126,7 +126,6 @@ void AirthreatController::GetCurrenAngle()
 	{
 		airThreatInfo.currentAngle = 3.14 / 2;
 	}
-	else if(deltaY == 0.0)
 	else if (deltaY == 0.0)
 	{
 		airThreatInfo.currentAngle = 0;
