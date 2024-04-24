@@ -15,10 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AirThreatManager.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="AirthreatController.cpp">
+    <ClCompile Include="AirThreatManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -26,7 +26,7 @@
     <ClInclude Include="AirThreatManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="AirthreatController.h">
+    <ClInclude Include="AirThreatModel.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

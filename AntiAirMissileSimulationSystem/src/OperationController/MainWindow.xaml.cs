@@ -65,12 +65,42 @@ namespace OperationController.DisplayManage
         }
         internal void UpdateAirThreatInfo(AirThreatInfo info)
         {
+            currentAirThreatPosX = info.CurrentPosition.Latitude;
+            currentAirThreatPosY = info.CurrentPosition.Longitude;
+            //fixedAirThreatSpeed = (double)info.CurrentSpeed;
+
+            Canvas.SetLeft(imgControl4, currentAirThreatPosX - (imgControl4.Width / 2.0));
+            Canvas.SetTop(imgControl4, currentAirThreatPosY - (imgControl4.Height / 2.0));
+            ATCurrentPosX.Content = $"{currentAirThreatPosX:F1}";
+            ATCurrentPosY.Content = $"{currentAirThreatPosY:F1}";
+
             EventLog.AppendText(info.ToString() + "\n");
             EventLog.ScrollToEnd();
         }
 
         internal void UpdateAntiAirMissileInfo(AntiAirMissileInfo info)
         {
+            currentMSLPosX = info.CurrentPosition.Latitude;
+            currentMSLPosY = info.CurrentPosition.Longitude;
+            //fixedMSLSpeed = (double)info.CurrentSpeed;
+            MSLrotateTransform = new RotateTransform();
+
+            Canvas.SetLeft(imgControl6, currentMSLPosX - (imgControl6.Width / 2.0));
+            Canvas.SetTop(imgControl6, currentMSLPosY - (imgControl6.Height / 2.0));
+            MSLCurrentPosX.Content = $"{currentMSLPosX:F1}";
+            MSLCurrentPosY.Content = $"{currentMSLPosY:F1}";
+
+            //대공유도탄 이미지 회전
+            MSLrotateTransform.Angle = MSLangle;
+            // 대공유도탄 이미지의 중심을 회전 중심으로 지정
+            imgControl6.RenderTransformOrigin = new Point(0.5, 0.5);
+            imgControl6.RenderTransform = MSLrotateTransform;
+            // 대공유도탄 각도 출력
+            if (0 <= MSLangle && MSLangle <= 90)
+                MSLCurrentDIR.Content = $"{90 - MSLangle:F0}" + "°";
+            else
+                MSLCurrentDIR.Content = $"{450 - MSLangle:F0}" + "°";
+
             EventLog.AppendText(info.ToString() + "\n");
             EventLog.ScrollToEnd();
         }
@@ -117,6 +147,9 @@ namespace OperationController.DisplayManage
         System.Windows.Controls.Image imgControl5 = null;
         System.Windows.Controls.Image imgControl6 = null;
         Ellipse ellipse = new Ellipse();
+
+        RotateTransform ATrotateTransform;
+        RotateTransform MSLrotateTransform;
 
         //격추 여부 확인 변수
         private int crash = 0;
@@ -205,7 +238,7 @@ namespace OperationController.DisplayManage
 
                 SimulationStart_Click(sender, e);
                 GetNFrameworkConnector().SendSimulationStatusInfoMsg(SimulationStatusInfo.DETECTEING);
-                GetNFrameworkConnector().SendScenarioInfoMsg(10, 11, 12, 101, 102, 5, 51, 52, 15);
+                GetNFrameworkConnector().SendScenarioInfoMsg(10, (int)fixedAirThreatStartPosX, (int)fixedAirThreatStartPosY, (int)fixedAirThreatEndPosX, (int)fixedAirThreatEndPosY, (int)fixedAirThreatSpeed, (int)fixedMSLStartPosX, (int)fixedMSLStartPosY, (int)fixedMSLSpeed);
 
                 //stopwatch.Start();
                 //timer.Start();
@@ -423,7 +456,7 @@ namespace OperationController.DisplayManage
                 //미사일 반경 이미지 클릭 위치에 추가하기
                 ellipse.Stroke = Brushes.Red;
                 ellipse.StrokeThickness = 2;
-                ellipse.Fill = new SolidColorBrush(Color.FromArgb(50, 255, 0, 0)); ;
+                ellipse.Fill = new SolidColorBrush(Color.FromArgb(80, 0, 255, 0)); ;
                 ellipse.Width = MSLRadius;
                 ellipse.Height = MSLRadius;
                 Canvas.SetLeft(ellipse, fixedMSLStartPosX - (ellipse.Width / 2.0));
@@ -526,8 +559,7 @@ namespace OperationController.DisplayManage
             MSLCurrentSpeed.Content = fixedMSLSpeed + " Km/h";
 
             // 공중위협을 목적지 방향으로 회전
-            RotateTransform ATrotateTransform = new RotateTransform();
-            RotateTransform MSLrotateTransform = new RotateTransform();
+            ATrotateTransform = new RotateTransform();
             ATrotateTransform.Angle = ATangle; // 회전 각도 설정
             // 공중위협 이미지의 중심을 회전 중심으로 지정
             imgControl4.RenderTransformOrigin = new Point(0.5, 0.5);
@@ -539,10 +571,10 @@ namespace OperationController.DisplayManage
                 ATCurrentDIR.Content = $"{450 - ATangle:F0}" + "°";
 
             //최초 입력 값 현재좌표 화면 출력 (while에서 출력하므로 일단 주석)
-            /*ATCurrentPosX.Content = $"{fixedAirThreatStartPosX:F1}";
+            ATCurrentPosX.Content = $"{fixedAirThreatStartPosX:F1}";
             ATCurrentPosY.Content = $"{fixedAirThreatStartPosY:F1}";
             MSLCurrentPosX.Content = $"{fixedMSLStartPosX:F1}";
-            MSLCurrentPosY.Content = $"{fixedMSLStartPosY:F1}";*/
+            MSLCurrentPosY.Content = $"{fixedMSLStartPosY:F1}";
 
 
             //★공중모의기로 대공유도탄, 공중위협 좌표 송신
@@ -552,40 +584,40 @@ namespace OperationController.DisplayManage
 
             //★받아야하는 값: 공중좌표 대공좌표 대공각도 충돌여부
             //currentAirThreatPos, currentMSLPos, MSLangle, crash
-            while (true)
-            {
-                //★충돌 여부 수신
-                if (crash == 1)
-                    break;
+            //while (true)
+            //{
+            //    //★충돌 여부 수신
+            //    if (crash == 1)
+            //        break;
 
-                //★공중위협 좌표 수신
+            //    //★공중위협 좌표 수신
 
-                //공중위협 이미지 배치, 값 출력
-                Canvas.SetLeft(imgControl4, currentAirThreatPosX - (imgControl4.Width / 2.0));
-                Canvas.SetTop(imgControl4, currentAirThreatPosY - (imgControl4.Height / 2.0));
-                ATCurrentPosX.Content = $"{currentAirThreatPosX:F1}";
-                ATCurrentPosY.Content = $"{currentAirThreatPosY:F1}";
+            //    //공중위협 이미지 배치, 값 출력
+            //    //Canvas.SetLeft(imgControl4, currentAirThreatPosX - (imgControl4.Width / 2.0));
+            //    //Canvas.SetTop(imgControl4, currentAirThreatPosY - (imgControl4.Height / 2.0));
+            //    //ATCurrentPosX.Content = $"{currentAirThreatPosX:F1}";
+            //    //ATCurrentPosY.Content = $"{currentAirThreatPosY:F1}";
 
-                //★대공유도탄 좌표,각도 수신
+            //    //★대공유도탄 좌표,각도 수신
 
-                //대공유도탄 이미지 배치, 값 출력
-                Canvas.SetLeft(imgControl6, currentMSLPosX - (imgControl6.Width / 2.0));
-                Canvas.SetTop(imgControl6, currentMSLPosY - (imgControl6.Height / 2.0));
-                MSLCurrentPosX.Content = $"{currentMSLPosX:F1}";
-                MSLCurrentPosY.Content = $"{currentMSLPosY:F1}";
+            //    //대공유도탄 이미지 배치, 값 출력
+            //    //Canvas.SetLeft(imgControl6, currentMSLPosX - (imgControl6.Width / 2.0));
+            //    //Canvas.SetTop(imgControl6, currentMSLPosY - (imgControl6.Height / 2.0));
+            //    //MSLCurrentPosX.Content = $"{currentMSLPosX:F1}";
+            //    //MSLCurrentPosY.Content = $"{currentMSLPosY:F1}";
 
-                //대공유도탄 이미지 회전
-                MSLrotateTransform.Angle = MSLangle;
-                // 대공유도탄 이미지의 중심을 회전 중심으로 지정
-                imgControl6.RenderTransformOrigin = new Point(0.5, 0.5);
-                imgControl6.RenderTransform = MSLrotateTransform;
-                // 대공유도탄 각도 출력
-                if (0 <= MSLangle && MSLangle <= 90)
-                    MSLCurrentDIR.Content = $"{90 - MSLangle:F0}" + "°";
-                else
-                    MSLCurrentDIR.Content = $"{450 - MSLangle:F0}" + "°";
-                crash = 1;
-            }
+            //    ////대공유도탄 이미지 회전
+            //    //MSLrotateTransform.Angle = MSLangle;
+            //    //// 대공유도탄 이미지의 중심을 회전 중심으로 지정
+            //    //imgControl6.RenderTransformOrigin = new Point(0.5, 0.5);
+            //    //imgControl6.RenderTransform = MSLrotateTransform;
+            //    //// 대공유도탄 각도 출력
+            //    //if (0 <= MSLangle && MSLangle <= 90)
+            //    //    MSLCurrentDIR.Content = $"{90 - MSLangle:F0}" + "°";
+            //    //else
+            //    //    MSLCurrentDIR.Content = $"{450 - MSLangle:F0}" + "°";
+            //    //crash = 1;
+            //}
 
             /*//거리 연산
             double distance = AT2MSLDistance();

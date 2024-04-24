@@ -27,7 +27,7 @@ struct ScenarioInfo
 
 enum SimulationStatus
 {
-	IDLE =1, DETECTING = 2, CHASING = 3, SUCCESS = 4, FAIL = 5
+	IDLE = 1, DETECTING = 2, CHASING = 3, SUCCESS = 4, FAIL = 5
 };
 
 class AirthreatController
@@ -43,6 +43,8 @@ public:
 	void stop();
 	void setSendAirThreatInfoMethod(std::function<void(AirThreatInfo&)> sendAirThreatInfo);
 	void setSendSimulationStatusInfoMethod(std::function<void(int)> sendSimulationStatusInfo);
+	void GetCurrenAngle();
+	void GetCurrentAirThreat();
 
 private:
 	std::thread* simThread = nullptr;
