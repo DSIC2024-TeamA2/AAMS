@@ -1,5 +1,4 @@
 #pragma once
-#include <thread>
 #include <chrono>
 #include <functional>
 #include "Data/ams_configuration.h"
@@ -60,8 +59,6 @@ public:
 	void getCurrentAntiAirMissile();
 
 private:
-	std::thread* simThread = nullptr;
-
 	AirThreatInfo airThreatInfo;
 	AntiAirMissileInfo antiAirMissileInfo;
 	ScenarioInfo scenarioInfo;
@@ -70,7 +67,7 @@ private:
 	std::function<void(AntiAirMissileInfo&)> sendAntiAirMissileInfo;
 	std::function<void(int)> sendSimulationStatusInfo;
 
-	bool isThreadRunning = false;
+	int timerHandle;
 
 private:
 	void threatSimulationThread();

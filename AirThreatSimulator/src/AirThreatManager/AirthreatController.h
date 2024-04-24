@@ -48,8 +48,6 @@ public:
 	void GetCurrentAirThreat();
 
 private:
-	std::thread* simThread = nullptr;
-
 	AirThreatInfo airThreatInfo;
 	ScenarioInfo scenarioInfo;
 	SimulationStatus status;
@@ -57,7 +55,7 @@ private:
 	std::function<void(AirThreatInfo&)> sendAirThreatInfo;
 	std::function<void(int)> sendSimulationStatusInfo;
 
-	bool isThreadRunning = false;
+	int timerHandle;
 
 private:
 	void threatSimulationThread();
