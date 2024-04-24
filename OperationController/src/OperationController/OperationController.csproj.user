@@ -21,6 +21,6 @@
     <ErrorReportUrlHistory />
     <FallbackCulture>ko-KR</FallbackCulture>
     <VerifyUploadedFiles>false</VerifyUploadedFiles>
-    <ProjectView>ProjectFiles</ProjectView>
+    <ProjectView>ShowAllFiles</ProjectView>
   </PropertyGroup>
 </Project>

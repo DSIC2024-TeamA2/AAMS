@@ -2,6 +2,7 @@
 #include <thread>
 #include <chrono>
 #include <functional>
+#include "Data/ams_configuration.h"
 
 struct AirThreatInfo
 {

@@ -15,6 +15,7 @@ using System;
 using static System.Net.Mime.MediaTypeNames;
 using System.Windows.Threading;
 using System.Threading;
+using OperationController.Data;
 
 namespace OperationController.DisplayManage
 {
@@ -85,6 +86,8 @@ namespace OperationController.DisplayManage
             double windowHeight = this.Height;
             this.Left = (screenWidth / 2) - (windowWidth / 2);
             this.Top = 0;
+            MSLRadius = AMSConfiguration.GetInstance().DetectionRadius;
+            Console.WriteLine(AMSConfiguration.GetInstance().DetectionRadius);
         }
 
         // 통신 nFrameWork 연결하는 함수
