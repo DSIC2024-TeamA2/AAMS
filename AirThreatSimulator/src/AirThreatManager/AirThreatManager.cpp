@@ -62,16 +62,17 @@ AirThreatManager::reflectMsg(shared_ptr<NOM> nomMsg)
 	// if need be, write your code
 	if (nomMsg->getName() == _T("ScenarioInfo"))
 	{
+		//map<tstring, function<void(shared_ptr<NOM>)>
 		tcout << _T("AirThreatManager ScenarioInfo OK") << endl;
-		double startTime = nomMsg->getValue(_T("startTime"))->toDouble();
+		int startTime = nomMsg->getValue(_T("startTime"))->toInt();
 		double airThreatStartLatitude = nomMsg->getValue(_T("airThreatStartLatitude"))->toDouble();
 		double airThreatStartLongitude = nomMsg->getValue(_T("airThreatStartLongitude"))->toDouble();
 		double airThreatEndLatitude = nomMsg->getValue(_T("airThreatEndLatitude"))->toDouble();
 		double airThreatEndLongitude = nomMsg->getValue(_T("airThreatEndLongitude"))->toDouble();
-		float airThreatSpeed = nomMsg->getValue(_T("airThreatSpeed"))->toFloat();
+		double airThreatSpeed = nomMsg->getValue(_T("airThreatSpeed"))->toDouble();
 		double antiAirMissileLatitude = nomMsg->getValue(_T("antiAirMissileLatitude"))->toDouble();
 		double antiAirMissileLongitude = nomMsg->getValue(_T("antiAirMissileLongitude"))->toDouble();
-		float antiAirMissileSpeed = nomMsg->getValue(_T("antiAirMissileSpeed"))->toDouble();
+		double antiAirMissileSpeed = nomMsg->getValue(_T("antiAirMissileSpeed"))->toDouble();
 		tcout << _T("startTime: ") << startTime << endl;
 		tcout << _T("airThreatStartLatitude: ") << airThreatStartLatitude << endl;
 		tcout << _T("airThreatStartLongitude: ") << airThreatStartLongitude << endl;
@@ -98,9 +99,17 @@ AirThreatManager::reflectMsg(shared_ptr<NOM> nomMsg)
 	{
 		tcout << _T("AirThreatManager SimulationStatusInfo OK") << endl;
 		tcout << nomMsg->getValue(_T("status"))->toInt() << endl;
-		int status = nomMsg->getValue(_T("status"))->toInt();
-		airThreatController.setSimulationStatus(SimulationStatus(status));
-		//tcout << _T("AirThreatManager sendSimulationStatusInfoMsg OK") << endl;
+		SimulationStatus status = IDLE;
+		int statusint = nomMsg->getValue(_T("status"))->toInt();
+		if (statusint == 2)
+			status = DETECTING;
+		if (statusint == 3)
+			status = CHASING;
+		if (statusint == 4)
+			status = SUCCESS;
+		if (statusint == 5)
+			status = FAIL;
+		airThreatController.setSimulationStatus(status);
 	}
 }
 

@@ -47,8 +47,9 @@ void AirthreatController::setSimulationStatus(SimulationStatus status)
 -------------------------------------------------------------------------------------*/
 void AirthreatController::start()
 {
-	GetCurrenAngle();
 	GetCurrentAirThreat();
+	GetCurrenAngle();
+	
 	isThreadRunning = true;
 	simThread = new std::thread(std::bind(&AirthreatController::threatSimulationThread, this));
 }
@@ -71,7 +72,10 @@ void AirthreatController::stop()
 -------------------------------------------------------------------------------------*/
 bool isTermination(ScenarioInfo& scenarioInfo, AirThreatInfo& airThreatInfo)
 {
-	if ((scenarioInfo.airThreatStartLatitude < scenarioInfo.airThreatEndLatitude && airThreatInfo.currentLatitude >= scenarioInfo.airThreatEndLatitude) || (scenarioInfo.airThreatStartLatitude > scenarioInfo.airThreatEndLatitude && airThreatInfo.currentLatitude <= scenarioInfo.airThreatEndLatitude)) // 목적지 도착. fail
+	bool boolX = (scenarioInfo.airThreatStartLatitude < scenarioInfo.airThreatEndLatitude && airThreatInfo.currentLatitude >= scenarioInfo.airThreatEndLatitude) || (scenarioInfo.airThreatStartLatitude > scenarioInfo.airThreatEndLatitude && airThreatInfo.currentLatitude <= scenarioInfo.airThreatEndLatitude);
+	bool boolY = (scenarioInfo.airThreatStartLongitude < scenarioInfo.airThreatEndLongitude && airThreatInfo.currentLongitude >= scenarioInfo.airThreatEndLongitude) || (scenarioInfo.airThreatStartLatitude > scenarioInfo.airThreatEndLatitude && airThreatInfo.currentLatitude <= scenarioInfo.airThreatEndLatitude);
+
+	if (boolX&&boolY) // 목적지 도착. fail
 	{
 		return true;
 	}
@@ -97,7 +101,11 @@ void AirthreatController::threatSimulationThread()
 			tcout << _T("모의 시스템 상태") << status << std::endl;
 			break;
 		}
-		if (status == 4) { //if (status == 4 || status == 1)
+		if (status == SUCCESS) { //if (status == 4 || status == 1)
+			isThreadRunning = false;
+			break;
+		}
+		if (status == IDLE) { //if (status == 4 || status == 1)
 			isThreadRunning = false;
 			break;
 		}
@@ -123,13 +131,19 @@ void AirthreatController::GetCurrenAngle()
 	double deltaX = scenarioInfo.airThreatEndLatitude - scenarioInfo.airThreatStartLatitude;
 	double deltaY = scenarioInfo.airThreatEndLongitude - scenarioInfo.airThreatStartLongitude;
 
-	if (deltaX == 0.0 || deltaY == 0.0)
+	if (deltaX == 0.0)
 	{
-		std::cerr << "Error: deltaX and deltaY cannot be both zero." << std::endl;
-		return;
+		airThreatInfo.currentAngle = 3.14 / 2;
 	}
-
-	airThreatInfo.currentAngle = std::abs(std::atan(deltaY / deltaX));
+	else if(deltaY == 0.0)
+	{
+		airThreatInfo.currentAngle = 0;
+	}
+	else
+	{
+		airThreatInfo.currentAngle = std::abs(std::atan(deltaY / deltaX));
+	}
+	
 }
 
 // 3-2.좌표 계산
@@ -145,7 +159,7 @@ void AirthreatController::updateAirThreatInfo()
 	else
 		airThreatInfo.currentLongitude = airThreatInfo.currentLongitude - scenarioInfo.airThreatSpeed * std::sin(airThreatInfo.currentAngle);
 
-	tcout << _T("Threat position : (") << airThreatInfo.currentLatitude << _T(", ") << airThreatInfo.currentLongitude << _T(")") << std::endl;
+	//tcout << _T("Threat position : (") << airThreatInfo.currentLatitude << _T(", ") << airThreatInfo.currentLongitude << _T(")") << std::endl;
 }
 
 

@@ -20,13 +20,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="PlugInManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\bin\PlugInList.ini" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="PlugInManager.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
