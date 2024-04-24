@@ -32,7 +32,7 @@
 *.app
 
 # Folder Ignore
-AntiAirMissileSimulationSystem/.vs/
+**/.vs/*
 **/obj/*
 **/Debug/*
 **/Release/*
