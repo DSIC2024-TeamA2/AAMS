@@ -30,7 +30,8 @@
     <Xml Include="..\..\bin\UDPCommunicationManager\UDPCommunicationManager.xml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\bin\UDPCommunicationManager\CommLinkInfo.ini" />
+    <None Include="..\..\bin\UDPCommunicationManager\CommLinkInfo1.ini" />
+    <None Include="..\..\bin\UDPCommunicationManager\CommLinkInfo2.ini" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

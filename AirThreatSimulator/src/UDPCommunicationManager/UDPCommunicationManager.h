@@ -4,6 +4,8 @@
 #include <nFramework/nom/NOMMain.h>
 #include "CommMessageHandler.h"
 
+const int commCount = 2;
+
 class BASEMGRDLL_API UDPCommunicationManager : public BaseManager
 {
 public:
@@ -44,8 +46,8 @@ private:
 	shared_ptr<NOM> scenarioInfoMsg;
 	shared_ptr<NOM> simulationStatusInfoMsg;
 
-	CommunicationInterface* commInterface;
-	CommunicationConfig* commConfig;
+	CommunicationInterface* commInterface[commCount];
+	CommunicationConfig* commConfig[commCount];
 	CommMessageHandler commMsgHandler;
 };
 

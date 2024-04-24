@@ -110,7 +110,7 @@ namespace OperationController.AMSUDP
                     icdNOM.deserialize(msgBuffer, nomInfo.MsgLen);
                     int status = icdNOM.getValue("status").toInt();
 
-                    SimulationStatusInfo info = ToSimulationStatusInfo(status);
+                    SimulationStatusInfo info = SimulationStatusInfoExtensions.ValueOf(status);
                     mainWindow.UpdateSimulationStatusInfo(info);
                 }
             }
@@ -119,18 +119,6 @@ namespace OperationController.AMSUDP
                 handled = false;
             }
             return IntPtr.Zero;
-        }
-        public SimulationStatusInfo ToSimulationStatusInfo(int status)
-        {
-            if (status == 2)
-                return SimulationStatusInfo.DETECTEING;
-            if (status == 3)
-                return SimulationStatusInfo.CHASING;
-            if (status == 4)
-                return SimulationStatusInfo.SUCCESS;
-            if (status == 5)
-                return SimulationStatusInfo.FAIL;
-            return SimulationStatusInfo.IDLE;
         }
 
         public void SendSimulationStatusInfoMsg(SimulationStatusInfo simulationStatusInfo)
@@ -143,7 +131,7 @@ namespace OperationController.AMSUDP
             NMessage icdMsg = parser.getMessageObject("SimulationStatusInfo");
             NOM startNOM = icdMsg.createNOMInstance();
             NEnum enumType = new NEnum();
-            enumType.enumValue = 1;
+            enumType.enumValue = simulationStatusInfo.ToInt();
             startNOM.setValue("status", enumType);
             int byteSize = 0;
             byte[] nomBytes = startNOM.serialize(out byteSize);
