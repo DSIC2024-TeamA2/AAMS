@@ -447,7 +447,7 @@ namespace OperationController.DisplayManage
                     myCanvas.Children.Remove(ellipse);
 
                 //미사일 반경 이미지 클릭 위치에 추가하기
-                ellipse.Stroke = Brushes.Red;
+                ellipse.Stroke = Brushes.Green;
                 ellipse.StrokeThickness = 2;
                 ellipse.Fill = new SolidColorBrush(Color.FromArgb(80, 0, 255, 0)); ;
                 ellipse.Width = MSLRadius;
