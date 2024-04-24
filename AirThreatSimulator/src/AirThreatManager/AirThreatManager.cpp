@@ -69,10 +69,10 @@ AirThreatManager::reflectMsg(shared_ptr<NOM> nomMsg)
 		double airThreatStartLongitude = nomMsg->getValue(_T("airThreatStartLongitude"))->toDouble();
 		double airThreatEndLatitude = nomMsg->getValue(_T("airThreatEndLatitude"))->toDouble();
 		double airThreatEndLongitude = nomMsg->getValue(_T("airThreatEndLongitude"))->toDouble();
-		double airThreatSpeed = nomMsg->getValue(_T("airThreatSpeed"))->toDouble();
+		double airThreatSpeed = nomMsg->getValue(_T("airThreatSpeed"))->toFloat();
 		double antiAirMissileLatitude = nomMsg->getValue(_T("antiAirMissileLatitude"))->toDouble();
 		double antiAirMissileLongitude = nomMsg->getValue(_T("antiAirMissileLongitude"))->toDouble();
-		double antiAirMissileSpeed = nomMsg->getValue(_T("antiAirMissileSpeed"))->toDouble();
+		double antiAirMissileSpeed = nomMsg->getValue(_T("antiAirMissileSpeed"))->toFloat();
 		tcout << _T("startTime: ") << startTime << endl;
 		tcout << _T("airThreatStartLatitude: ") << airThreatStartLatitude << endl;
 		tcout << _T("airThreatStartLongitude: ") << airThreatStartLongitude << endl;
