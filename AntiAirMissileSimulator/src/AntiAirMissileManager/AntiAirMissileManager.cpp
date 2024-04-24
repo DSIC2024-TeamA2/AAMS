@@ -112,10 +112,17 @@ AntiAirMissileManager::reflectMsg(shared_ptr<NOM> nomMsg)
 	}
 	else if (nomMsg->getName() == _T("SimulationStatusInfo"))
 	{
-		tcout << _T("AntiAirMissileManager SimulationStatusInfo OK") << endl;
-		tcout << nomMsg->getValue(_T("status"))->toInt() << endl;
-		int status = nomMsg->getValue(_T("status"))->toInt();
-		antiAirMissileController.setSimulationStatus(SimulationStatus(status));
+		SimulationStatus status = IDLE;
+		int statusint = nomMsg->getValue(_T("status"))->toInt();
+		if (statusint == 2)
+			status = DETECTING;
+		if (statusint == 3)
+			status = CHASING;
+		if (statusint == 4)
+			status = SUCCESS;
+		if (statusint == 5)
+			status = FAIL;
+		antiAirMissileController.setSimulationStatus(status);
 	}
 }
 
@@ -199,7 +206,7 @@ void AntiAirMissileManager::sendSimulationStatusInfoMsg(int status)
 
 void AntiAirMissileManager::sendAntiAirMissileInfoMsg(AntiAirMissileInfo& antiAirMissileInfo)
 {
-	tcout << _T("AntiAirMissileManager sendAntiAirMissileInfoMsg OK") << endl;
+	tcout << _T("AirThreatManager sendAntiAirMissileInfoMsg OK") << endl;
 	antiAirMissileInfoMsg->setValue(_T("currentTime"), &NInteger(antiAirMissileInfo.currentTime));
 	antiAirMissileInfoMsg->setValue(_T("currentLatitude"), &NDouble(antiAirMissileInfo.currentLatitude));
 	antiAirMissileInfoMsg->setValue(_T("currentLongitude"), &NDouble(antiAirMissileInfo.currentLongitude));
