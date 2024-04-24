@@ -13,6 +13,8 @@ using System.Numerics;
 using OperationController.AMSUDP;
 using System;
 using static System.Net.Mime.MediaTypeNames;
+using System.Windows.Threading;
+using System.Threading;
 
 namespace OperationController.DisplayManage
 {
@@ -22,6 +24,9 @@ namespace OperationController.DisplayManage
     public partial class MainWindow : Window
     {
         private nFrameworkConnector nf = null;
+        //private Thread workerThread;
+        //private Stopwatch stopwatch;
+        //private DispatcherTimer timer;
         public MainWindow()
         {
             Console.WriteLine("MainWindow called");
@@ -36,7 +41,20 @@ namespace OperationController.DisplayManage
             double windowHeight = this.Height;
             this.Left = (screenWidth / 2) - (windowWidth / 2);
             this.Top = 0;
+            EventLog.Text += "\n";
+
+            //stopwatch = new Stopwatch();
+
+            //timer = new DispatcherTimer();
+            //timer.Interval = TimeSpan.FromSeconds(1);
+            //timer.Tick += Timer_Tick;
         }
+        //private void Timer_Tick(object sender, EventArgs e)
+        //{
+        //    // Update the TextBlock with the elapsed time
+        //    timeTextBlock.Text = stopwatch.Elapsed.ToString(@"hh\:mm\:ss");
+        //}
+
         private nFrameworkConnector GetNFrameworkConnector()
         {
             if (nf == null)
@@ -188,6 +206,9 @@ namespace OperationController.DisplayManage
                 SimulationStart_Click(sender, e);
                 GetNFrameworkConnector().SendSimulationStatusInfoMsg(SimulationStatusInfo.DETECTEING);
                 GetNFrameworkConnector().SendScenarioInfoMsg(10, 11, 12, 101, 102, 5, 51, 52, 15);
+
+                //stopwatch.Start();
+                //timer.Start();
             }
             else if (sender == Stop)
             {
