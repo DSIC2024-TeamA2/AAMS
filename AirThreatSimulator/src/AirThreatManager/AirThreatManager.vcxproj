@@ -158,10 +158,12 @@
   <ItemGroup>
     <ClCompile Include="AirthreatController.cpp" />
     <ClCompile Include="AirThreatManager.cpp" />
+    <ClCompile Include="Data\ams_configuration.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AirthreatController.h" />
     <ClInclude Include="AirThreatManager.h" />
+    <ClInclude Include="Data\ams_configuration.h" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\..\bin\AirThreatManager\AirThreatManager.xml" />

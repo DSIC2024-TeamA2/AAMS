@@ -158,10 +158,12 @@
   <ItemGroup>
     <ClCompile Include="AntiAirMissileController.cpp" />
     <ClCompile Include="AntiAirMissileManager.cpp" />
+    <ClCompile Include="Data\ams_configuration.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AntiAirMissileController.h" />
     <ClInclude Include="AntiAirMissileManager.h" />
+    <ClInclude Include="Data\ams_configuration.h" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\..\bin\AntiAirMissileManager\AntiAirMissileManager.xml" />

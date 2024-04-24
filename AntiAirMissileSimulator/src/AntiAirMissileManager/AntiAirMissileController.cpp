@@ -74,7 +74,7 @@ void AntiAirMissileController::detectAntiAirMissile()
 	double radX = pow(scenarioInfo.antiAirMissileLatitude - airThreatInfo.currentLatitude, 2);
 	double radY = pow(scenarioInfo.antiAirMissileLongitude - airThreatInfo.currentLongitude, 2);
 	
-	int radius = 300;
+	int radius = AMSConfiguration::getInstance().getDetectionRadius();
 	if (pow(radius,2) >= (radX + radY)&& antiAirMissileInfo.chasing == true)
 	{
 		setSimulationStatus(CHASING);
@@ -140,7 +140,7 @@ void AntiAirMissileController::threatSimulationThread()
 		antiAirMissileInfo.currentTime = antiAirMissileInfo.currentTime + 1;
 		sendAntiAirMissileInfo(antiAirMissileInfo);
 
-		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+		std::this_thread::sleep_for(std::chrono::milliseconds(AMSConfiguration::getInstance().getUpdateDuration()));
 	}
 }
 
