@@ -143,7 +143,6 @@ namespace OperationController.DisplayManage
             {
                 MSLangleCalc();
                 MSLrotateTransform.Angle = MSLangle;
-                EventLog.AppendText("22222222222222" + MSLangle + "\n");
                 // 대공유도탄 이미지의 중심을 회전 중심으로 지정
                 imgControl6.RenderTransformOrigin = new Point(0.5, 0.5);
                 imgControl6.RenderTransform = MSLrotateTransform;
@@ -307,7 +306,7 @@ namespace OperationController.DisplayManage
             // 공중위협 각도 ATangle 구하기
             double radians = Math.Atan(-lineSlope);
             double degrees = 90 - radians * (180 / Math.PI);
-            if (fixedAirThreatStartPosX < fixedAirThreatEndPosX)
+            if (fixedAirThreatStartPosX <= fixedAirThreatEndPosX)
                 ATangle = degrees;
             else
                 ATangle = 180 + degrees;
@@ -492,7 +491,7 @@ namespace OperationController.DisplayManage
                     myCanvas.Children.Remove(ellipse);
 
                 //미사일 반경 이미지 클릭 위치에 추가하기
-                ellipse.Stroke = Brushes.Red;
+                ellipse.Stroke = Brushes.Green;
                 ellipse.StrokeThickness = 2;
                 ellipse.Fill = new SolidColorBrush(Color.FromArgb(80, 0, 255, 0)); ;
                 ellipse.Width = MSLRadius;
@@ -605,9 +604,9 @@ namespace OperationController.DisplayManage
             imgControl4.RenderTransform = ATrotateTransform;
             // 공중위협 방향 현재좌표로 입력
             if (0 <= ATangle && ATangle <= 90)
-                ATCurrentDIR.Content = $"{90 - ATangle:F0}" + "°";
+                ATCurrentDIR.Content = $"{90 - ATangle:F1}" + "°";
             else
-                ATCurrentDIR.Content = $"{450 - ATangle:F0}" + "°";
+                ATCurrentDIR.Content = $"{450 - ATangle:F1}" + "°";
 
             //최초 입력 값 현재좌표 화면 출력 (while에서 출력하므로 일단 주석)
             ATCurrentPosX.Content = $"{fixedAirThreatStartPosX:F1}";

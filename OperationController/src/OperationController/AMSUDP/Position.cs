@@ -12,7 +12,7 @@ namespace OperationController.AMSUDP
         public double Longitude { get; set; }
         public override string ToString()
         {
-            return $"Latitude: {Latitude}, Longitude: {Longitude}";
+            return $"Latitude:  {Latitude:F1},  Longitude:  {Longitude:F1}";
         }
     }
 }

@@ -71,8 +71,10 @@ bool isTermination(ScenarioInfo& scenarioInfo, AirThreatInfo& airThreatInfo)
 	bool boolX = (scenarioInfo.airThreatStartLatitude < scenarioInfo.airThreatEndLatitude && airThreatInfo.currentLatitude > scenarioInfo.airThreatEndLatitude) || (scenarioInfo.airThreatStartLatitude > scenarioInfo.airThreatEndLatitude && airThreatInfo.currentLatitude < scenarioInfo.airThreatEndLatitude);
 	bool boolY = (scenarioInfo.airThreatStartLongitude < scenarioInfo.airThreatEndLongitude && airThreatInfo.currentLongitude > scenarioInfo.airThreatEndLongitude) || (scenarioInfo.airThreatStartLatitude > scenarioInfo.airThreatEndLatitude && airThreatInfo.currentLatitude < scenarioInfo.airThreatEndLatitude);
 
-	if (boolX||boolY) // 목적지 도착. fail
+	if (boolX || boolY) // 목적지 도착. fail
 	{
+		airThreatInfo.currentLatitude = scenarioInfo.airThreatEndLatitude;
+		airThreatInfo.currentLongitude = scenarioInfo.airThreatEndLongitude;
 		return true;
 	}
 	else
@@ -98,12 +100,15 @@ void AirthreatController::threatSimulationThread()
 		stop();
 	}
 	if (status == IDLE) { //if (status == 4 || status == 1)
+		airThreatInfo.currentLatitude = 0;
+		airThreatInfo.currentLongitude = 0;
 		stop();
 	}
 
+	updateAirThreatInfo();
+
 	// # 2. 수행
 	airThreatInfo.currentTime = airThreatInfo.currentTime + 1;
-	updateAirThreatInfo();
 	sendAirThreatInfo(airThreatInfo);
 }
 
@@ -122,6 +127,7 @@ void AirthreatController::GetCurrenAngle()
 		airThreatInfo.currentAngle = 3.14 / 2;
 	}
 	else if(deltaY == 0.0)
+	else if (deltaY == 0.0)
 	{
 		airThreatInfo.currentAngle = 0;
 	}
