@@ -2,6 +2,7 @@
 #include <math.h>
 #include <iostream>
 #include <nFramework/nom/NOMMain.h>
+#include <nFramework/nTimer/NTimer.h>
 
 AirthreatController::AirthreatController()
 {
@@ -40,8 +41,6 @@ void AirthreatController::setSimulationStatus(SimulationStatus status)
 	this->status = status;
 }
 
-
-
 /* -------------------------------------------------------------------------------------
 *  #1. 시작 중단
 -------------------------------------------------------------------------------------*/
@@ -49,21 +48,18 @@ void AirthreatController::start()
 {
 	GetCurrentAirThreat();
 	GetCurrenAngle();
-	
-	isThreadRunning = true;
-	simThread = new std::thread(std::bind(&AirthreatController::threatSimulationThread, this));
+
+	nframework::NTimer& nTimer = nframework::NTimer::getInstance();
+	std:function <void(void*)> periodicFunc;
+	periodicFunc = std::bind(&AirthreatController::threatSimulationThread, this);
+	timerHandle = nTimer.addPeriodicTask(AMSConfiguration::getInstance().getUpdateDuration(), periodicFunc);
+
 }
 
 void AirthreatController::stop()
 {
-	isThreadRunning = false;
-
-	if (simThread)
-	{
-		simThread->join();
-		delete simThread;
-		simThread = nullptr;
-	}
+	nframework::NTimer& nTimer = nframework::NTimer::getInstance();
+	nTimer.removeTask(timerHandle);
 }
 
 
@@ -86,39 +82,29 @@ bool isTermination(ScenarioInfo& scenarioInfo, AirThreatInfo& airThreatInfo)
 
 void AirthreatController::threatSimulationThread()
 {
-	while (isThreadRunning)
+	tcout << _T("threatSimulationThread() called") << std::endl;
+	tcout << _T("모의 시스템 상태") << status << std::endl;
+
+	// # 1. 중단 조건 확인
+	if (isTermination(scenarioInfo, airThreatInfo))
 	{
-		tcout << _T("threatSimulationThread() called") << std::endl;
+		tcout << _T("isTermination(scenarioInfo, airThreatInfo) == true") << std::endl;
+		setSimulationStatus(FAIL);
+		sendSimulationStatusInfo(FAIL);
 		tcout << _T("모의 시스템 상태") << status << std::endl;
-
-		// # 1. 중단 조건 확인
-		if (isTermination(scenarioInfo, airThreatInfo))
-		{
-			tcout << _T("isTermination(scenarioInfo, airThreatInfo) == true") << std::endl;
-			setSimulationStatus(FAIL);
-			sendSimulationStatusInfo(FAIL);
-			isThreadRunning = false;
-			tcout << _T("모의 시스템 상태") << status << std::endl;
-			break;
-		}
-		if (status == SUCCESS) { //if (status == 4 || status == 1)
-			isThreadRunning = false;
-			break;
-		}
-		if (status == IDLE) { //if (status == 4 || status == 1)
-			isThreadRunning = false;
-			break;
-		}
-
-		// # 2. 수행
-		airThreatInfo.currentTime = airThreatInfo.currentTime + 1;
-		updateAirThreatInfo();
-		sendAirThreatInfo(airThreatInfo);
-
-		tcout << _T("sleep_for wait") << std::endl;
-		std::this_thread::sleep_for(std::chrono::milliseconds(AMSConfiguration::getInstance().getUpdateDuration()));
-		tcout << _T("sleep_for end") << std::endl;
+		stop();
 	}
+	if (status == SUCCESS) { //if (status == 4 || status == 1)
+		stop();
+	}
+	if (status == IDLE) { //if (status == 4 || status == 1)
+		stop();
+	}
+
+	// # 2. 수행
+	airThreatInfo.currentTime = airThreatInfo.currentTime + 1;
+	updateAirThreatInfo();
+	sendAirThreatInfo(airThreatInfo);
 }
 
 

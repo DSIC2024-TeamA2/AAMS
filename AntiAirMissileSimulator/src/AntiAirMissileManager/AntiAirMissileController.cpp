@@ -2,6 +2,7 @@
 #include <math.h>
 #include <iostream>
 #include <nFramework/nom/NOMMain.h>
+#include <nFramework/nTimer/NTimer.h>
 
 
 AntiAirMissileController::AntiAirMissileController()
@@ -39,30 +40,23 @@ void AntiAirMissileController::getStartAntiAirMissile()
 	antiAirMissileInfo.currentTime = scenarioInfo.startTime;
 }
 
-
-
 /* -------------------------------------------------------------------------------------
 *  #1. 시작 중단
 -------------------------------------------------------------------------------------*/
 void AntiAirMissileController::start() 
 {
 	antiAirMissileInfo.chasing = false;
-	isThreadRunning = true;
 	getStartAntiAirMissile();
-	simThread = new std::thread(std::bind(&AntiAirMissileController::threatSimulationThread, this));
-	
+	nframework::NTimer& nTimer = nframework::NTimer::getInstance();
+	std:function <void(void*)> periodicFunc;
+	periodicFunc = std::bind(&AntiAirMissileController::threatSimulationThread, this);
+	timerHandle = nTimer.addPeriodicTask(AMSConfiguration::getInstance().getUpdateDuration(), periodicFunc);
 }
 
 void AntiAirMissileController::stop()
 {
-	isThreadRunning = false;
-
-	if (simThread)
-	{
-		simThread->join();
-		delete simThread;
-		simThread = nullptr;
-	}
+	nframework::NTimer& nTimer = nframework::NTimer::getInstance();
+	nTimer.removeTask(timerHandle);
 }
 
 
@@ -110,41 +104,30 @@ bool isTermination(ScenarioInfo& scenarioInfo, AntiAirMissileInfo& antiAirMissil
 	
 }
 
-
 void AntiAirMissileController::threatSimulationThread()
 {
-	while (isThreadRunning)
+	tcout << _T("모의 시스템 상태") << status << std::endl;
+	if (isTermination(scenarioInfo, antiAirMissileInfo, airThreatInfo))
 	{
+		antiAirMissileInfo.chasing = false;
+		setSimulationStatus(SUCCESS);
+		sendSimulationStatusInfo(SUCCESS);
 		tcout << _T("모의 시스템 상태") << status << std::endl;
-		if (isTermination(scenarioInfo, antiAirMissileInfo, airThreatInfo))
-		{
-			antiAirMissileInfo.chasing = false;
-			setSimulationStatus(SUCCESS);
-			sendSimulationStatusInfo(SUCCESS);
-			isThreadRunning = false;
-			tcout << _T("모의 시스템 상태") << status << std::endl;
-			break;
-		}
-		if (status == FAIL)
-		{
-			antiAirMissileInfo.chasing = false;
-			isThreadRunning = false;
-			break;
-		}
-		if (status == IDLE) { //if (status == 4 || status == 1)
-			isThreadRunning = false;
-			antiAirMissileInfo.chasing = false;
-			break;
-		}
-		detectAntiAirMissile();
-		antiAirMissileInfo.currentTime = antiAirMissileInfo.currentTime + 1;
-		sendAntiAirMissileInfo(antiAirMissileInfo);
-
-		std::this_thread::sleep_for(std::chrono::milliseconds(AMSConfiguration::getInstance().getUpdateDuration()));
+		stop();
 	}
+	if (status == FAIL)
+	{
+		antiAirMissileInfo.chasing = false;
+		stop();
+	}
+	if (status == IDLE) { //if (status == 4 || status == 1)
+		antiAirMissileInfo.chasing = false;
+		stop();
+	}
+	detectAntiAirMissile();
+	antiAirMissileInfo.currentTime = antiAirMissileInfo.currentTime + 1;
+	sendAntiAirMissileInfo(antiAirMissileInfo);
 }
-
-
 
 /* -------------------------------------------------------------------------------------
 *  #4. 계산 - 추적 알고리즘
