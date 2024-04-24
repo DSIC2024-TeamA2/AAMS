@@ -25,9 +25,14 @@ UDPCommunicationManager::init()
 	mec = new MECComponent;
 	mec->setUser(this);
 
-	commConfig = new CommunicationConfig;
-	commConfig->setIni(_T("CommLinkInfo.ini"));
-	commInterface = new NCommInterface(this);
+	for (int i = 0; i < commCount; i++)
+	{
+		commConfig[i] = new CommunicationConfig;
+		std::wstringstream wss;
+		wss << L"CommLinkInfo" << (i + 1) << L".ini";
+		commConfig[i]->setIni(wss.str());
+		commInterface[i] = new NCommInterface(this);
+	}
 	tcout << _T("UDP Communication") << endl;
 }
 
@@ -91,7 +96,10 @@ UDPCommunicationManager::reflectMsg(shared_ptr<NOM> nomMsg)
 		nomMsg->setValue(_T("MessageHeader.SIZE"), &NUShort(8));
 	}
 
-	commInterface->sendCommMsg(nomMsg);
+	for (int i = 0; i < commCount; i++)
+	{
+		commInterface[i]->sendCommMsg(nomMsg);
+	}
 }
 
 void
@@ -117,7 +125,10 @@ void
 UDPCommunicationManager::recvMsg(shared_ptr<NOM> nomMsg)
 {
 	// if need be, write your code
-	commInterface->sendCommMsg(nomMsg);
+	for (int i = 0; i < commCount; i++)
+	{
+		commInterface[i]->sendCommMsg(nomMsg);
+	}
 }
 
 void
@@ -141,11 +152,13 @@ UDPCommunicationManager::setData(void* data)
 bool
 UDPCommunicationManager::start()
 {
-	commInterface->setMEBComponent(meb);
-	MessageProcessor msgProcessor = bind(&UDPCommunicationManager::processRecvMessage, this, placeholders::_1, placeholders::_2);
-	commConfig->setMsgProcessor(msgProcessor);
-	commInterface->initNetEnv(commConfig);
-
+	for (int i = 0; i < commCount; i++)
+	{
+		commInterface[i]->setMEBComponent(meb);
+		MessageProcessor msgProcessor = bind(&UDPCommunicationManager::processRecvMessage, this, placeholders::_1, placeholders::_2);
+		commConfig[i]->setMsgProcessor(msgProcessor);
+		commInterface[i]->initNetEnv(commConfig[i]);
+	}
 	simulationStatusInfoMsg = this->registerMsg(_T("SimulationStatusInfo"));
 	scenarioInfo = this->registerMsg(_T("ScenarioInfo"));
 	airThreatInfo = this->registerMsg(_T("AirThreatInfo"));
@@ -159,7 +172,10 @@ UDPCommunicationManager::start()
 bool
 UDPCommunicationManager::stop()
 {
-	commInterface->releaseNetEnv(commConfig);
+	for (int i = 0; i < commCount; i++)
+	{
+		commInterface[i]->releaseNetEnv(commConfig[i]);
+	}
 	this->deleteMsg(airThreatInfo);
 	this->deleteMsg(simulationStatusInfoMsg);
 	this->deleteMsg(scenarioInfo);
@@ -177,15 +193,14 @@ UDPCommunicationManager::setMEBComponent(IMEBComponent* realMEB)
 void
 UDPCommunicationManager::processRecvMessage(unsigned char* data, int size)
 {
-	auto IDSize = commConfig->getHeaderIDSize();
-	auto IDPos = commConfig->getHeaderIDPos();
+	auto IDSize = commConfig[0]->getHeaderIDSize();
+	auto IDPos = commConfig[0]->getHeaderIDPos();
 
 	unsigned short tmpMsgID;
 	memcpy(&tmpMsgID, data + IDPos, IDSize);
 	auto msgID = ntohs(tmpMsgID);
 
 	auto nomMsg = meb->getNOMInstance(name, commMsgHandler.getMsgName(msgID));
-
 	if (nomMsg.get())
 	{
 		if (nomMsg->getType() == NOM_TYPE_OBJECT)

@@ -19,7 +19,6 @@ CommMessageHandler::initialize()
 	// if need be, write your code
 	setIDNameTable(9991, _T("ScenarioInfo"));
 	setIDNameTable(9992, _T("AirThreatInfo"));
-	setIDNameTable(9993, _T("AntiAirMissileInfo"));
 	setIDNameTable(9994, _T("SimulationStatusInfo"));
 }
 
@@ -72,4 +71,10 @@ CommMessageHandler::getMsgName(unsigned short msgID)
 	}
 
 	return msgName;
+}
+
+bool
+CommMessageHandler::containsIDNameTable(unsigned short msgID)
+{
+	return IDNameTable.find(msgID) != IDNameTable.end();
 }

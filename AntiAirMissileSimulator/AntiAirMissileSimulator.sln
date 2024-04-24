@@ -9,8 +9,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UDPCommunicationManager", "
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AMSMain", "src\AMSMain\TDSMain.vcxproj", "{17AA90BE-CB67-42F5-92AC-AB79B0DCA08B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UDPCommunicationManager2", "src\UDPCommunicationManager2\UDPCommunicationManager2.vcxproj", "{CFDAC406-7307-4174-AB00-A94AC9494A50}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,18 +55,6 @@ Global
 		{17AA90BE-CB67-42F5-92AC-AB79B0DCA08B}.Release|x64.Build.0 = Release|x64
 		{17AA90BE-CB67-42F5-92AC-AB79B0DCA08B}.Release|x86.ActiveCfg = Release|Win32
 		{17AA90BE-CB67-42F5-92AC-AB79B0DCA08B}.Release|x86.Build.0 = Release|Win32
-		{CFDAC406-7307-4174-AB00-A94AC9494A50}.Debug|Any CPU.ActiveCfg = Debug|x64
-		{CFDAC406-7307-4174-AB00-A94AC9494A50}.Debug|Any CPU.Build.0 = Debug|x64
-		{CFDAC406-7307-4174-AB00-A94AC9494A50}.Debug|x64.ActiveCfg = Debug|x64
-		{CFDAC406-7307-4174-AB00-A94AC9494A50}.Debug|x64.Build.0 = Debug|x64
-		{CFDAC406-7307-4174-AB00-A94AC9494A50}.Debug|x86.ActiveCfg = Debug|Win32
-		{CFDAC406-7307-4174-AB00-A94AC9494A50}.Debug|x86.Build.0 = Debug|Win32
-		{CFDAC406-7307-4174-AB00-A94AC9494A50}.Release|Any CPU.ActiveCfg = Release|x64
-		{CFDAC406-7307-4174-AB00-A94AC9494A50}.Release|Any CPU.Build.0 = Release|x64
-		{CFDAC406-7307-4174-AB00-A94AC9494A50}.Release|x64.ActiveCfg = Release|x64
-		{CFDAC406-7307-4174-AB00-A94AC9494A50}.Release|x64.Build.0 = Release|x64
-		{CFDAC406-7307-4174-AB00-A94AC9494A50}.Release|x86.ActiveCfg = Release|Win32
-		{CFDAC406-7307-4174-AB00-A94AC9494A50}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -36,7 +36,10 @@
     </Xml>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\bin\UDPCommunicationManager\CommLinkInfo.ini">
+    <None Include="..\..\bin\UDPCommunicationManager\CommLinkInfo1.ini">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="..\..\bin\UDPCommunicationManager\CommLinkInfo2.ini">
       <Filter>리소스 파일</Filter>
     </None>
   </ItemGroup>
