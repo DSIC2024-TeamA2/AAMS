@@ -13,6 +13,8 @@ using System.Numerics;
 using OperationController.AMSUDP;
 using System;
 using static System.Net.Mime.MediaTypeNames;
+using System.Windows.Threading;
+using System.Threading;
 
 namespace OperationController.DisplayManage
 {
@@ -22,12 +24,27 @@ namespace OperationController.DisplayManage
     public partial class MainWindow : Window
     {
         private nFrameworkConnector nf = null;
+        //private Thread workerThread;
+        //private Stopwatch stopwatch;
+        //private DispatcherTimer timer;
         public MainWindow()
         {
             Console.WriteLine("MainWindow called");
             InitializeComponent();
             EventLog.Text += "\n";
+
+            //stopwatch = new Stopwatch();
+
+            //timer = new DispatcherTimer();
+            //timer.Interval = TimeSpan.FromSeconds(1);
+            //timer.Tick += Timer_Tick;
         }
+        //private void Timer_Tick(object sender, EventArgs e)
+        //{
+        //    // Update the TextBlock with the elapsed time
+        //    timeTextBlock.Text = stopwatch.Elapsed.ToString(@"hh\:mm\:ss");
+        //}
+
         private nFrameworkConnector GetNFrameworkConnector()
         {
             if (nf == null)
@@ -39,16 +56,19 @@ namespace OperationController.DisplayManage
         internal void UpdateAirThreatInfo(AirThreatInfo info)
         {
             EventLog.Text += info.ToString() + "\n";
+            EventLog.ScrollToEnd();
         }
 
         internal void UpdateAntiAirMissileInfo(AntiAirMissileInfo info)
         {
             EventLog.Text += info.ToString() + "\n";
+            EventLog.ScrollToEnd();
         }
 
         internal void UpdateSimulationStatusInfo(SimulationStatusInfo info)
         {
             EventLog.Text += info.ToString() + "\n";
+            EventLog.ScrollToEnd();
         }
 
         /// 변수
@@ -66,8 +86,8 @@ namespace OperationController.DisplayManage
         private int MSLRadius = 600; // 대공유도탄 반경
 
         // 아직 미사용 //
-        private double fixedAirThreatSpeed = 0.0; ///< 입력한 공중위협 속도
-        private double fixedMSLSpeed = 0.0; ///< 입력한 대공유도탄 속도
+        private double fixedAirThreatSpeed = 600.0; ///< 입력한 공중위협 속도
+        private double fixedMSLSpeed = 600.0; ///< 입력한 대공유도탄 속도
 
         private double currentAirThreatPosX = 0.0;
         private double currentAirThreatPosY = 0.0;
@@ -120,15 +140,20 @@ namespace OperationController.DisplayManage
                 if (!Intersect(ellipse, line))
                 {
                     EventLog.Text += "경고: 공중위협 경로와 대공유도탄 반경이 겹치지 않습니다.\n";
+                    EventLog.ScrollToEnd();
                 }
                 if (airThreatStartflg == 0 || airThreatEndflg == 0 || MSLStartflg == 0)
                 {
                     EventLog.Text += "위험: 공중위협 시작/목표, 대공유도탄의 위치를 확인해주세요.\n";
+                    EventLog.ScrollToEnd();
                     return;
                 }
                 SimulationStart_Click(sender, e);
                 GetNFrameworkConnector().SendSimulationStatusInfoMsg(SimulationStatusInfo.DETECTEING);
                 GetNFrameworkConnector().SendScenarioInfoMsg(10, 11, 12, 101, 102, 5, 51, 52, 15);
+
+                //stopwatch.Start();
+                //timer.Start();
             }
             else if (sender == Stop)
             {
@@ -391,14 +416,22 @@ namespace OperationController.DisplayManage
                     string inputValue = AirThreatSpeedInput.Text;
                     if (IsNumeric(inputValue))
                         fixedAirThreatSpeed = (Double.Parse(inputValue));
-                    else;
+                    else
+                    {
+                        EventLog.Text += "올바른 공중위협 속도값을 입력해주세요.\n";
+                        EventLog.ScrollToEnd();
+                    }
                 }
                 else if (sender == MSLSpeedInput)
                 {
                     string inputValue = MSLSpeedInput.Text;
                     if (IsNumeric(inputValue))
                         fixedMSLSpeed = (Double.Parse(inputValue));
-                    else;
+                    else
+                    {
+                        EventLog.Text += "올바른 대공유도탄 속도값을 입력해주세요.\n";
+                        EventLog.ScrollToEnd();
+                    }
                 }
             }
         }
@@ -412,6 +445,7 @@ namespace OperationController.DisplayManage
         {
             // 시작클릭시 공중위협 모의기, 대공유도탄 모의기에 데이터 설정값 Publisher
             EventLog.Text += "시나리오 시작.\n";
+            EventLog.ScrollToEnd();
             // 공중위협을 목적지 방향으로 회전
             RotateTransform ATrotateTransform = new RotateTransform();
             RotateTransform MSLrotateTransform = new RotateTransform();
@@ -499,6 +533,7 @@ namespace OperationController.DisplayManage
         {
             // 모든 시나리오 데이터 설정값 초기화
             EventLog.Text += "시나리오 종료.\n";
+            EventLog.ScrollToEnd();
             airThreatStartflg = 0;
             airThreatEndflg = 0;
             MSLStartflg = 0;
