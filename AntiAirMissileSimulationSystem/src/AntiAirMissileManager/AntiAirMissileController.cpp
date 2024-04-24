@@ -46,7 +46,6 @@ void AntiAirMissileController::getStartAntiAirMissile()
 -------------------------------------------------------------------------------------*/
 void AntiAirMissileController::start() 
 {
-	antiAirMissileInfo.chasing = false;
 	isThreadRunning = true;
 	getStartAntiAirMissile();
 	simThread = new std::thread(std::bind(&AntiAirMissileController::threatSimulationThread, this));
@@ -74,13 +73,12 @@ void AntiAirMissileController::detectAntiAirMissile()
 	double radX = pow(scenarioInfo.antiAirMissileLatitude - airThreatInfo.currentLatitude, 2);
 	double radY = pow(scenarioInfo.antiAirMissileLongitude - airThreatInfo.currentLongitude, 2);
 	
-	int radius = 150;
-	if (pow(radius,2) >= (radX + radY)|| antiAirMissileInfo.chasing == true)
+	int radius = 200;
+	if (pow(radius,2) >= (radX + radY))
 	{
 		setSimulationStatus(CHASING);
 		sendSimulationStatusInfo(CHASING);
 		updateAntiAirMissileInfo();
-		antiAirMissileInfo.chasing = true;
 	}
 	else
 	{

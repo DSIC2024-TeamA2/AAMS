@@ -156,11 +156,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AntiAirMissileController.cpp" />
     <ClCompile Include="AntiAirMissileManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AntiAirMissileController.h" />
     <ClInclude Include="AntiAirMissileManager.h" />
   </ItemGroup>
   <ItemGroup>

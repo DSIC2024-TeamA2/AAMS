@@ -46,8 +46,8 @@ private:
 	tstring name;
 	map<unsigned int, shared_ptr<NOM>> registeredMsg;
 	map<unsigned int, shared_ptr<NOM>> discoveredMsg;
-	shared_ptr<NOM> scenarioInfoMsg;
-	shared_ptr<NOM> simulationStatusInfoMsg;
+	shared_ptr<NOM> icdTestNom;
+
 	HWND winHandle;
 };
 

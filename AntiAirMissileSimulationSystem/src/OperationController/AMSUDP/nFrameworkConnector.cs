@@ -161,9 +161,9 @@ namespace OperationController.AMSUDP
             Console.WriteLine("nomInfo: " + nomInfo.MsgID);
         }
 
-        public void SendScenarioInfoMsg(int startTime, double airThreatStartLatitude, double airThreatStartLongitude,
-            double airThreatEndLatitude, double airThreatEndLongitude, double airThreatSpeed,
-            double antiAirMissileLatitude, double antiAirMissileLongitude, double antiAirMissileSpeed)
+        public void SendScenarioInfoMsg(int startTime, int airThreatStartLatitude, int airThreatStartLongitude,
+            int airThreatEndLatitude, int airThreatEndLongitude, float airThreatSpeed,
+            int antiAirMissileLatitude, int antiAirMissileLongitude, float antiAirMissileSpeed)
         {
             Console.WriteLine("SendScenarioInfoMsg called");
             NOMParser parser = new NOMParser();
@@ -173,14 +173,14 @@ namespace OperationController.AMSUDP
             NMessage icdMsg = parser.getMessageObject("ScenarioInfo");
             NOM startNOM = icdMsg.createNOMInstance();
             startNOM.setValue("startTime", new NInteger(startTime));
-            startNOM.setValue("airThreatStartLatitude", new NDouble(airThreatStartLatitude));
-            startNOM.setValue("airThreatStartLongitude", new NDouble(airThreatStartLongitude));
-            startNOM.setValue("airThreatEndLatitude", new NDouble(airThreatEndLatitude));
-            startNOM.setValue("airThreatEndLongitude", new NDouble(airThreatEndLongitude));
-            startNOM.setValue("airThreatSpeed", new NDouble(airThreatSpeed));
-            startNOM.setValue("antiAirMissileLatitude", new NDouble(antiAirMissileLatitude));
-            startNOM.setValue("antiAirMissileLongitude", new NDouble(antiAirMissileLongitude));
-            startNOM.setValue("antiAirMissileSpeed", new NDouble(antiAirMissileSpeed));
+            startNOM.setValue("airThreatStartLatitude", new NInteger(airThreatStartLatitude));
+            startNOM.setValue("airThreatStartLongitude", new NInteger(airThreatStartLongitude));
+            startNOM.setValue("airThreatEndLatitude", new NInteger(airThreatEndLatitude));
+            startNOM.setValue("airThreatEndLongitude", new NInteger(airThreatEndLongitude));
+            startNOM.setValue("airThreatSpeed", new NFloat(airThreatSpeed));
+            startNOM.setValue("antiAirMissileLatitude", new NInteger(antiAirMissileLatitude));
+            startNOM.setValue("antiAirMissileLongitude", new NInteger(antiAirMissileLongitude));
+            startNOM.setValue("antiAirMissileSpeed", new NFloat(antiAirMissileSpeed));
             int byteSize = 0;
             byte[] nomBytes = startNOM.serialize(out byteSize);
 

@@ -2,7 +2,6 @@
 #include <nFramework/BaseManager.h>
 #include <nFramework/mec/MECComponent.h>
 #include <nFramework/nom/NOMMain.h>
-#include "AntiAirMissileController.h"
 
 using namespace nframework;
 using namespace nom;
@@ -30,8 +29,10 @@ public:
 	virtual bool stop() override;
 	virtual void setMEBComponent(IMEBComponent*) override;
 
-	virtual void sendAntiAirMissileInfoMsg(AntiAirMissileInfo& antiAirMissileInfo);
-	virtual void sendSimulationStatusInfoMsg(int status);
+	virtual void sendAntiAirMissileInfoMsg(int currentTime, int currentLatitude, int currentLongitude, float currentSpeed, float currentAngle);
+	virtual void sendDetectingMsg();
+	virtual void sendChasingMsg();
+	virtual void sendSuccessMsg();
 private:
 	void init();
 	void release();
@@ -45,9 +46,9 @@ private:
 
 	// you can change the code, if necessary
 	shared_ptr<NOM> ICD_TestNOM;
+	shared_ptr<NOM> detectingMsg;
+	shared_ptr<NOM> chasingMsg;
+	shared_ptr<NOM> successMsg;
 	shared_ptr<NOM> antiAirMissileInfoMsg;
-	shared_ptr<NOM> simulationStatusInfoMsg;
-
-	AntiAirMissileController antiAirMissileController;
 };
 

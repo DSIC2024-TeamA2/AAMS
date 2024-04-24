@@ -49,10 +49,22 @@ AirThreatManager::discoverMsg(shared_ptr<NOM> nomMsg)
 	discoveredMsg.insert(pair<unsigned int, shared_ptr<NOM>>(nomMsg->getInstanceID(), nomMsg));
 }
 
+void AirThreatManager::sendAirThreatInfoMsg(int currentTime, int currentLatitude, int currentLongitude, float currentSpeed, float currentAngle)
+{
+	tcout << _T("AirThreatManager sendAirThreatInfoMsg OK") << endl;
+	airThreatInfoMsg->setValue(_T("currentTime"), &NUInteger(currentTime));
+	airThreatInfoMsg->setValue(_T("currentLatitude"), &NUInteger(currentLatitude));
+	airThreatInfoMsg->setValue(_T("currentLongitude"), &NUInteger(currentLongitude));
+	airThreatInfoMsg->setValue(_T("currentSpeed"), &NFloat(currentSpeed));
+	airThreatInfoMsg->setValue(_T("currentAngle"), &NFloat(currentAngle));
+	updateMsg(airThreatInfoMsg);
+}
+
 void
 AirThreatManager::updateMsg(shared_ptr<NOM> nomMsg)
 {
-	tcout << _T("AirThreatManager updateMsg called") << endl;
+	// AirThreatInfo 메시지 send 해야함
+	// airThreatInfoMsg를 매개변수로 전달하면 됨
 	mec->updateMsg(nomMsg);
 }
 
@@ -62,46 +74,16 @@ AirThreatManager::reflectMsg(shared_ptr<NOM> nomMsg)
 	// if need be, write your code
 	if (nomMsg->getName() == _T("ScenarioInfo"))
 	{
-		//map<tstring, function<void(shared_ptr<NOM>)>
 		tcout << _T("AirThreatManager ScenarioInfo OK") << endl;
 		int startTime = nomMsg->getValue(_T("startTime"))->toInt();
-		double airThreatStartLatitude = nomMsg->getValue(_T("airThreatStartLatitude"))->toDouble();
-		double airThreatStartLongitude = nomMsg->getValue(_T("airThreatStartLongitude"))->toDouble();
-		double airThreatEndLatitude = nomMsg->getValue(_T("airThreatEndLatitude"))->toDouble();
-		double airThreatEndLongitude = nomMsg->getValue(_T("airThreatEndLongitude"))->toDouble();
-		double airThreatSpeed = nomMsg->getValue(_T("airThreatSpeed"))->toDouble();
-		double antiAirMissileLatitude = nomMsg->getValue(_T("antiAirMissileLatitude"))->toDouble();
-		double antiAirMissileLongitude = nomMsg->getValue(_T("antiAirMissileLongitude"))->toDouble();
-		double antiAirMissileSpeed = nomMsg->getValue(_T("antiAirMissileSpeed"))->toDouble();
-		tcout << _T("startTime: ") << startTime << endl;
-		tcout << _T("airThreatStartLatitude: ") << airThreatStartLatitude << endl;
-		tcout << _T("airThreatStartLongitude: ") << airThreatStartLongitude << endl;
-		tcout << _T("airThreatEndLatitude: ") << airThreatEndLatitude << endl;
-		tcout << _T("airThreatEndLongitude: ") << airThreatEndLongitude << endl;
-		tcout << _T("airThreatSpeed: ") << airThreatSpeed << endl;
-		tcout << _T("antiAirMissileLatitude: ") << antiAirMissileLatitude << endl;
-		tcout << _T("antiAirMissileLongitude: ") << antiAirMissileLongitude << endl;
-		tcout << _T("antiAirMissileSpeed: ") << antiAirMissileSpeed << endl;
-		ScenarioInfo info;
-		info.startTime = startTime;
-		info.airThreatStartLatitude = airThreatStartLatitude;
-		info.airThreatStartLongitude = airThreatStartLongitude;
-		info.airThreatEndLatitude = airThreatEndLatitude;
-		info.airThreatEndLongitude = airThreatEndLongitude;
-		info.airThreatSpeed = airThreatSpeed;
-		info.antiAirMissileLatitude = antiAirMissileLatitude;
-		info.antiAirMissileLongitude = antiAirMissileLongitude;
-		info.antiAirMissileSpeed = antiAirMissileSpeed;
-		airThreatController.setScenarioInfo(info);
-		airThreatController.start();
-	}
-	else if (nomMsg->getName() == _T("SimulationStatusInfo"))
-	{
-		tcout << _T("AirThreatManager SimulationStatusInfo OK") << endl;
-		tcout << nomMsg->getValue(_T("status"))->toInt() << endl;
-		int status = nomMsg->getValue(_T("status"))->toInt();
-		airThreatController.setSimulationStatus(SimulationStatus(status));
-		//tcout << _T("AirThreatManager sendSimulationStatusInfoMsg OK") << endl;
+		int airThreatStartLatitude = nomMsg->getValue(_T("airThreatStartLatitude"))->toInt();
+		int airThreatStartLongitude = nomMsg->getValue(_T("airThreatStartLongitude"))->toInt();
+		int airThreatEndLatitude = nomMsg->getValue(_T("airThreatEndLatitude"))->toInt();
+		int airThreatEndLongitude = nomMsg->getValue(_T("airThreatEndLongitude"))->toInt();
+		float airThreatSpeed = nomMsg->getValue(_T("airThreatSpeed"))->toFloat();
+		int antiAirMissileLatitude = nomMsg->getValue(_T("antiAirMissileLatitude"))->toInt();
+		int antiAirMissileLongitude = nomMsg->getValue(_T("antiAirMissileLongitude"))->toInt();
+		float antiAirMissileSpeed = nomMsg->getValue(_T("antiAirMissileSpeed"))->toFloat();
 	}
 }
 
@@ -116,6 +98,12 @@ void
 AirThreatManager::removeMsg(shared_ptr<NOM> nomMsg)
 {
 	discoveredMsg.erase(nomMsg->getInstanceID());
+}
+
+void AirThreatManager::sendFailMsg()
+{
+	tcout << _T("AirThreatManager sendFailMsg OK") << endl;
+	sendMsg(failMsg);
 }
 
 void
@@ -135,6 +123,22 @@ AirThreatManager::recvMsg(shared_ptr<NOM> nomMsg)
 		tcout << _T("OK") << endl;
 		ICD_TestNOM->setValue(_T("Message1"), &NUInteger(7));
 		this->updateMsg(ICD_TestNOM);
+	}
+	else if (nomMsg->getName() == _T("IDLE"))
+	{
+		tcout << _T("AirThreatManager IDLE OK") << endl;
+	}
+	else if (nomMsg->getName() == _T("DETECTING"))
+	{
+		tcout << _T("AirThreatManager DETECTING OK") << endl;
+	}
+	else if (nomMsg->getName() == _T("CHASING"))
+	{
+		tcout << _T("AirThreatManager CHASING OK") << endl;
+	}
+	else if (nomMsg->getName() == _T("SUCCESS"))
+	{
+		tcout << _T("AirThreatManager SUCCESS OK") << endl;
 	}
 	// if need be, write your code
 }
@@ -162,44 +166,18 @@ AirThreatManager::start()
 {
 	// you can change the code below, if necessary
 	ICD_TestNOM = this->registerMsg(_T("ICD_Test1"));
-	simulationStatusInfoMsg = this->registerMsg(_T("SimulationStatusInfo"));
+	failMsg = this->registerMsg(_T("FAIL"));
+	scenarioInfoMsg = this->registerMsg(_T("ScenarioInfo"));
 	airThreatInfoMsg = this->registerMsg(_T("AirThreatInfo"));
-
-	function<void(AirThreatInfo &)> sendAirThreatInfo;
-	sendAirThreatInfo = bind(&AirThreatManager::sendAirThreatInfoMsg, this, placeholders::_1);
-	airThreatController.setSendAirThreatInfoMethod(sendAirThreatInfo);
-	function<void(int)> sendSimulationStatusInfo;
-	sendSimulationStatusInfo = bind(&AirThreatManager::sendSimulationStatusInfoMsg, this, placeholders::_1);
-	airThreatController.setSendSimulationStatusInfoMethod(sendSimulationStatusInfo);
-
 	return true;
-}
-
-void AirThreatManager::sendSimulationStatusInfoMsg(int status)
-{
-	tcout << _T("AirThreatManager sendSimulationStatusInfoMsg OK") << endl;
-	NEnum enumType;
-	enumType.setValue(&NShort(status));
-	simulationStatusInfoMsg->setValue(_T("status"), &enumType);
-	updateMsg(simulationStatusInfoMsg);
-}
-
-void AirThreatManager::sendAirThreatInfoMsg(AirThreatInfo &airThreatInfo)
-{
-	tcout << _T("AirThreatManager sendAirThreatInfoMsg OK") << endl;
-	airThreatInfoMsg->setValue(_T("currentTime"), &NInteger(airThreatInfo.currentTime));
-	airThreatInfoMsg->setValue(_T("currentLatitude"), &NInteger(airThreatInfo.currentLatitude));
-	airThreatInfoMsg->setValue(_T("currentLongitude"), &NInteger(airThreatInfo.currentLongitude));
-	airThreatInfoMsg->setValue(_T("currentSpeed"), &NFloat(airThreatInfo.currentSpeed));
-	airThreatInfoMsg->setValue(_T("currentAngle"), &NFloat(airThreatInfo.currentAngle));
-	updateMsg(airThreatInfoMsg);
 }
 
 bool
 AirThreatManager::stop()
 {
 	this->deleteMsg(ICD_TestNOM);
-	this->deleteMsg(simulationStatusInfoMsg);
+	this->deleteMsg(failMsg);
+	this->deleteMsg(scenarioInfoMsg);
 	this->deleteMsg(airThreatInfoMsg);
 
 	return true;

@@ -18,15 +18,9 @@
     <ClCompile Include="AntiAirMissileManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="AntiAirMissileController.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AntiAirMissileManager.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="AntiAirMissileController.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
