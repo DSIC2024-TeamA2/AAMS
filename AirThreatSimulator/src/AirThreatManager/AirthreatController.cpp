@@ -115,7 +115,12 @@ void AirthreatController::threatSimulationThread()
 		stop();
 		return;
 	}
-	// # 1. 중단 조건 확인
+
+	updateAirThreatInfo();
+
+	airThreatInfo.currentTime = airThreatInfo.currentTime + 1;
+	sendAirThreatInfo(airThreatInfo);
+
 	if (isTermination(scenarioInfo, airThreatInfo))
 	{
 		tcout << _T("isTermination(scenarioInfo, airThreatInfo) == true") << std::endl;
@@ -125,14 +130,7 @@ void AirthreatController::threatSimulationThread()
 		stop();
 		return;
 	}
-
-	updateAirThreatInfo();
-
-	// # 2. 수행
-	airThreatInfo.currentTime = airThreatInfo.currentTime + 1;
-	sendAirThreatInfo(airThreatInfo);
 }
-
 
 /* -------------------------------------------------------------------------------------
 *  #3. 계산
@@ -147,7 +145,6 @@ void AirthreatController::updateAirThreatInfo()
 	airThreatInfo.currentLongitude = airThreatInfo.currentLongitude + scenarioInfo.airThreatSpeed * std::sin(radianAngle);
 	//tcout << _T("Threat position : (") << airThreatInfo.currentLatitude << _T(", ") << airThreatInfo.currentLongitude << _T(")") << std::endl;
 }
-
 
 /* -------------------------------------------------------------------------------------
 *  #4. send

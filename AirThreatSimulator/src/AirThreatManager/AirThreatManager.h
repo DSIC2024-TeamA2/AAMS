@@ -41,6 +41,7 @@ private:
 	tstring name;
 	map<unsigned int, shared_ptr<NOM>> registeredMsg;
 	map<unsigned int, shared_ptr<NOM>> discoveredMsg;
+	map<tstring, function<void(AirthreatController&, shared_ptr<NOM>)>> msgFuncMap;
 
 	// you can change the code, if necessary
 	shared_ptr<NOM> ICD_TestNOM;

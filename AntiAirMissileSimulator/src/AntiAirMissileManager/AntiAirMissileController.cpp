@@ -13,11 +13,14 @@ AntiAirMissileController::~AntiAirMissileController()
 {
 }
 
+static bool scenarioInserted = false;
+
 /* -------------------------------------------------------------------------------------
 *  #0. 초기 세팅
 -------------------------------------------------------------------------------------*/
 void AntiAirMissileController::setScenarioInfo(ScenarioInfo scenarioInfo)
 {
+	scenarioInserted = true;
 	this->scenarioInfo = scenarioInfo;
 	scenarioInfo.airThreatSpeed = scenarioInfo.airThreatSpeed / 3600;
 }
@@ -31,6 +34,7 @@ void AntiAirMissileController::setSimulationStatus(SimulationStatus status)
 {
 	this->status = status;
 	if (status == IDLE) {
+		scenarioInserted = false;
 		memset(&scenarioInfo, 0, sizeof(ScenarioInfo));
 		memset(&antiAirMissileInfo, 0, sizeof(AntiAirMissileInfo));
 		memset(&airThreatInfo, 0, sizeof(AirThreatInfo));
@@ -67,29 +71,9 @@ void AntiAirMissileController::stop()
 /* -------------------------------------------------------------------------------------
 *  #2. detection
 -------------------------------------------------------------------------------------*/
-//void AntiAirMissileController::detectAntiAirMissile()
-//{
-//	double radX = pow(scenarioInfo.antiAirMissileLatitude - airThreatInfo.currentLatitude, 2);
-//	double radY = pow(scenarioInfo.antiAirMissileLongitude - airThreatInfo.currentLongitude, 2);
-//	
-//	int radius = 300;
-//	if (pow(radius,2) >= (radX + radY)|| antiAirMissileInfo.chasing == true)
-//	{
-//		setSimulationStatus(CHASING);
-//		sendSimulationStatusInfo(CHASING);
-//		updateAntiAirMissileInfo();
-//		antiAirMissileInfo.chasing = true;
-//	}
-//	/*else
-//	{
-//		setSimulationStatus(DETECTING);
-//		sendSimulationStatusInfo(DETECTING);
-//	}*/
-//}
-
 void AntiAirMissileController::detectAntiAirMissile()
 {
-	if (status == DETECTING)
+	if (status == DETECTING && scenarioInserted)
 	{
 		int radius = AMSConfiguration::getInstance().getDetectionRadius();
 		double radiusDouble = pow(radius, 2);
@@ -117,8 +101,7 @@ bool isTermination(ScenarioInfo& scenarioInfo, AntiAirMissileInfo& antiAirMissil
 	{
 		return true;
 	}
-	else
-		return false;
+	return false;
 }
 
 void AntiAirMissileController::threatSimulationThread()
@@ -133,6 +116,14 @@ void AntiAirMissileController::threatSimulationThread()
 		stop();
 		return;
 	}
+
+	detectAntiAirMissile();
+
+	if (status == CHASING)
+	{
+		updateAntiAirMissileInfo();
+	}
+
 	if (isTermination(scenarioInfo, antiAirMissileInfo, airThreatInfo))
 	{
 		antiAirMissileInfo.currentTime = antiAirMissileInfo.currentTime + 1;
@@ -145,16 +136,11 @@ void AntiAirMissileController::threatSimulationThread()
 
 		tcout << _T("모의 시스템 상태") << status << std::endl;
 		stop();
+
 		return;
 	}
-
-	detectAntiAirMissile();
-
 	if (status == CHASING)
 	{
-		tcout << _T("pre Threat position : (") << antiAirMissileInfo.currentLatitude << _T(", ") << antiAirMissileInfo.currentLongitude << _T(")") << std::endl;
-		updateAntiAirMissileInfo();
-		tcout << _T("post Threat position : (") << antiAirMissileInfo.currentLatitude << _T(", ") << antiAirMissileInfo.currentLongitude << _T(")") << std::endl;
 		antiAirMissileInfo.currentTime = antiAirMissileInfo.currentTime + 1;
 		sendAntiAirMissileInfo(antiAirMissileInfo);
 	}
