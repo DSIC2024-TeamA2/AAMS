@@ -1,0 +1,33 @@
+\doxysection{ams\+\_\+configuration.\+h}
+\hypertarget{ams__configuration_8h_source}{}\label{ams__configuration_8h_source}\index{C:/Users/User/Desktop/WorkSpace/AAMS/AirThreatSimulator/src/AirThreatManager/Data/ams\_configuration.h@{C:/Users/User/Desktop/WorkSpace/AAMS/AirThreatSimulator/src/AirThreatManager/Data/ams\_configuration.h}}
+\mbox{\hyperlink{ams__configuration_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*****************************************************************/}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <fstream>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00018\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_a_m_s_configuration}{AMSConfiguration}}\ \{}
+\DoxyCodeLine{00019\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{class_a_m_s_configuration}{AMSConfiguration}}\&\ \mbox{\hyperlink{class_a_m_s_configuration_ab12f00038eb36691266b1ff3c40b63bb}{getInstance}}();}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{int}\ getUpdateDuration()\ \textcolor{keyword}{const};\ \ \ \ \ \ }
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_a_m_s_configuration_a5001951b4bf180d155f8ca7e67d82942}{getDetectionRadius}}()\ \textcolor{keyword}{const};\ \ \ \ \ }
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00033\ \ \ \ \ \mbox{\hyperlink{class_a_m_s_configuration}{AMSConfiguration}}();}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordtype}{void}\ Init();}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keywordtype}{int}\ updateDuration;\ \ \ \ \ }
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordtype}{int}\ detectionRadius;\ \ \ \ }
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00047\ \ \ \ \ \mbox{\hyperlink{class_a_m_s_configuration}{AMSConfiguration}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_a_m_s_configuration}{AMSConfiguration}}\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00053\ \ \ \ \ \mbox{\hyperlink{class_a_m_s_configuration}{AMSConfiguration}}\&\ operator=(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_a_m_s_configuration}{AMSConfiguration}}\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ std::string\ CONF\_FILE\_PATH;\ \ \ \ }
+\DoxyCodeLine{00056\ \};}
+
+\end{DoxyCode}

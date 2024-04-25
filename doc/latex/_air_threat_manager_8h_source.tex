@@ -1,0 +1,59 @@
+\doxysection{Air\+Threat\+Manager.\+h}
+\hypertarget{_air_threat_manager_8h_source}{}\label{_air_threat_manager_8h_source}\index{C:/Users/User/Desktop/WorkSpace/AAMS/AirThreatSimulator/src/AirThreatManager/AirThreatManager.h@{C:/Users/User/Desktop/WorkSpace/AAMS/AirThreatSimulator/src/AirThreatManager/AirThreatManager.h}}
+\mbox{\hyperlink{_air_threat_manager_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*****************************************************************/}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <nFramework/BaseManager.h>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <nFramework/mec/MECComponent.h>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <nFramework/nom/NOMMain.h>}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_airthreat_controller_8h}{AirthreatController.h}}"{}}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{keyword}{using\ namespace\ }nframework;}
+\DoxyCodeLine{00015\ \textcolor{keyword}{using\ namespace\ }nom;}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00022\ \textcolor{keyword}{class\ }BASEMGRDLL\_API\ \mbox{\hyperlink{class_air_threat_manager}{AirThreatManager}}\ :\ \textcolor{keyword}{public}\ BaseManager}
+\DoxyCodeLine{00023\ \{}
+\DoxyCodeLine{00024\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00025\ \ \ \ \ \mbox{\hyperlink{class_air_threat_manager}{AirThreatManager}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00026\ \ \ \ \ \mbox{\hyperlink{class_air_threat_manager}{\string~AirThreatManager}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{comment}{//\ inherited\ from\ the\ BaseManager\ class}}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keyword}{virtual}\ shared\_ptr<NOM>\ registerMsg(tstring)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ discoverMsg(shared\_ptr<NOM>)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ updateMsg(shared\_ptr<NOM>)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ reflectMsg(shared\_ptr<NOM>)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ deleteMsg(shared\_ptr<NOM>)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ removeMsg(shared\_ptr<NOM>)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ sendMsg(shared\_ptr<NOM>)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ recvMsg(shared\_ptr<NOM>)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ setUserName(tstring)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keyword}{virtual}\ tstring\ getUserName()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ setData(\textcolor{keywordtype}{void}*)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ start()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ stop()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ setMEBComponent(IMEBComponent*)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00050\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordtype}{void}\ init();}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordtype}{void}\ release();}
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordtype}{void}\ sendAirThreatInfoMsg(\mbox{\hyperlink{struct_air_threat_info}{AirThreatInfo}}\&\ airThreatInfo);}
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keywordtype}{void}\ sendSimulationStatusInfoMsg(\textcolor{keywordtype}{int}\ status);}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00057\ \ \ \ \ IMEBComponent*\ meb;}
+\DoxyCodeLine{00058\ \ \ \ \ MECComponent*\ mec;}
+\DoxyCodeLine{00059\ \ \ \ \ tstring\ name;}
+\DoxyCodeLine{00060\ \ \ \ \ map<unsigned\ int,\ shared\_ptr<NOM>>\ registeredMsg;}
+\DoxyCodeLine{00061\ \ \ \ \ map<unsigned\ int,\ shared\_ptr<NOM>>\ discoveredMsg;}
+\DoxyCodeLine{00062\ \ \ \ \ map<tstring,\ function<void(\mbox{\hyperlink{class_airthreat_controller}{AirthreatController}}\&,\ shared\_ptr<NOM>)>>\ msgFuncMap;}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \ \ \ \ shared\_ptr<NOM>\ simulationStatusInfoMsg;}
+\DoxyCodeLine{00065\ \ \ \ \ shared\_ptr<NOM>\ scenarioInfoMsg;}
+\DoxyCodeLine{00066\ \ \ \ \ shared\_ptr<NOM>\ airThreatInfoMsg;}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \ \ \ \ \mbox{\hyperlink{class_airthreat_controller}{AirthreatController}}\ airThreatController;}
+\DoxyCodeLine{00069\ \};}
+\DoxyCodeLine{00070\ }
+
+\end{DoxyCode}

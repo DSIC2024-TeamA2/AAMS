@@ -1,0 +1,93 @@
+\doxysection{Air\+Threat\+Manager Class Reference}
+\hypertarget{class_air_threat_manager}{}\label{class_air_threat_manager}\index{AirThreatManager@{AirThreatManager}}
+
+
+공중위협 모의기 정보 통신 클래스  
+
+
+
+
+{\ttfamily \#include $<$Air\+Threat\+Manager.\+h$>$}
+
+Inheritance diagram for Air\+Threat\+Manager\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_air_threat_manager}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_air_threat_manager_abc9f7add7d39cb2ddafc1fd77aef02e2}\label{class_air_threat_manager_abc9f7add7d39cb2ddafc1fd77aef02e2} 
+virtual shared\+\_\+ptr$<$ NOM $>$ {\bfseries register\+Msg} (tstring) override
+\item 
+\Hypertarget{class_air_threat_manager_ad2db69bae83fb41ba009bb9e12870c72}\label{class_air_threat_manager_ad2db69bae83fb41ba009bb9e12870c72} 
+virtual void {\bfseries discover\+Msg} (shared\+\_\+ptr$<$ NOM $>$) override
+\item 
+\Hypertarget{class_air_threat_manager_a1f253050b1be951f560cb6ea77721be6}\label{class_air_threat_manager_a1f253050b1be951f560cb6ea77721be6} 
+virtual void {\bfseries update\+Msg} (shared\+\_\+ptr$<$ NOM $>$) override
+\item 
+virtual void \mbox{\hyperlink{class_air_threat_manager_a67d3bed8159c515d91af5ae1176946ff}{reflect\+Msg}} (shared\+\_\+ptr$<$ NOM $>$) override
+\begin{DoxyCompactList}\small\item\em NOM 처리하는 가상 함수. \end{DoxyCompactList}\item 
+\Hypertarget{class_air_threat_manager_a79269e2a208271b12f2a8a9b6a1a7e13}\label{class_air_threat_manager_a79269e2a208271b12f2a8a9b6a1a7e13} 
+virtual void {\bfseries delete\+Msg} (shared\+\_\+ptr$<$ NOM $>$) override
+\item 
+\Hypertarget{class_air_threat_manager_ac20ae2a5d32d45faaabe2aad431dfc59}\label{class_air_threat_manager_ac20ae2a5d32d45faaabe2aad431dfc59} 
+virtual void {\bfseries remove\+Msg} (shared\+\_\+ptr$<$ NOM $>$) override
+\item 
+\Hypertarget{class_air_threat_manager_aef08e342e9010f827eed15e3c22204f4}\label{class_air_threat_manager_aef08e342e9010f827eed15e3c22204f4} 
+virtual void {\bfseries send\+Msg} (shared\+\_\+ptr$<$ NOM $>$) override
+\item 
+\Hypertarget{class_air_threat_manager_acc7dbb29e30612d17497aca313a920d0}\label{class_air_threat_manager_acc7dbb29e30612d17497aca313a920d0} 
+virtual void {\bfseries recv\+Msg} (shared\+\_\+ptr$<$ NOM $>$) override
+\item 
+\Hypertarget{class_air_threat_manager_a1fa24613645d0d9ed76360db80d60bb2}\label{class_air_threat_manager_a1fa24613645d0d9ed76360db80d60bb2} 
+virtual void {\bfseries set\+User\+Name} (tstring) override
+\item 
+\Hypertarget{class_air_threat_manager_a94a9d92cbc28038eb7ab2b0522fbefb4}\label{class_air_threat_manager_a94a9d92cbc28038eb7ab2b0522fbefb4} 
+virtual tstring {\bfseries get\+User\+Name} () override
+\item 
+\Hypertarget{class_air_threat_manager_ab7df8cadbaef2508b04e5d35a4f2881c}\label{class_air_threat_manager_ab7df8cadbaef2508b04e5d35a4f2881c} 
+virtual void {\bfseries set\+Data} (void \texorpdfstring{$\ast$}{*}) override
+\item 
+\Hypertarget{class_air_threat_manager_affcc0f10e39c09a40cbc672df5efbdd2}\label{class_air_threat_manager_affcc0f10e39c09a40cbc672df5efbdd2} 
+virtual bool {\bfseries start} () override
+\item 
+\Hypertarget{class_air_threat_manager_ada7f2438fb40903b5915d7e4f6552c56}\label{class_air_threat_manager_ada7f2438fb40903b5915d7e4f6552c56} 
+virtual bool {\bfseries stop} () override
+\item 
+\Hypertarget{class_air_threat_manager_a9b7c1a11d929f34297160f1708f1d722}\label{class_air_threat_manager_a9b7c1a11d929f34297160f1708f1d722} 
+virtual void {\bfseries set\+MEBComponent} (IMEBComponent \texorpdfstring{$\ast$}{*}) override
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+공중위협 모의기 정보 통신 클래스 
+
+공중위협 모의가 송수신할 정보를 지정 및 송수신을 담당한다. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_air_threat_manager_a67d3bed8159c515d91af5ae1176946ff}\label{class_air_threat_manager_a67d3bed8159c515d91af5ae1176946ff} 
+\index{AirThreatManager@{AirThreatManager}!reflectMsg@{reflectMsg}}
+\index{reflectMsg@{reflectMsg}!AirThreatManager@{AirThreatManager}}
+\doxysubsubsection{\texorpdfstring{reflectMsg()}{reflectMsg()}}
+{\footnotesize\ttfamily void Air\+Threat\+Manager\+::reflect\+Msg (\begin{DoxyParamCaption}\item[{shared\+\_\+ptr$<$ NOM $>$}]{nom\+Msg }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+NOM 처리하는 가상 함수. 
+
+메시지를 수신하고 처리한다. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em NOM} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+User/\+Desktop/\+Work\+Space/\+AAMS/\+Air\+Threat\+Simulator/src/\+Air\+Threat\+Manager/\mbox{\hyperlink{_air_threat_manager_8h}{Air\+Threat\+Manager.\+h}}\item 
+C\+:/\+Users/\+User/\+Desktop/\+Work\+Space/\+AAMS/\+Air\+Threat\+Simulator/src/\+Air\+Threat\+Manager/Air\+Threat\+Manager.\+cpp\end{DoxyCompactItemize}

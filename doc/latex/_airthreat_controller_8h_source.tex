@@ -1,0 +1,81 @@
+\doxysection{Airthreat\+Controller.\+h}
+\hypertarget{_airthreat_controller_8h_source}{}\label{_airthreat_controller_8h_source}\index{C:/Users/User/Desktop/WorkSpace/AAMS/AirThreatSimulator/src/AirThreatManager/AirthreatController.h@{C:/Users/User/Desktop/WorkSpace/AAMS/AirThreatSimulator/src/AirThreatManager/AirthreatController.h}}
+\mbox{\hyperlink{_airthreat_controller_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*****************************************************************/}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <thread>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <chrono>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <functional>}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{ams__configuration_8h}{Data/ams\_configuration.h}}"{}}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#ifndef\ M\_PI}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#define\ M\_PI\ 3.14159265358979323846}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00023\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_air_threat_info}{AirThreatInfo}}}
+\DoxyCodeLine{00024\ \{}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordtype}{int}\ currentTime;}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{double}\ currentLatitude;}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{double}\ currentLongitude;}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{double}\ currentSpeed;}
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keywordtype}{double}\ currentAngle;}
+\DoxyCodeLine{00030\ \};}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00037\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_scenario_info}{ScenarioInfo}}}
+\DoxyCodeLine{00038\ \{}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordtype}{int}\ startTime;}
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keywordtype}{double}\ airThreatStartLatitude;}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordtype}{double}\ airThreatStartLongitude;}
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordtype}{double}\ airThreatEndLatitude;}
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordtype}{double}\ airThreatEndLongitude;}
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordtype}{double}\ airThreatSpeed;}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordtype}{double}\ antiAirMissileLatitude;}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordtype}{double}\ antiAirMissileLongitude;}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{double}\ antiAirMissileSpeed;}
+\DoxyCodeLine{00048\ \};}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00055\ \textcolor{keyword}{enum}\ \mbox{\hyperlink{_airthreat_controller_8h_aaf5876738450df4bb9d08a5ec8a8dbe2}{SimulationStatus}}}
+\DoxyCodeLine{00056\ \{}
+\DoxyCodeLine{00057\ \ \ \ \ IDLE\ =\ 1,\ DETECTING\ =\ 2,\ CHASING\ =\ 3,\ SUCCESS\ =\ 4,\ FAIL\ =\ 5}
+\DoxyCodeLine{00058\ \};}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00065\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_airthreat_controller}{AirthreatController}}}
+\DoxyCodeLine{00066\ \{}
+\DoxyCodeLine{00067\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00071\ \ \ \ \ \mbox{\hyperlink{class_airthreat_controller_aa525dca04bd16a32b64db69a796a20b9}{AirthreatController}}();}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00076\ \ \ \ \ \mbox{\hyperlink{class_airthreat_controller_a392fb223848b5fa49de235f066b71fa9}{\string~AirthreatController}}();}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_airthreat_controller_ac03228a604d63cb91d2ca6a74c2bcb70}{setScenarioInfo}}(\mbox{\hyperlink{struct_scenario_info}{ScenarioInfo}}\ scenarioInfo);}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_airthreat_controller_a206aaab94d8220562499ffb4af2f56d9}{setSimulationStatus}}(\mbox{\hyperlink{_airthreat_controller_8h_aaf5876738450df4bb9d08a5ec8a8dbe2}{SimulationStatus}}\ status);}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00099\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_airthreat_controller_a1d7b2ea09d056879d5bccad65158da49}{start}}();}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00106\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_airthreat_controller_a06cf59cab2ef3b7755b1f921fa0b6111}{stop}}();}
+\DoxyCodeLine{00107\ }
+\DoxyCodeLine{00114\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_airthreat_controller_acb800bacc3c0fb5fd84c4139dff939dc}{setSendAirThreatInfoMethod}}(std::function<\textcolor{keywordtype}{void}(\mbox{\hyperlink{struct_air_threat_info}{AirThreatInfo}}\&)>\ sendAirThreatInfo);}
+\DoxyCodeLine{00115\ }
+\DoxyCodeLine{00122\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_airthreat_controller_a1b73cd908267cb8e43051539b61981b0}{setSendSimulationStatusInfoMethod}}(std::function<\textcolor{keywordtype}{void}(\textcolor{keywordtype}{int})>\ sendSimulationStatusInfo);}
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00129\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_airthreat_controller_afebbaedd45245e008add2fa692cf8913}{InitCurrentAirThreat}}();}
+\DoxyCodeLine{00130\ }
+\DoxyCodeLine{00131\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00132\ \ \ \ \ \mbox{\hyperlink{struct_air_threat_info}{AirThreatInfo}}\ airThreatInfo;\ \ \ }
+\DoxyCodeLine{00133\ \ \ \ \ \mbox{\hyperlink{struct_scenario_info}{ScenarioInfo}}\ scenarioInfo;\ \ \ \ \ \ }
+\DoxyCodeLine{00134\ \ \ \ \ \mbox{\hyperlink{_airthreat_controller_8h_aaf5876738450df4bb9d08a5ec8a8dbe2}{SimulationStatus}}\ status;\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00135\ }
+\DoxyCodeLine{00136\ \ \ \ \ std::function<void(\mbox{\hyperlink{struct_air_threat_info}{AirThreatInfo}}\&)>\ sendAirThreatInfo;\ \ \ \ \ }
+\DoxyCodeLine{00137\ \ \ \ \ std::function<void(\textcolor{keywordtype}{int})>\ sendSimulationStatusInfo;\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00138\ }
+\DoxyCodeLine{00139\ \ \ \ \ \textcolor{keywordtype}{int}\ timerHandle;\ \ \ \ }
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00141\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00147\ \ \ \ \ \textcolor{keywordtype}{void}\ threatSimulationThread();}
+\DoxyCodeLine{00148\ }
+\DoxyCodeLine{00154\ \ \ \ \ \textcolor{keywordtype}{void}\ updateAirThreatInfo();}
+\DoxyCodeLine{00155\ \};}
+\DoxyCodeLine{00156\ }
+
+\end{DoxyCode}

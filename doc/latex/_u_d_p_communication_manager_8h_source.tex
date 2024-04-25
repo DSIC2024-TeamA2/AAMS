@@ -1,0 +1,60 @@
+\doxysection{UDPCommunication\+Manager.\+h}
+\hypertarget{_u_d_p_communication_manager_8h_source}{}\label{_u_d_p_communication_manager_8h_source}\index{C:/Users/User/Desktop/WorkSpace/AAMS/AirThreatSimulator/src/UDPCommunicationManager/UDPCommunicationManager.h@{C:/Users/User/Desktop/WorkSpace/AAMS/AirThreatSimulator/src/UDPCommunicationManager/UDPCommunicationManager.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <nFramework/mec/MECComponent.h>}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <nFramework/comm/NCommInterface.h>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <nFramework/nom/NOMMain.h>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}CommMessageHandler.h"{}}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ commCount\ =\ 2;}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{class\ }BASEMGRDLL\_API\ \mbox{\hyperlink{class_u_d_p_communication_manager}{UDPCommunicationManager}}\ :\ \textcolor{keyword}{public}\ BaseManager}
+\DoxyCodeLine{00010\ \{}
+\DoxyCodeLine{00011\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00012\ \ \ \ \ \mbox{\hyperlink{class_u_d_p_communication_manager}{UDPCommunicationManager}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00013\ \ \ \ \ \mbox{\hyperlink{class_u_d_p_communication_manager}{\string~UDPCommunicationManager}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keyword}{virtual}\ shared\_ptr<NOM>\ registerMsg(tstring)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ discoverMsg(shared\_ptr<NOM>)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ updateMsg(shared\_ptr<NOM>)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ reflectMsg(shared\_ptr<NOM>)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ deleteMsg(shared\_ptr<NOM>)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ removeMsg(shared\_ptr<NOM>)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ sendMsg(shared\_ptr<NOM>)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ recvMsg(shared\_ptr<NOM>)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ setUserName(tstring)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keyword}{virtual}\ tstring\ getUserName()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ setData(\textcolor{keywordtype}{void}*)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ start()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ stop()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ setMEBComponent(IMEBComponent*)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00031\ \ \ \ \ }
+\DoxyCodeLine{00032\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{void}\ processRecvMessage(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}*\ data,\ \textcolor{keywordtype}{int}\ size);}
+\DoxyCodeLine{00034\ \ \ \ \ }
+\DoxyCodeLine{00035\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordtype}{void}\ init();}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordtype}{void}\ release();}
+\DoxyCodeLine{00038\ \ \ \ \ }
+\DoxyCodeLine{00039\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00040\ \ \ \ \ IMEBComponent*\ meb;}
+\DoxyCodeLine{00041\ \ \ \ \ MECComponent*\ mec;}
+\DoxyCodeLine{00042\ \ \ \ \ tstring\ name;}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ map<unsigned\ int,\ shared\_ptr<NOM>>\ registeredMsg;}
+\DoxyCodeLine{00045\ \ \ \ \ map<unsigned\ int,\ shared\_ptr<NOM>>\ discoveredMsg;}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ \ \ shared\_ptr<NOM>\ scenarioInfoMsg;}
+\DoxyCodeLine{00048\ \ \ \ \ shared\_ptr<NOM>\ simulationStatusInfoMsg;}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \ \ \ \ CommunicationInterface*\ commInterface[commCount];}
+\DoxyCodeLine{00051\ \ \ \ \ CommunicationConfig*\ commConfig[commCount];}
+\DoxyCodeLine{00052\ \ \ \ \ \mbox{\hyperlink{class_comm_message_handler}{CommMessageHandler}}\ commMsgHandler;}
+\DoxyCodeLine{00053\ \};}
+\DoxyCodeLine{00054\ }
+
+\end{DoxyCode}

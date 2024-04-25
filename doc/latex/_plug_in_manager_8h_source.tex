@@ -1,0 +1,37 @@
+\doxysection{Plug\+In\+Manager.\+h}
+\hypertarget{_plug_in_manager_8h_source}{}\label{_plug_in_manager_8h_source}\index{C:/Users/User/Desktop/WorkSpace/AAMS/AirThreatSimulator/src/ATSMain/PlugInManager.h@{C:/Users/User/Desktop/WorkSpace/AAMS/AirThreatSimulator/src/ATSMain/PlugInManager.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <nFramework/nFrameworkMain.h>}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <nFramework/nIntegrator/nIntegrator.h>}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#ifdef\ GUICONNDLL\_EXPORTS}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#define\ GUICONNDLL\_API\ \_\_declspec(dllexport)}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#define\ GUICONNDLL\_API\ \_\_declspec(dllimport)}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{keyword}{class\ }GUICONNDLL\_API\ \mbox{\hyperlink{class_plug_in_manager}{PlugInManager}}}
+\DoxyCodeLine{00012\ \{}
+\DoxyCodeLine{00013\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00014\ \ \ \ \ \mbox{\hyperlink{class_plug_in_manager}{PlugInManager}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00015\ \ \ \ \ \mbox{\hyperlink{class_plug_in_manager}{\string~PlugInManager}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keywordtype}{void}\ setHandleWindow(HWND\ hndlWnd);}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keywordtype}{void}\ sendMsg(tstring\ name,\ \textcolor{keywordtype}{int}\ length,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}*\ nomBytes);}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keywordtype}{void}\ doPlugIn();}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordtype}{void}\ doPlugOut();}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{void}\ init();}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{void}\ release();}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00027\ \ \ \ \ NIntegrator*\ nIntegrator;}
+\DoxyCodeLine{00028\ \ \ \ \ BaseManager*\ uiManager;}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \ \ HWND\ handleWindow;}
+\DoxyCodeLine{00031\ \};}
+
+\end{DoxyCode}

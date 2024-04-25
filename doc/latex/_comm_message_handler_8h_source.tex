@@ -1,0 +1,36 @@
+\doxysection{Comm\+Message\+Handler.\+h}
+\hypertarget{_comm_message_handler_8h_source}{}\label{_comm_message_handler_8h_source}\index{C:/Users/User/Desktop/WorkSpace/AAMS/AirThreatSimulator/src/UDPCommunicationManager/CommMessageHandler.h@{C:/Users/User/Desktop/WorkSpace/AAMS/AirThreatSimulator/src/UDPCommunicationManager/CommMessageHandler.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <nFramework/util/util.h>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <nFramework/nom/NOM.h>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{using\ namespace\ }nframework;}
+\DoxyCodeLine{00007\ \textcolor{keyword}{using\ namespace\ }nframework::nom;}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_comm_message_handler}{CommMessageHandler}}}
+\DoxyCodeLine{00011\ \{}
+\DoxyCodeLine{00012\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00013\ \ \ \ \ \mbox{\hyperlink{class_comm_message_handler}{CommMessageHandler}}();}
+\DoxyCodeLine{00014\ \ \ \ \ \mbox{\hyperlink{class_comm_message_handler}{\string~CommMessageHandler}}();}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \ \ \ \ tstring\ getMsgName(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ msgID);}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keywordtype}{bool}\ containsIDNameTable(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ msgID);}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keywordtype}{void}\ setNOM(shared\_ptr<NOM>);}
+\DoxyCodeLine{00019\ \ \ \ \ shared\_ptr<NOM>\ getNOM(tstring\ msgName);}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{void}\ initialize();}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{void}\ release();}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{void}\ setIDNameTable(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ msgID,\ tstring\ msgName);}
+\DoxyCodeLine{00025\ \ \ \ \ }
+\DoxyCodeLine{00026\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00027\ \ \ \ \ map<unsigned\ short,\ tstring>\ IDNameTable;}
+\DoxyCodeLine{00028\ \ \ \ \ map<tstring,\ shared\_ptr<NOM>>\ ObjNOMTable;}
+\DoxyCodeLine{00029\ \};}
+\DoxyCodeLine{00030\ }
+
+\end{DoxyCode}

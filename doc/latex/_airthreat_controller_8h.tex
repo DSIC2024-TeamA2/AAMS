@@ -1,0 +1,63 @@
+\doxysection{C\+:/\+Users/\+User/\+Desktop/\+Work\+Space/\+AAMS/\+Air\+Threat\+Simulator/src/\+Air\+Threat\+Manager/\+Airthreat\+Controller.h File Reference}
+\hypertarget{_airthreat_controller_8h}{}\label{_airthreat_controller_8h}\index{C:/Users/User/Desktop/WorkSpace/AAMS/AirThreatSimulator/src/AirThreatManager/AirthreatController.h@{C:/Users/User/Desktop/WorkSpace/AAMS/AirThreatSimulator/src/AirThreatManager/AirthreatController.h}}
+
+
+공중위협 모의기가 공중위협 동작을 제어할 수 있도록 만드는 파일  
+
+
+{\ttfamily \#include $<$thread$>$}\newline
+{\ttfamily \#include $<$chrono$>$}\newline
+{\ttfamily \#include $<$functional$>$}\newline
+{\ttfamily \#include "{}Data/ams\+\_\+configuration.\+h"{}}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_air_threat_info}{Air\+Threat\+Info}}
+\begin{DoxyCompactList}\small\item\em 공중위협 모의기가 가진 공중위협 현재 정보들의 구조체 \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_scenario_info}{Scenario\+Info}}
+\begin{DoxyCompactList}\small\item\em 모의시스템 시나리오 정보들의 구조체 \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_airthreat_controller}{Airthreat\+Controller}}
+\begin{DoxyCompactList}\small\item\em 공중위협 제어 클래스 \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{_airthreat_controller_8h_ae71449b1cc6e6250b91f539153a7a0d3}\label{_airthreat_controller_8h_ae71449b1cc6e6250b91f539153a7a0d3} 
+\#define {\bfseries M\+\_\+\+PI}~3.\+14159265358979323846
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{_airthreat_controller_8h_aaf5876738450df4bb9d08a5ec8a8dbe2}{Simulation\+Status}} \{ \newline
+{\bfseries IDLE} = 1
+, {\bfseries DETECTING} = 2
+, {\bfseries CHASING} = 3
+, {\bfseries SUCCESS} = 4
+, \newline
+{\bfseries FAIL} = 5
+ \}
+\begin{DoxyCompactList}\small\item\em 모의시스템 진행 중 발생하는 상태들의 열거형 \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+공중위협 모의기가 공중위협 동작을 제어할 수 있도록 만드는 파일 
+
+공중위협 모의가는 시나리오 정보를 수신하고 공중위협 동작을 계산해 제어합니다. \begin{DoxyAuthor}{Author}
+남아리 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2024.\+04.\+25 
+\end{DoxyDate}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{_airthreat_controller_8h_aaf5876738450df4bb9d08a5ec8a8dbe2}\label{_airthreat_controller_8h_aaf5876738450df4bb9d08a5ec8a8dbe2} 
+\index{AirthreatController.h@{AirthreatController.h}!SimulationStatus@{SimulationStatus}}
+\index{SimulationStatus@{SimulationStatus}!AirthreatController.h@{AirthreatController.h}}
+\doxysubsubsection{\texorpdfstring{SimulationStatus}{SimulationStatus}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{_airthreat_controller_8h_aaf5876738450df4bb9d08a5ec8a8dbe2}{Simulation\+Status}}}
+
+
+
+모의시스템 진행 중 발생하는 상태들의 열거형 
+
+프로그램 초기 상태, 공중위협 탐지 상태, 공중위협 추적 상태, 공중위협 요격 성공 상태, 공중위협 요격 실패 상태 정보가 있습니다. 

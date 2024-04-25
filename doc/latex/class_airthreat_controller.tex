@@ -1,0 +1,159 @@
+\doxysection{Airthreat\+Controller Class Reference}
+\hypertarget{class_airthreat_controller}{}\label{class_airthreat_controller}\index{AirthreatController@{AirthreatController}}
+
+
+공중위협 제어 클래스  
+
+
+
+
+{\ttfamily \#include $<$Airthreat\+Controller.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_airthreat_controller_aa525dca04bd16a32b64db69a796a20b9}\label{class_airthreat_controller_aa525dca04bd16a32b64db69a796a20b9} 
+{\bfseries Airthreat\+Controller} ()
+\begin{DoxyCompactList}\small\item\em 공중위협 제어 클래스의 객체를 생성하는 함수 \end{DoxyCompactList}\item 
+\Hypertarget{class_airthreat_controller_a392fb223848b5fa49de235f066b71fa9}\label{class_airthreat_controller_a392fb223848b5fa49de235f066b71fa9} 
+{\bfseries \texorpdfstring{$\sim$}{\string~}\+Airthreat\+Controller} ()
+\begin{DoxyCompactList}\small\item\em 공중위협 제어 클래스의 객체를 소멸시키는 함수 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_airthreat_controller_ac03228a604d63cb91d2ca6a74c2bcb70}{set\+Scenario\+Info}} (\mbox{\hyperlink{struct_scenario_info}{Scenario\+Info}} scenario\+Info)
+\begin{DoxyCompactList}\small\item\em 시나리오 정보를 수신해 저장하는 함수 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_airthreat_controller_a206aaab94d8220562499ffb4af2f56d9}{set\+Simulation\+Status}} (\mbox{\hyperlink{_airthreat_controller_8h_aaf5876738450df4bb9d08a5ec8a8dbe2}{Simulation\+Status}} status)
+\begin{DoxyCompactList}\small\item\em 모의 진행 중 발생하는 상태값을 수신헤 저장하는 함수 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_airthreat_controller_a1d7b2ea09d056879d5bccad65158da49}{start}} ()
+\begin{DoxyCompactList}\small\item\em 모의 시작시 설정 시나리오 적용하고 일정 주기마다 운용통제기와 통신을 시작하는 함수 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_airthreat_controller_a06cf59cab2ef3b7755b1f921fa0b6111}{stop}} ()
+\begin{DoxyCompactList}\small\item\em 모의 종료시 공중위협 정보 초기화하고 운용통제기와의 통신을 끊는 함수 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_airthreat_controller_acb800bacc3c0fb5fd84c4139dff939dc}{set\+Send\+Air\+Threat\+Info\+Method}} (std\+::function$<$ void(\mbox{\hyperlink{struct_air_threat_info}{Air\+Threat\+Info}} \&)$>$ send\+Air\+Threat\+Info)
+\begin{DoxyCompactList}\small\item\em 공중위협 정보를 일정 주기마다 전송하는 함수 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_airthreat_controller_a1b73cd908267cb8e43051539b61981b0}{set\+Send\+Simulation\+Status\+Info\+Method}} (std\+::function$<$ void(int)$>$ send\+Simulation\+Status\+Info)
+\begin{DoxyCompactList}\small\item\em 공중위협 모의기의 시나리오 진행 상태 정보를 전송하는 함수 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_airthreat_controller_afebbaedd45245e008add2fa692cf8913}{Init\+Current\+Air\+Threat}} ()
+\begin{DoxyCompactList}\small\item\em 공중위협 정보를 수신한 시나리오 정보로 초기화하는 함수 \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+공중위협 제어 클래스 
+
+공중위협 모의기는 수신한 시나리오 정보으로 계산해 공중위협 제어한다. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_airthreat_controller_afebbaedd45245e008add2fa692cf8913}\label{class_airthreat_controller_afebbaedd45245e008add2fa692cf8913} 
+\index{AirthreatController@{AirthreatController}!InitCurrentAirThreat@{InitCurrentAirThreat}}
+\index{InitCurrentAirThreat@{InitCurrentAirThreat}!AirthreatController@{AirthreatController}}
+\doxysubsubsection{\texorpdfstring{InitCurrentAirThreat()}{InitCurrentAirThreat()}}
+{\footnotesize\ttfamily void Airthreat\+Controller\+::\+Init\+Current\+Air\+Threat (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+공중위협 정보를 수신한 시나리오 정보로 초기화하는 함수 
+
+운용통제기로부터 수신한 시나리오 정보를 공중위협 정보에 초기 저장한다. \begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\Hypertarget{class_airthreat_controller_ac03228a604d63cb91d2ca6a74c2bcb70}\label{class_airthreat_controller_ac03228a604d63cb91d2ca6a74c2bcb70} 
+\index{AirthreatController@{AirthreatController}!setScenarioInfo@{setScenarioInfo}}
+\index{setScenarioInfo@{setScenarioInfo}!AirthreatController@{AirthreatController}}
+\doxysubsubsection{\texorpdfstring{setScenarioInfo()}{setScenarioInfo()}}
+{\footnotesize\ttfamily void Airthreat\+Controller\+::set\+Scenario\+Info (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_scenario_info}{Scenario\+Info}}}]{scenario\+Info }\end{DoxyParamCaption})}
+
+
+
+시나리오 정보를 수신해 저장하는 함수 
+
+운용통제기로부터 시나리오 정보를 수신해 저장한다. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em scenario\+Info} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\Hypertarget{class_airthreat_controller_acb800bacc3c0fb5fd84c4139dff939dc}\label{class_airthreat_controller_acb800bacc3c0fb5fd84c4139dff939dc} 
+\index{AirthreatController@{AirthreatController}!setSendAirThreatInfoMethod@{setSendAirThreatInfoMethod}}
+\index{setSendAirThreatInfoMethod@{setSendAirThreatInfoMethod}!AirthreatController@{AirthreatController}}
+\doxysubsubsection{\texorpdfstring{setSendAirThreatInfoMethod()}{setSendAirThreatInfoMethod()}}
+{\footnotesize\ttfamily void Airthreat\+Controller\+::set\+Send\+Air\+Threat\+Info\+Method (\begin{DoxyParamCaption}\item[{std\+::function$<$ void(\mbox{\hyperlink{struct_air_threat_info}{Air\+Threat\+Info}} \&)$>$}]{send\+Air\+Threat\+Info }\end{DoxyParamCaption})}
+
+
+
+공중위협 정보를 일정 주기마다 전송하는 함수 
+
+공중위협 모의기의 현재 공중위협 정보를 운용통제기에 설정한 주기마다 전송한다. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em send\+Air\+Threat\+Info} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\Hypertarget{class_airthreat_controller_a1b73cd908267cb8e43051539b61981b0}\label{class_airthreat_controller_a1b73cd908267cb8e43051539b61981b0} 
+\index{AirthreatController@{AirthreatController}!setSendSimulationStatusInfoMethod@{setSendSimulationStatusInfoMethod}}
+\index{setSendSimulationStatusInfoMethod@{setSendSimulationStatusInfoMethod}!AirthreatController@{AirthreatController}}
+\doxysubsubsection{\texorpdfstring{setSendSimulationStatusInfoMethod()}{setSendSimulationStatusInfoMethod()}}
+{\footnotesize\ttfamily void Airthreat\+Controller\+::set\+Send\+Simulation\+Status\+Info\+Method (\begin{DoxyParamCaption}\item[{std\+::function$<$ void(int)$>$}]{send\+Simulation\+Status\+Info }\end{DoxyParamCaption})}
+
+
+
+공중위협 모의기의 시나리오 진행 상태 정보를 전송하는 함수 
+
+모의 진행 중 공중위협 모의기에 발생한 시나리오 상태 정보를 설정한 주기마다 전송한다. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em send\+Simulation\+Status\+Info} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\Hypertarget{class_airthreat_controller_a206aaab94d8220562499ffb4af2f56d9}\label{class_airthreat_controller_a206aaab94d8220562499ffb4af2f56d9} 
+\index{AirthreatController@{AirthreatController}!setSimulationStatus@{setSimulationStatus}}
+\index{setSimulationStatus@{setSimulationStatus}!AirthreatController@{AirthreatController}}
+\doxysubsubsection{\texorpdfstring{setSimulationStatus()}{setSimulationStatus()}}
+{\footnotesize\ttfamily void Airthreat\+Controller\+::set\+Simulation\+Status (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{_airthreat_controller_8h_aaf5876738450df4bb9d08a5ec8a8dbe2}{Simulation\+Status}}}]{status }\end{DoxyParamCaption})}
+
+
+
+모의 진행 중 발생하는 상태값을 수신헤 저장하는 함수 
+
+운용통제기로부터 수신한 시나리오 정보 중 모의 진행 중 발생하는 상태값을 수신해 저장한다. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em status} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\Hypertarget{class_airthreat_controller_a1d7b2ea09d056879d5bccad65158da49}\label{class_airthreat_controller_a1d7b2ea09d056879d5bccad65158da49} 
+\index{AirthreatController@{AirthreatController}!start@{start}}
+\index{start@{start}!AirthreatController@{AirthreatController}}
+\doxysubsubsection{\texorpdfstring{start()}{start()}}
+{\footnotesize\ttfamily void Airthreat\+Controller\+::start (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+모의 시작시 설정 시나리오 적용하고 일정 주기마다 운용통제기와 통신을 시작하는 함수 
+
+운용통제기로부터 수신한 시나리오 정보로 변수들을 초기화하고 설정한 주기마다 운용통제기로부터 시나리오 정보를 수신한다. \begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\Hypertarget{class_airthreat_controller_a06cf59cab2ef3b7755b1f921fa0b6111}\label{class_airthreat_controller_a06cf59cab2ef3b7755b1f921fa0b6111} 
+\index{AirthreatController@{AirthreatController}!stop@{stop}}
+\index{stop@{stop}!AirthreatController@{AirthreatController}}
+\doxysubsubsection{\texorpdfstring{stop()}{stop()}}
+{\footnotesize\ttfamily void Airthreat\+Controller\+::stop (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+모의 종료시 공중위협 정보 초기화하고 운용통제기와의 통신을 끊는 함수 
+
+운용통제기로부터 모의 중지 신호를 수신해 공중위협 정보를 초기화하고 통신을 끊는다. \begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+User/\+Desktop/\+Work\+Space/\+AAMS/\+Air\+Threat\+Simulator/src/\+Air\+Threat\+Manager/\mbox{\hyperlink{_airthreat_controller_8h}{Airthreat\+Controller.\+h}}\item 
+C\+:/\+Users/\+User/\+Desktop/\+Work\+Space/\+AAMS/\+Air\+Threat\+Simulator/src/\+Air\+Threat\+Manager/Airthreat\+Controller.\+cpp\end{DoxyCompactItemize}
