@@ -61,7 +61,7 @@
                         </StackPanel>
 
                         <StackPanel Width="200" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5">
-                            <Label Content="속도" FontSize="15" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
+                            <Label Content="속력" FontSize="15" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
                             <TextBox x:Name="AirThreatSpeedInput" Text="0" FontSize="14" TextAlignment="Center" Width="90" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,2" TextWrapping="Wrap" BorderThickness="2"/>
                         </StackPanel>
 
@@ -90,7 +90,7 @@
                             </DockPanel>
 
                             <StackPanel Width="200" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5">
-                                <Label Content="속도" FontSize="15" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
+                                <Label Content="속력" FontSize="15" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
                                 <TextBox x:Name="MSLSpeedInput" Text="0" FontSize="14" TextAlignment="Center" Width="90" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,2" TextWrapping="Wrap" BorderThickness="2"/>
                             </StackPanel>
                             <Button Name="MSLPosSetBTN" Content="유도탄설정" FontSize="15" FontWeight="Bold" BorderThickness="2" Width="90" Padding="0,5" Margin="5,2" HorizontalAlignment="Center" Click="SetPosModeClick"/>
@@ -125,11 +125,11 @@
                             <Label Name="ATCurrentPosY" Content="NO DATA" FontSize="14" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
                         </DockPanel>
                         <DockPanel Margin="0,10">
-                            <Label Content="속도" FontSize="15" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
+                            <Label Content="속력" FontSize="15" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
                             <Label Name="ATCurrentSpeed" Content="NO DATA" FontSize="14" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
                         </DockPanel>
                         <DockPanel Margin="0,10">
-                            <Label Content="방향" FontSize="15" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
+                            <Label Content="방위각" FontSize="15" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
                             <Label Name="ATCurrentDIR" Content="NO DATA" FontSize="14" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
                         </DockPanel>
                     </StackPanel>
@@ -149,11 +149,11 @@
                             <Label Name="MSLCurrentPosY" Content="NO DATA" FontSize="14" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
                         </DockPanel>
                         <DockPanel Margin="0,10">
-                            <Label Content="속도" FontSize="15" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
+                            <Label Content="속력" FontSize="15" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
                             <Label Name="MSLCurrentSpeed" Content="NO DATA" FontSize="14" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
                         </DockPanel>
                         <DockPanel Margin="0,10">
-                            <Label Content="방향" FontSize="15" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
+                            <Label Content="방위각" FontSize="15" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
                             <Label Name="MSLCurrentDIR" Content="NO DATA" FontSize="14" Width="90" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0"/>
                         </DockPanel>
                     </StackPanel>

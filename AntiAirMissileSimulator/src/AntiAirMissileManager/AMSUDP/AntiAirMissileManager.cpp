@@ -184,7 +184,7 @@ AntiAirMissileManager::start()
 
 	std::function<void(AntiAirMissileInfo&)> sendAntiAirMissileInfo;
 	sendAntiAirMissileInfo = bind(&AntiAirMissileManager::sendAntiAirMissileInfoMsg, this, placeholders::_1);
-	antiAirMissileController.sendAntiAirMissileInfoMethod(sendAntiAirMissileInfo);
+	antiAirMissileController.setSendAntiAirMissileInfoMethod(sendAntiAirMissileInfo);
 	std::function<void(int)> sendSimulationStatusInfo;
 	sendSimulationStatusInfo = bind(&AntiAirMissileManager::sendSimulationStatusInfoMsg, this, placeholders::_1);
 	antiAirMissileController.setSendSimulationStatusInfoMethod(sendSimulationStatusInfo);
