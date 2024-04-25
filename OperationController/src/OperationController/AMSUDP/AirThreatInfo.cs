@@ -14,7 +14,7 @@ namespace OperationController.AMSUDP
         public float CurrentAngle { get; set; }
         public override string ToString()
         {
-            return $"AirThreatInfo       >>  Time:   {CurrentTime},  {CurrentPosition},  Speed:  {CurrentSpeed}Km/s, Angle:  {CurrentAngle:F1}°";
+            return $"AirThreatInfo       >>  Time:   {CurrentTime},  {CurrentPosition},  Speed:  {CurrentSpeed}Km/h, Angle:  {CurrentAngle:F1}°";
         }
     }
 }
