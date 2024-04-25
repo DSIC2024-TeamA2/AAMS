@@ -70,9 +70,10 @@ void AirthreatController::start()
 
 	nframework::NTimer& nTimer = nframework::NTimer::getInstance();
 	std:function <void(void*)> periodicFunc;
-	periodicFunc = std::bind(&AirthreatController::threatSimulationThread, this);
-	timerHandle = nTimer.addPeriodicTask(AMSConfiguration::getInstance().getUpdateDuration(), periodicFunc);
-
+	periodicFunc = std::bind(
+		&AirthreatController::threatSimulationThread, this);
+	timerHandle = nTimer.addPeriodicTask(
+		AMSConfiguration::getInstance().getUpdateDuration(), periodicFunc);
 }
 
 void AirthreatController::stop()

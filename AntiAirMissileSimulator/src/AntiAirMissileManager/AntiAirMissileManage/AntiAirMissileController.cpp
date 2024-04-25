@@ -59,8 +59,10 @@ void AntiAirMissileController::start()
 	initStartAntiAirMissile();
 	nframework::NTimer& nTimer = nframework::NTimer::getInstance();
 	std:function <void(void*)> periodicFunc;
-	periodicFunc = std::bind(&AntiAirMissileController::threatSimulationThread, this);
-	timerHandle = nTimer.addPeriodicTask(AMSConfiguration::getInstance().getUpdateDuration(), periodicFunc);
+	periodicFunc = std::bind(
+		&AntiAirMissileController::threatSimulationThread, this);
+	timerHandle = nTimer.addPeriodicTask(
+		AMSConfiguration::getInstance().getUpdateDuration(), periodicFunc);
 }
 
 void AntiAirMissileController::stop()

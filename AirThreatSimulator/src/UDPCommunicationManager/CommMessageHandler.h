@@ -6,6 +6,7 @@
 using namespace nframework;
 using namespace nframework::nom;
 
+
 class CommMessageHandler
 {
 public:
@@ -21,7 +22,7 @@ private:
 	void initialize();
 	void release();
 	void setIDNameTable(unsigned short msgID, tstring msgName);
-	
+
 private:
 	map<unsigned short, tstring> IDNameTable;
 	map<tstring, shared_ptr<NOM>> ObjNOMTable;
