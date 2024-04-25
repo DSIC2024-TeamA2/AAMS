@@ -164,6 +164,15 @@ namespace OperationController.DisplayManage
             statusInfo = info;
             EventLog.AppendText(info.ToString() + "\n");
             EventLog.ScrollToEnd();
+
+            if (info == SimulationStatusInfo.SUCCESS)
+            {
+                DialogWindow.GetSuccessDialog().Show();
+            }
+            else if (info == SimulationStatusInfo.FAIL)
+            {
+                DialogWindow.GetFailDialog().Show();
+            }
         }
 
         /// 함수
@@ -248,7 +257,7 @@ namespace OperationController.DisplayManage
                 }
 
                 SimulationStart_Click(sender, e);
-                GetNFrameworkConnector().SendScenarioInfoMsg(10, fixedAirThreatStartPosX, fixedAirThreatStartPosY, fixedAirThreatEndPosX, fixedAirThreatEndPosY,
+                GetNFrameworkConnector().SendScenarioInfoMsg(1, fixedAirThreatStartPosX, fixedAirThreatStartPosY, fixedAirThreatEndPosX, fixedAirThreatEndPosY,
                     fixedAirThreatSpeed, fixedMSLStartPosX, fixedMSLStartPosY, fixedMSLSpeed);
                 statusInfo = SimulationStatusInfo.DETECTEING;
                 GetNFrameworkConnector().SendSimulationStatusInfoMsg(SimulationStatusInfo.DETECTEING);
@@ -504,41 +513,7 @@ namespace OperationController.DisplayManage
             mousePositionTextBox.Visibility = Visibility.Visible;
         }
 
-        // 속도 입력 창에서 값을 입력한 후 엔터 입력으로 저장하는 함수
-        /*private void SetSpeedEnterKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter) // 엔터를 입력한 경우
-            {
-                if (sender == AirThreatSpeedInput)
-                {
-                    string inputValue = AirThreatSpeedInput.Text;
-                    prevValue = inputValue;
-                    if (IsNumeric(inputValue))
-                    {
-                        fixedAirThreatSpeed = (Double.Parse(inputValue));
-                        AirThreatSpeedInput.Text = string.Format("{0:#,##0}", inputValue);
-                    }
-                    else
-                    {
-                        EventLog.AppendText("입력한 공중위협 속도 \"" + prevValue + "\"는 숫자가 아닙니다." + "\n");
-                    }
-                }
-                else if (sender == MSLSpeedInput)
-                {
-                    string inputValue = MSLSpeedInput.Text;
-                    prevValue = inputValue;
-                    if (IsNumeric(inputValue))
-                    {
-                        fixedMSLSpeed = (Double.Parse(inputValue));
-                        AirThreatSpeedInput.Text = string.Format("{0:#,##0}", inputValue);
-                    }
-                    else
-                        AirThreatSpeedInput.Text = prevValue;
-                }
-            }
-        }*/
-
-                private bool IsNumeric(string value)
+        private bool IsNumeric(string value)
         {
             return double.TryParse(value, out _);
         }
