@@ -21,24 +21,14 @@ namespace OperationController.DisplayManage
     {
         private static readonly string successImagePath = "../map/SUCCESS.jpg";
         private static readonly string failImagePath = "../map/FAIL.jpg";
-        private static DialogWindow successWindow;
-        private static DialogWindow failWindow;
 
         public static DialogWindow GetSuccessDialog()
         {
-            if (successWindow == null)
-        {
-            successWindow = new DialogWindow(successImagePath, "격추 성공");
-        }
-            return successWindow;
+            return new DialogWindow(successImagePath, "격추 성공");
         }
         public static DialogWindow GetFailDialog()
         {
-            if (failWindow == null)
-            {
-                failWindow = new DialogWindow(failImagePath, "격추 실패");
-            }
-            return failWindow;
+            return new DialogWindow(failImagePath, "격추 실패");
         }
 
         private DialogWindow(string imagePath, string message)

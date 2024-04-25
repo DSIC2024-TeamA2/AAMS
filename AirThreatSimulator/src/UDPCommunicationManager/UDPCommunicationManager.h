@@ -13,7 +13,7 @@ public:
 	~UDPCommunicationManager(void);
 
 public:
-	// inherited from the BaseManager class
+
 	virtual shared_ptr<NOM> registerMsg(tstring) override;
 	virtual void discoverMsg(shared_ptr<NOM>) override;
 	virtual void updateMsg(shared_ptr<NOM>) override;
@@ -28,18 +28,19 @@ public:
 	virtual bool start() override;
 	virtual bool stop() override;
 	virtual void setMEBComponent(IMEBComponent*) override;
-	
+
 public:
 	void processRecvMessage(unsigned char* data, int size);
-	
+
 private:
 	void init();
 	void release();
-	
+
 private:
 	IMEBComponent* meb;
 	MECComponent* mec;
 	tstring name;
+
 	map<unsigned int, shared_ptr<NOM>> registeredMsg;
 	map<unsigned int, shared_ptr<NOM>> discoveredMsg;
 
