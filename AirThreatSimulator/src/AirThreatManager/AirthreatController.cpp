@@ -102,9 +102,6 @@ bool isTermination(ScenarioInfo& scenarioInfo, AirThreatInfo& airThreatInfo)
 
 void AirthreatController::threatSimulationThread()
 {
-	tcout << _T("threatSimulationThread() called") << std::endl;
-	tcout << _T("모의 시스템 상태") << status << std::endl;
-
 	if (status == SUCCESS) { //if (status == 4 || status == 1)
 		stop();
 		return;
@@ -123,10 +120,8 @@ void AirthreatController::threatSimulationThread()
 
 	if (isTermination(scenarioInfo, airThreatInfo))
 	{
-		tcout << _T("isTermination(scenarioInfo, airThreatInfo) == true") << std::endl;
 		setSimulationStatus(FAIL);
 		sendSimulationStatusInfo(FAIL);
-		tcout << _T("모의 시스템 상태") << status << std::endl;
 		stop();
 		return;
 	}

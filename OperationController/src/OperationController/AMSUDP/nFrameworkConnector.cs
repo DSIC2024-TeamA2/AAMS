@@ -34,7 +34,6 @@ namespace OperationController.AMSUDP
 
         public nFrameworkConnector(MainWindow window)
         {
-            Console.WriteLine("nFrameworkConnector(Window window) called");
             mainWindow = window;
             PresentationSource presentationSource = PresentationSource.FromVisual(mainWindow);
             HwndSource source = presentationSource as HwndSource;
@@ -42,7 +41,6 @@ namespace OperationController.AMSUDP
             GUIConnObj = CreateGUIConn();
             DoPlugIn(GUIConnObj);
             SetHandle(GUIConnObj, GetWindowHandle());
-            Console.WriteLine("SetHandle(GUIConnObj, GetWindowHandle(mainWindow)) called");
         }
 
         //윈도우 핸들 얻기
@@ -60,7 +58,6 @@ namespace OperationController.AMSUDP
             }
             else if (msg == UM_ReflectedNOM)
             {
-                Console.WriteLine("UM_ReflectedNOM called");
                 NOMInfo nomInfo = new NOMInfo();
                 nomInfo = (NOMInfo)Marshal.PtrToStructure(wParam, typeof(NOMInfo));
                 byte[] msgBuffer = new byte[nomInfo.MsgLen];
@@ -70,7 +67,6 @@ namespace OperationController.AMSUDP
                 parser.nomFilePath = "GUI_NOM.xml";
                 parser.parse();
 
-                Console.WriteLine("nomInfo: " + nomInfo.MsgID);
                 if (nomInfo.MsgID == 9992)
                 {
                     NMessage icdMsg = parser.getMessageObject("AirThreatInfo");
@@ -123,7 +119,6 @@ namespace OperationController.AMSUDP
 
         public void SendSimulationStatusInfoMsg(SimulationStatusInfo simulationStatusInfo)
         {
-            Console.WriteLine("SendSimulationStatusInfoMsg called");
             NOMParser parser = new NOMParser();
             parser.nomFilePath = "GUI_NOM.xml";
             parser.parse();
@@ -145,15 +140,12 @@ namespace OperationController.AMSUDP
 
             Marshal.Copy(nomBytes, 0, ptr, nomInfo.MsgLen);
             SendMsg(GUIConnObj, nomInfo, ptr);
-            Console.WriteLine("SendMsg(GUIConnObj, nomInfo, ptr) called");
-            Console.WriteLine("nomInfo: " + nomInfo.MsgID);
         }
 
         public void SendScenarioInfoMsg(int startTime, double airThreatStartLatitude, double airThreatStartLongitude,
             double airThreatEndLatitude, double airThreatEndLongitude, float airThreatSpeed,
             double antiAirMissileLatitude, double antiAirMissileLongitude, float antiAirMissileSpeed)
         {
-            Console.WriteLine("SendScenarioInfoMsg called");
             NOMParser parser = new NOMParser();
             parser.nomFilePath = "GUI_NOM.xml";
             parser.parse();
@@ -181,8 +173,6 @@ namespace OperationController.AMSUDP
 
             Marshal.Copy(nomBytes, 0, ptr, nomInfo.MsgLen);
             SendMsg(GUIConnObj, nomInfo, ptr);
-            Console.WriteLine("SendMsg(GUIConnObj, nomInfo, ptr) called");
-            Console.WriteLine("nomInfo: " + nomInfo.MsgID);
         }
 
         public void Close()

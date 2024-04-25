@@ -76,9 +76,6 @@ namespace OperationController.DisplayManage
             // UI 요소들을 초기화
             InitializeComponent();
 
-            // 콘솔 출력창에 프로그램 메인창 호출 메시지 출력
-            Console.WriteLine("MainWindow called");
-
             // 이벤트 출력창 제목 아래에 이벤트 메시지 출력하기 위한 줄바꿈
             EventLog.AppendText("\n");
             EventLog.ScrollToEnd();

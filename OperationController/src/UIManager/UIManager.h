@@ -1,6 +1,7 @@
 #pragma once
 #include <nFramework/BaseManager.h>
 #include <nFramework/mec/MECComponent.h>
+#include <nFramework/nom/NOMMain.h>
 #include <afxwin.h>
 
 using namespace nframework;
