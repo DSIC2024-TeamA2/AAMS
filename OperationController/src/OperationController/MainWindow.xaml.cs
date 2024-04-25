@@ -257,7 +257,7 @@ namespace OperationController.DisplayManage
                 }
 
                 SimulationStart_Click(sender, e);
-                GetNFrameworkConnector().SendScenarioInfoMsg(1, fixedAirThreatStartPosX, fixedAirThreatStartPosY, fixedAirThreatEndPosX, fixedAirThreatEndPosY,
+                GetNFrameworkConnector().SendScenarioInfoMsg(0, fixedAirThreatStartPosX, fixedAirThreatStartPosY, fixedAirThreatEndPosX, fixedAirThreatEndPosY,
                     fixedAirThreatSpeed, fixedMSLStartPosX, fixedMSLStartPosY, fixedMSLSpeed);
                 statusInfo = SimulationStatusInfo.DETECTEING;
                 GetNFrameworkConnector().SendSimulationStatusInfoMsg(SimulationStatusInfo.DETECTEING);

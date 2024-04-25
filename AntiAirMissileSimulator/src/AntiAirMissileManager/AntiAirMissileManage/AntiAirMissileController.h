@@ -20,7 +20,7 @@ public:
 
 	void start();
 	void stop();
-	void sendAntiAirMissileInfoMethod(std::function<void(AntiAirMissileInfo&)> sendAntiAirMissileInfo);
+	void setSendAntiAirMissileInfoMethod(std::function<void(AntiAirMissileInfo&)> sendAntiAirMissileInfo);
 	void setSendSimulationStatusInfoMethod(std::function<void(int)> sendSimulationStatusInfo);
 	void initStartAntiAirMissile();
 	void detectAntiAirMissile();

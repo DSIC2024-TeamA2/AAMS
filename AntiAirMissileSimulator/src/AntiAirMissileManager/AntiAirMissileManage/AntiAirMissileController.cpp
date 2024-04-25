@@ -172,7 +172,7 @@ void AntiAirMissileController::updateAntiAirMissileInfo()
 /* -------------------------------------------------------------------------------------
 *  #5. send
 -------------------------------------------------------------------------------------*/
-void AntiAirMissileController::sendAntiAirMissileInfoMethod(std::function<void(AntiAirMissileInfo&)> sendAntiAirMissileInfo)
+void AntiAirMissileController::setSendAntiAirMissileInfoMethod(std::function<void(AntiAirMissileInfo&)> sendAntiAirMissileInfo)
 {
 	this->sendAntiAirMissileInfo = sendAntiAirMissileInfo;
 	
