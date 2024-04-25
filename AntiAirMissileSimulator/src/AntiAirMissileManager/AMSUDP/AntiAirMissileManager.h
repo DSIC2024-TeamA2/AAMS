@@ -2,16 +2,16 @@
 #include <nFramework/BaseManager.h>
 #include <nFramework/mec/MECComponent.h>
 #include <nFramework/nom/NOMMain.h>
-#include "AirthreatController.h"
+#include "../AntiAirMissileManage/AntiAirMissileController.h"
 
 using namespace nframework;
 using namespace nom;
 
-class BASEMGRDLL_API AirThreatManager : public BaseManager
+class BASEMGRDLL_API AntiAirMissileManager : public BaseManager
 {
 public:
-	AirThreatManager(void);
-	~AirThreatManager(void);
+	AntiAirMissileManager(void);
+	~AntiAirMissileManager(void);
 
 public:
 	// inherited from the BaseManager class
@@ -29,10 +29,11 @@ public:
 	virtual bool start() override;
 	virtual bool stop() override;
 	virtual void setMEBComponent(IMEBComponent*) override;
+
 private:
 	void init();
 	void release();
-	void sendAirThreatInfoMsg(AirThreatInfo& airThreatInfo);
+	void sendAntiAirMissileInfoMsg(AntiAirMissileInfo& antiAirMissileInfo);
 	void sendSimulationStatusInfoMsg(int status);
 
 private:
@@ -41,12 +42,11 @@ private:
 	tstring name;
 	map<unsigned int, shared_ptr<NOM>> registeredMsg;
 	map<unsigned int, shared_ptr<NOM>> discoveredMsg;
-	map<tstring, function<void(AirthreatController&, shared_ptr<NOM>)>> msgFuncMap;
+	map<tstring, function<void(AntiAirMissileController&, shared_ptr<NOM>)>> msgFuncMap;
 
+	shared_ptr<NOM> antiAirMissileInfoMsg;
 	shared_ptr<NOM> simulationStatusInfoMsg;
-	shared_ptr<NOM> scenarioInfoMsg;
-	shared_ptr<NOM> airThreatInfoMsg;
 
-	AirthreatController airThreatController;
+	AntiAirMissileController antiAirMissileController;
 };
 

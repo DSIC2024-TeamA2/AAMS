@@ -156,14 +156,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AntiAirMissileController.cpp" />
-    <ClCompile Include="AntiAirMissileManager.cpp" />
+    <ClCompile Include="AirThreatDetect\AirThreatDetector.cpp" />
+    <ClCompile Include="AMSUDP\AntiAirMissileManager.cpp" />
+    <ClCompile Include="AntiAirMissileManage\AntiAirMissileController.cpp" />
     <ClCompile Include="Data\ams_configuration.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AntiAirMissileController.h" />
-    <ClInclude Include="AntiAirMissileManager.h" />
+    <ClInclude Include="AirThreatDetect\AirThreatDetector.h" />
+    <ClInclude Include="AirThreatDetect\IAirThreatDetector.h" />
+    <ClInclude Include="AMSUDP\AntiAirMissileManager.h" />
+    <ClInclude Include="AntiAirMissileManage\AntiAirMissileController.h" />
     <ClInclude Include="Data\ams_configuration.h" />
+    <ClInclude Include="Data\DataStruct.h" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\..\bin\AntiAirMissileManager\AntiAirMissileManager.xml" />
