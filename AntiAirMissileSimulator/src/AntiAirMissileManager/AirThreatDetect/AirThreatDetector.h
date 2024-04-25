@@ -3,16 +3,15 @@
 #include "IAirThreatDetector.h"
 #include "../Data/ams_configuration.h"
 
-class AirThreatDetector : public IAirThreatDetector
+class AirThreatDetector : public IAirThreatDetector<Position, Position>
 {
 public:
-	virtual void setRadarPosition(double latitude, double longitude);
-	virtual void setTargetPosition(double latitude, double longitude);
+	AirThreatDetector() {}
+	virtual void setRadarInfo(Position radarInfo);
+	virtual void setTargetInfo(Position targetInfo);
 	virtual bool detected();
 	virtual void clear();
 private:
-	double radarLatitude;
-	double radarLongitude;
-	double targetLatitude;
-	double targetLongitude;
+	Position radarPosition;
+	Position targetPosition;
 };

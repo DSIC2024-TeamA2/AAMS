@@ -26,7 +26,7 @@ void AirthreatController::setScenarioInfo(ScenarioInfo scenarioInfo)
 	scenarioInfo.airThreatSpeed = scenarioInfo.airThreatSpeed / 3600;
 }
 
-double calculateAngle(const int startX, const int startY, const int endX, const int endY) {
+double calculateAngle(const double startX, const double startY, const double endX, const double endY) {
 	double deltaX = endX - startX;
 	double deltaY = endY - startY;
 

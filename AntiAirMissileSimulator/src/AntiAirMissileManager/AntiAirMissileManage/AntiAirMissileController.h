@@ -36,9 +36,8 @@ private:
 
 	int timerHandle;
 
-	std::unique_ptr<IAirThreatDetector> airThreatDetector;
+	std::unique_ptr<IAirThreatDetector<Position, Position>> airThreatDetector;
 private:
 	void threatSimulationThread();
 	void updateAntiAirMissileInfo();
 };
-

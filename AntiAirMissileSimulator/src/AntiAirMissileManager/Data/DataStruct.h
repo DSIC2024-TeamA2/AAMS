@@ -18,6 +18,20 @@ struct AntiAirMissileInfo
 	double currentAngle;
 };
 
+struct Position
+{
+	double latitude;
+	double longitude;
+
+	Position() {}
+
+	Position(double latitude, double longitude)
+	{
+		this->latitude = latitude;
+		this->longitude = longitude;
+	}
+};
+
 struct ScenarioInfo
 {
 	int startTime;
