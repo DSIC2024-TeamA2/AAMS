@@ -51,7 +51,7 @@ namespace OperationController.DisplayManage
         private int airThreatStartflg = 0; // 공중위협 시작 좌표 입력되었는지 확인 플래그
         private int airThreatEndflg = 0; // 공중위협 목적 좌표 입력되었는지 확인 플래그
         private int MSLStartflg = 0; // 대공유도탄 좌표 입력되었는지 확인 플래그
-        private double ATangle = 0.0; // 공중위협 방향
+     //   private double ATangle = 0.0; // 공중위협 방향
      //   private double MSLangle = 0.0; // 대공유도탄 방향
         Line line = new Line(); // 공중위협 시작에서 목적까지 경로를 그리는 선
 
@@ -60,8 +60,8 @@ namespace OperationController.DisplayManage
         System.Windows.Controls.Image imgControl4 = null; // 공중위협 시작 이미지
         System.Windows.Controls.Image imgControl5 = null; // 공중위협 목적 이미지
         System.Windows.Controls.Image imgControl6 = null; // 대공유도탄 이미지
-        RotateTransform ATrotateTransform; // 공중위협 이미지 회전 담당
-        RotateTransform MSLrotateTransform; // 대공유도탄 이미지 회전 담당
+        RotateTransform ATrotateTransform = new RotateTransform(); // 공중위협 이미지 회전 담당
+        RotateTransform MSLrotateTransform = new RotateTransform(); // 대공유도탄 이미지 회전 담당
 
         private SimulationStatusInfo statusInfo;
 
@@ -115,7 +115,6 @@ namespace OperationController.DisplayManage
         {
             currentAirThreatPosX = info.CurrentPosition.Latitude;
             currentAirThreatPosY = info.CurrentPosition.Longitude;
-            //fixedAirThreatSpeed = (double)info.CurrentSpeed;
 
             Canvas.SetLeft(imgControl4, currentAirThreatPosX - (imgControl4.Width / 2.0));
             Canvas.SetTop(imgControl4, currentAirThreatPosY - (imgControl4.Height / 2.0));
@@ -127,20 +126,26 @@ namespace OperationController.DisplayManage
                 EventLog.AppendText(info.ToString() + "\n");
                 EventLog.ScrollToEnd();
             }
+
+            // 공중위협을 목적지 방향으로 회전
+            ATrotateTransform.Angle = 90 + info.CurrentAngle; // 회전 각도 설정
+            // 공중위협 이미지의 중심을 회전 중심으로 지정
+            imgControl4.RenderTransformOrigin = new Point(0.5, 0.5);
+            imgControl4.RenderTransform = ATrotateTransform;
+            // 공중위협 방향 현재좌표로 입력
+            ATCurrentDIR.Content = $"{info.CurrentAngle:F1}" + "°";
         }
         
         internal void UpdateAntiAirMissileInfo(AntiAirMissileInfo info)
         {
             currentMSLPosX = info.CurrentPosition.Latitude;
             currentMSLPosY = info.CurrentPosition.Longitude;
-            //fixedMSLSpeed = (double)info.CurrentSpeed;
-            MSLrotateTransform = new RotateTransform();
 
             Canvas.SetLeft(imgControl6, currentMSLPosX - (imgControl6.Width / 2.0));
             Canvas.SetTop(imgControl6, currentMSLPosY - (imgControl6.Height / 2.0));
             MSLCurrentPosX.Content = $"{currentMSLPosX:F1}";
             MSLCurrentPosY.Content = $"{currentMSLPosY:F1}";
-            if (AT2MSLDistance() <= 300)
+            if (AT2MSLDistance() <= AMSConfiguration.GetInstance().DetectionRadius)
                 MSLLaunch = 1;
             //대공유도탄 이미지 회전
             if (MSLLaunch == 1)
@@ -152,43 +157,10 @@ namespace OperationController.DisplayManage
                 imgControl6.RenderTransform = MSLrotateTransform;
                 // 대공유도탄 각도 출력
                 MSLCurrentDIR.Content = $"{info.CurrentAngle:F1}" + "°";
-                /*
-                if (0 <= MSLangle && MSLangle <= 90)
-                    MSLCurrentDIR.Content = $"{90 - MSLangle:F1}" + "°";
-                else if (90 <= MSLangle && MSLangle <= 180)
-                    MSLCurrentDIR.Content = $"{450 - MSLangle:F1}" + "°";
-                else if (-90 <= MSLangle && MSLangle < 0)
-                    MSLCurrentDIR.Content = $"{90 - MSLangle:F1}" + "°";
-                else if (-180 <= MSLangle && MSLangle < -90)
-                    MSLCurrentDIR.Content = $"{90 - MSLangle:F1}" + "°";
-                 */
             }
                 EventLog.AppendText(info.ToString() + "\n");
                 EventLog.ScrollToEnd();
         }
-        /*
-        private void MSLangleCalc()
-        {
-            double degree;
-            double deltaX = currentMSLPosX - currentAirThreatPosX;
-            double deltaY = currentMSLPosY - currentAirThreatPosY;
-            if (deltaX == 0.0)
-            {
-                MSLangle = 90;
-            }
-            else if (deltaY == 0.0)
-            {
-                MSLangle = 0;
-            }
-            else
-            {
-                degree = 90 - Math.Atan(deltaY / deltaX) * 180 / Math.PI;
-                if (currentMSLPosX < currentAirThreatPosX)
-                    MSLangle = 180 - degree;
-                else
-                    MSLangle = -degree;
-            }
-        }*/
 
         internal void UpdateSimulationStatusInfo(SimulationStatusInfo info)
         {
@@ -314,10 +286,6 @@ namespace OperationController.DisplayManage
             // 공중위협 각도 ATangle 구하기
             double radians = Math.Atan(-lineSlope);
             double degrees = 90 - radians * (180 / Math.PI);
-            if (fixedAirThreatStartPosX <= fixedAirThreatEndPosX)
-                ATangle = degrees;
-            else
-                ATangle = 180 + degrees;
 
             // 직선의 y절편
             double lineIntercept = lineY1 - lineSlope * lineX1;
@@ -604,18 +572,6 @@ namespace OperationController.DisplayManage
             ATCurrentSpeed.Content = fixedAirThreatSpeed + " Km/h";
             MSLCurrentSpeed.Content = fixedMSLSpeed + " Km/h";
 
-            // 공중위협을 목적지 방향으로 회전
-            ATrotateTransform = new RotateTransform();
-            ATrotateTransform.Angle = ATangle; // 회전 각도 설정
-            // 공중위협 이미지의 중심을 회전 중심으로 지정
-            imgControl4.RenderTransformOrigin = new Point(0.5, 0.5);
-            imgControl4.RenderTransform = ATrotateTransform;
-            // 공중위협 방향 현재좌표로 입력
-            if (0 <= ATangle && ATangle <= 90)
-                ATCurrentDIR.Content = $"{90 - ATangle:F1}" + "°";
-            else
-                ATCurrentDIR.Content = $"{450 - ATangle:F1}" + "°";
-
             //최초 입력 값 현재좌표 화면 출력 (while에서 출력하므로 일단 주석)
             ATCurrentPosX.Content = $"{fixedAirThreatStartPosX:F1}";
             ATCurrentPosY.Content = $"{fixedAirThreatStartPosY:F1}";
@@ -695,7 +651,6 @@ namespace OperationController.DisplayManage
             airThreatStartflg = 0;
             airThreatEndflg = 0;
             MSLStartflg = 0;
-            ATangle = 0;
             setPosMode = 0;
             ATStartPosX.Content = "NO DATA";
             ATStartPosY.Content = "NO DATA";
