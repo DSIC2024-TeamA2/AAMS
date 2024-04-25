@@ -4,6 +4,10 @@
 #include <functional>
 #include "Data/ams_configuration.h"
 
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
 struct AirThreatInfo
 {
 	int currentTime;
@@ -44,8 +48,7 @@ public:
 	void stop();
 	void setSendAirThreatInfoMethod(std::function<void(AirThreatInfo&)> sendAirThreatInfo);
 	void setSendSimulationStatusInfoMethod(std::function<void(int)> sendSimulationStatusInfo);
-	void GetCurrenAngle();
-	void GetCurrentAirThreat();
+	void InitCurrentAirThreat();
 
 private:
 	AirThreatInfo airThreatInfo;
