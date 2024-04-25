@@ -4,7 +4,6 @@
 #include <nFramework/nom/NOMMain.h>
 #include <nFramework/nTimer/NTimer.h>
 
-
 AntiAirMissileController::AntiAirMissileController() : airThreatDetector(std::make_unique<AirThreatDetector>())
 {
 }
@@ -21,7 +20,7 @@ static bool scenarioInserted = false;
 void AntiAirMissileController::setScenarioInfo(ScenarioInfo scenarioInfo)
 {
 	scenarioInserted = true;
-	airThreatDetector->setRadarPosition(scenarioInfo.antiAirMissileLatitude, scenarioInfo.antiAirMissileLongitude);
+	airThreatDetector->setRadarInfo(Position(scenarioInfo.antiAirMissileLatitude, scenarioInfo.antiAirMissileLongitude));
 	this->scenarioInfo = scenarioInfo;
 	scenarioInfo.airThreatSpeed = scenarioInfo.airThreatSpeed / 3600;
 }
@@ -29,7 +28,7 @@ void AntiAirMissileController::setScenarioInfo(ScenarioInfo scenarioInfo)
 void AntiAirMissileController::setAirThreatInfo(AirThreatInfo airThreatInfo)
 {
 	this->airThreatInfo = airThreatInfo;
-	airThreatDetector->setTargetPosition(airThreatInfo.currentLatitude, airThreatInfo.currentLongitude);
+	airThreatDetector->setTargetInfo(Position(airThreatInfo.currentLatitude, airThreatInfo.currentLongitude));
 }
 
 void AntiAirMissileController::setSimulationStatus(SimulationStatus status)
@@ -141,7 +140,7 @@ void AntiAirMissileController::threatSimulationThread()
 	}
 }
 
-double calculateAngle(const int startX, const int startY, const int endX, const int endY) {
+double calculateAngle(const double startX, const double startY, const double endX, const double endY) {
 	double deltaX = endX - startX;
 	double deltaY = endY - startY;
 
