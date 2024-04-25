@@ -15,7 +15,7 @@ namespace OperationController.AMSUDP
 
         public override string ToString()
         {
-            return $"AntiAirMissileInfo >>  Time:   {CurrentTime},  {CurrentPosition},  Speed:  {CurrentSpeed}Km/s, Angle:  {CurrentAngle:F1}°";
+            return $"AntiAirMissileInfo >>  Time:   {CurrentTime},  {CurrentPosition},  Speed:  {CurrentSpeed}Km/h, Angle:  {CurrentAngle:F1}°";
         }
     }
 }
