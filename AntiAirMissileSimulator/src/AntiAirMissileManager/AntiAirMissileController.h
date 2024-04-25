@@ -1,7 +1,12 @@
 #pragma once
 #include <chrono>
 #include <functional>
+#include <cmath>
 #include "Data/ams_configuration.h"
+
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
 
 struct AirThreatInfo
 {
@@ -53,9 +58,8 @@ public:
 	void stop();
 	void sendAntiAirMissileInfoMethod(std::function<void(AntiAirMissileInfo&)> sendAntiAirMissileInfo);
 	void setSendSimulationStatusInfoMethod(std::function<void(int)> sendSimulationStatusInfo);
-	void getStartAntiAirMissile();
+	void initStartAntiAirMissile();
 	void detectAntiAirMissile();
-	void getCurrentAntiAirMissile();
 
 private:
 	AirThreatInfo airThreatInfo;

@@ -52,7 +52,7 @@ namespace OperationController.DisplayManage
         private int airThreatEndflg = 0; // 공중위협 목적 좌표 입력되었는지 확인 플래그
         private int MSLStartflg = 0; // 대공유도탄 좌표 입력되었는지 확인 플래그
         private double ATangle = 0.0; // 공중위협 방향
-        private double MSLangle = 0.0; // 대공유도탄 방향
+     //   private double MSLangle = 0.0; // 대공유도탄 방향
         Line line = new Line(); // 공중위협 시작에서 목적까지 경로를 그리는 선
 
         //공중위협, 미사일, 목적지, 반경 최초 선언
@@ -122,7 +122,7 @@ namespace OperationController.DisplayManage
             ATCurrentPosX.Content = $"{currentAirThreatPosX:F1}";
             ATCurrentPosY.Content = $"{currentAirThreatPosY:F1}";
 
-            if (statusInfo != SimulationStatusInfo.SUCCESS || statusInfo != SimulationStatusInfo.FAIL)
+            if (statusInfo != SimulationStatusInfo.SUCCESS && statusInfo != SimulationStatusInfo.FAIL)
             {
                 EventLog.AppendText(info.ToString() + "\n");
                 EventLog.ScrollToEnd();
@@ -145,12 +145,14 @@ namespace OperationController.DisplayManage
             //대공유도탄 이미지 회전
             if (MSLLaunch == 1)
             {
-                MSLangleCalc();
-                MSLrotateTransform.Angle = MSLangle;
+                //   MSLangleCalc();
+                MSLrotateTransform.Angle = 90 + info.CurrentAngle;
                 // 대공유도탄 이미지의 중심을 회전 중심으로 지정
                 imgControl6.RenderTransformOrigin = new Point(0.5, 0.5);
                 imgControl6.RenderTransform = MSLrotateTransform;
                 // 대공유도탄 각도 출력
+                MSLCurrentDIR.Content = $"{info.CurrentAngle:F1}" + "°";
+                /*
                 if (0 <= MSLangle && MSLangle <= 90)
                     MSLCurrentDIR.Content = $"{90 - MSLangle:F1}" + "°";
                 else if (90 <= MSLangle && MSLangle <= 180)
@@ -159,14 +161,12 @@ namespace OperationController.DisplayManage
                     MSLCurrentDIR.Content = $"{90 - MSLangle:F1}" + "°";
                 else if (-180 <= MSLangle && MSLangle < -90)
                     MSLCurrentDIR.Content = $"{90 - MSLangle:F1}" + "°";
+                 */
             }
-            if (statusInfo != SimulationStatusInfo.SUCCESS || statusInfo != SimulationStatusInfo.FAIL)
-            {
                 EventLog.AppendText(info.ToString() + "\n");
                 EventLog.ScrollToEnd();
-            }
         }
-
+        /*
         private void MSLangleCalc()
         {
             double degree;
@@ -188,7 +188,7 @@ namespace OperationController.DisplayManage
                 else
                     MSLangle = -degree;
             }
-        }
+        }*/
 
         internal void UpdateSimulationStatusInfo(SimulationStatusInfo info)
         {
@@ -278,11 +278,11 @@ namespace OperationController.DisplayManage
                     return;
                 }
 
-
                 SimulationStart_Click(sender, e);
-                GetNFrameworkConnector().SendSimulationStatusInfoMsg(SimulationStatusInfo.DETECTEING);
                 GetNFrameworkConnector().SendScenarioInfoMsg(10, fixedAirThreatStartPosX, fixedAirThreatStartPosY, fixedAirThreatEndPosX, fixedAirThreatEndPosY,
                     fixedAirThreatSpeed, fixedMSLStartPosX, fixedMSLStartPosY, fixedMSLSpeed);
+                statusInfo = SimulationStatusInfo.DETECTEING;
+                GetNFrameworkConnector().SendSimulationStatusInfoMsg(SimulationStatusInfo.DETECTEING);
 
                 //stopwatch.Start();
                 //timer.Start();
@@ -290,6 +290,7 @@ namespace OperationController.DisplayManage
             else if (sender == Stop)
             {
                 SimulationEnd_Click(sender, e);
+                statusInfo = SimulationStatusInfo.IDLE;
                 GetNFrameworkConnector().SendSimulationStatusInfoMsg(SimulationStatusInfo.IDLE);
             }
         }
@@ -572,7 +573,7 @@ namespace OperationController.DisplayManage
             }
         }*/
 
-        private bool IsNumeric(string value)
+                private bool IsNumeric(string value)
         {
             return double.TryParse(value, out _);
         }

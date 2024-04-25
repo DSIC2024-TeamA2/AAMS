@@ -31,25 +31,12 @@ void AntiAirMissileController::setSimulationStatus(SimulationStatus status)
 {
 	this->status = status;
 	if (status == IDLE) {
-		scenarioInfo.antiAirMissileLatitude = 0;
-		scenarioInfo.antiAirMissileLongitude = 0;
-		scenarioInfo.antiAirMissileSpeed = 0;
-		scenarioInfo.airThreatStartLatitude = 0;
-		scenarioInfo.airThreatStartLongitude = 0;
-		scenarioInfo.airThreatEndLatitude = 0;
-		scenarioInfo.airThreatEndLongitude = 0;
-		scenarioInfo.airThreatSpeed = 0;
-		antiAirMissileInfo.currentLatitude = 0;
-		antiAirMissileInfo.currentLongitude = 0;
-		antiAirMissileInfo.currentAngle = 0;
-		antiAirMissileInfo.currentSpeed = 0;
-		airThreatInfo.currentLatitude = 0;
-		airThreatInfo.currentLongitude = 0;
-		airThreatInfo.currentAngle = 0;
-		airThreatInfo.currentSpeed = 0;
+		memset(&scenarioInfo, 0, sizeof(ScenarioInfo));
+		memset(&antiAirMissileInfo, 0, sizeof(AntiAirMissileInfo));
+		memset(&airThreatInfo, 0, sizeof(AirThreatInfo));
 	}
 }
-void AntiAirMissileController::getStartAntiAirMissile()
+void AntiAirMissileController::initStartAntiAirMissile()
 {
 	antiAirMissileInfo.currentLatitude = scenarioInfo.antiAirMissileLatitude;
 	antiAirMissileInfo.currentLongitude = scenarioInfo.antiAirMissileLongitude;
@@ -63,7 +50,7 @@ void AntiAirMissileController::getStartAntiAirMissile()
 -------------------------------------------------------------------------------------*/
 void AntiAirMissileController::start() 
 {
-	getStartAntiAirMissile();
+	initStartAntiAirMissile();
 	nframework::NTimer& nTimer = nframework::NTimer::getInstance();
 	std:function <void(void*)> periodicFunc;
 	periodicFunc = std::bind(&AntiAirMissileController::threatSimulationThread, this);
@@ -132,12 +119,20 @@ bool isTermination(ScenarioInfo& scenarioInfo, AntiAirMissileInfo& antiAirMissil
 	}
 	else
 		return false;
-	
 }
 
 void AntiAirMissileController::threatSimulationThread()
 {
 	tcout << _T("모의 시스템 상태") << status << std::endl;
+	if (status == FAIL)
+	{
+		stop();
+		return;
+	}
+	if (status == IDLE) { //if (status == 4 || status == 1)
+		stop();
+		return;
+	}
 	if (isTermination(scenarioInfo, antiAirMissileInfo, airThreatInfo))
 	{
 		antiAirMissileInfo.currentTime = antiAirMissileInfo.currentTime + 1;
@@ -149,15 +144,6 @@ void AntiAirMissileController::threatSimulationThread()
 		sendSimulationStatusInfo(SUCCESS);
 
 		tcout << _T("모의 시스템 상태") << status << std::endl;
-		stop();
-		return;
-	}
-	if (status == FAIL)
-	{
-		stop();
-		return;
-	}
-	if (status == IDLE) { //if (status == 4 || status == 1)
 		stop();
 		return;
 	}
@@ -174,42 +160,34 @@ void AntiAirMissileController::threatSimulationThread()
 	}
 }
 
+double calculateAngle(const int startX, const int startY, const int endX, const int endY) {
+	double deltaX = endX - startX;
+	double deltaY = endY - startY;
+
+	double angleInRadians = std::atan2(deltaY, deltaX);
+
+	double angleInDegrees = angleInRadians * (180.0 / M_PI);
+	if (angleInDegrees < 0)
+		angleInDegrees += 360;
+	return angleInDegrees;
+}
+
+double degreesToRadians(double degrees) {
+	return degrees * (M_PI / 180.0);
+}
+
 /* -------------------------------------------------------------------------------------
 *  #4. 계산 - 추적 알고리즘
 -------------------------------------------------------------------------------------*/
 // 4-1.방향 계산
-void AntiAirMissileController::getCurrentAntiAirMissile()
-{
-	double deltaX = antiAirMissileInfo.currentLatitude - airThreatInfo.currentLatitude;
-	double deltaY = antiAirMissileInfo.currentLongitude - airThreatInfo.currentLongitude;
-	if (deltaX == 0.0)
-	{
-		antiAirMissileInfo.currentAngle = 3.14 / 2;
-	}
-	else if (deltaY == 0.0)
-	{
-		antiAirMissileInfo.currentAngle = 0;
-	}
-	else
-		antiAirMissileInfo.currentAngle = std::abs((std::atan(deltaY / deltaX)));
-}
-
-// 4-2.방향 계산
 void AntiAirMissileController::updateAntiAirMissileInfo()
 {
-	getCurrentAntiAirMissile();
-	if (antiAirMissileInfo.currentLatitude < airThreatInfo.currentLatitude)
-		antiAirMissileInfo.currentLatitude = antiAirMissileInfo.currentLatitude + antiAirMissileInfo.currentSpeed * std::cos(antiAirMissileInfo.currentAngle);
-	else
-		antiAirMissileInfo.currentLatitude = antiAirMissileInfo.currentLatitude - antiAirMissileInfo.currentSpeed * std::cos(antiAirMissileInfo.currentAngle);
-
-	if (antiAirMissileInfo.currentLongitude < airThreatInfo.currentLongitude)
-		antiAirMissileInfo.currentLongitude = antiAirMissileInfo.currentLongitude + antiAirMissileInfo.currentSpeed * std::sin(antiAirMissileInfo.currentAngle);
-	else
-		antiAirMissileInfo.currentLongitude = antiAirMissileInfo.currentLongitude - antiAirMissileInfo.currentSpeed * std::sin(antiAirMissileInfo.currentAngle);
+	antiAirMissileInfo.currentAngle = calculateAngle(antiAirMissileInfo.currentLatitude, antiAirMissileInfo.currentLongitude,
+		airThreatInfo.currentLatitude, airThreatInfo.currentLongitude);
+	double radianAngle = degreesToRadians(antiAirMissileInfo.currentAngle);
+	antiAirMissileInfo.currentLatitude = antiAirMissileInfo.currentLatitude + antiAirMissileInfo.currentSpeed * std::cos(radianAngle);
+	antiAirMissileInfo.currentLongitude = antiAirMissileInfo.currentLongitude + antiAirMissileInfo.currentSpeed * std::sin(radianAngle);
 }
-
-
 
 /* -------------------------------------------------------------------------------------
 *  #5. send
