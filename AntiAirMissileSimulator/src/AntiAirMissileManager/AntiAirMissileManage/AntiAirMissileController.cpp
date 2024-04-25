@@ -5,7 +5,7 @@
 #include <nFramework/nTimer/NTimer.h>
 
 
-AntiAirMissileController::AntiAirMissileController()
+AntiAirMissileController::AntiAirMissileController() : airThreatDetector(std::make_unique<AirThreatDetector>())
 {
 }
 
@@ -21,6 +21,7 @@ static bool scenarioInserted = false;
 void AntiAirMissileController::setScenarioInfo(ScenarioInfo scenarioInfo)
 {
 	scenarioInserted = true;
+	airThreatDetector->setRadarPosition(scenarioInfo.antiAirMissileLatitude, scenarioInfo.antiAirMissileLongitude);
 	this->scenarioInfo = scenarioInfo;
 	scenarioInfo.airThreatSpeed = scenarioInfo.airThreatSpeed / 3600;
 }
@@ -28,6 +29,7 @@ void AntiAirMissileController::setScenarioInfo(ScenarioInfo scenarioInfo)
 void AntiAirMissileController::setAirThreatInfo(AirThreatInfo airThreatInfo)
 {
 	this->airThreatInfo = airThreatInfo;
+	airThreatDetector->setTargetPosition(airThreatInfo.currentLatitude, airThreatInfo.currentLongitude);
 }
 
 void AntiAirMissileController::setSimulationStatus(SimulationStatus status)
@@ -38,6 +40,7 @@ void AntiAirMissileController::setSimulationStatus(SimulationStatus status)
 		memset(&scenarioInfo, 0, sizeof(ScenarioInfo));
 		memset(&antiAirMissileInfo, 0, sizeof(AntiAirMissileInfo));
 		memset(&airThreatInfo, 0, sizeof(AirThreatInfo));
+		airThreatDetector->clear();
 	}
 }
 void AntiAirMissileController::initStartAntiAirMissile()
@@ -75,13 +78,7 @@ void AntiAirMissileController::detectAntiAirMissile()
 {
 	if (status == DETECTING && scenarioInserted)
 	{
-		int radius = AMSConfiguration::getInstance().getDetectionRadius();
-		double radiusDouble = pow(radius, 2);
-		double deltaX = scenarioInfo.antiAirMissileLatitude - airThreatInfo.currentLatitude;
-		double deltaY = scenarioInfo.antiAirMissileLongitude - airThreatInfo.currentLongitude;
-		double radX = pow(deltaX, 2);
-		double radY = pow(deltaY, 2);
-		if (radiusDouble >= (radX + radY))
+		if (airThreatDetector->detected())
 		{
 			setSimulationStatus(CHASING);
 			sendSimulationStatusInfo(CHASING);

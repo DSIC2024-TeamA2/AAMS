@@ -2,7 +2,7 @@
 #include <thread>
 #include <chrono>
 #include <functional>
-#include "Data/ams_configuration.h"
+#include "../Data/ams_configuration.h"
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846

@@ -1,48 +1,12 @@
 #pragma once
 #include <chrono>
 #include <functional>
-#include <cmath>
-#include "Data/ams_configuration.h"
+#include "../Data/DataStruct.h"
+#include "../AirThreatDetect/AirThreatDetector.h";
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
 #endif
-
-struct AirThreatInfo
-{
-	int currentTime;
-	double currentLatitude;
-	double currentLongitude;
-	double currentSpeed;
-	double currentAngle;
-};
-
-struct AntiAirMissileInfo
-{
-	int currentTime;
-	double currentLatitude;
-	double currentLongitude;
-	double currentSpeed;
-	double currentAngle;
-};
-
-struct ScenarioInfo
-{
-	int startTime;
-	double airThreatStartLatitude;
-	double airThreatStartLongitude;
-	double airThreatEndLatitude;
-	double airThreatEndLongitude;
-	double airThreatSpeed;
-	double antiAirMissileLatitude;
-	double antiAirMissileLongitude;
-	double antiAirMissileSpeed;
-};
-
-enum SimulationStatus
-{
-	IDLE = 1, DETECTING = 2, CHASING = 3, SUCCESS = 4, FAIL = 5
-};
 
 class AntiAirMissileController
 {
@@ -72,6 +36,7 @@ private:
 
 	int timerHandle;
 
+	std::unique_ptr<IAirThreatDetector> airThreatDetector;
 private:
 	void threatSimulationThread();
 	void updateAntiAirMissileInfo();
