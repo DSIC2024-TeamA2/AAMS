@@ -106,7 +106,6 @@ bool isTermination(ScenarioInfo& scenarioInfo, AntiAirMissileInfo& antiAirMissil
 
 void AntiAirMissileController::threatSimulationThread()
 {
-	tcout << _T("모의 시스템 상태") << status << std::endl;
 	if (status == FAIL)
 	{
 		stop();
@@ -134,7 +133,6 @@ void AntiAirMissileController::threatSimulationThread()
 		setSimulationStatus(SUCCESS);
 		sendSimulationStatusInfo(SUCCESS);
 
-		tcout << _T("모의 시스템 상태") << status << std::endl;
 		stop();
 
 		return;

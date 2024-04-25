@@ -33,8 +33,6 @@ UDPCommunicationManager::init()
 		commConfig[i]->setIni(wss.str());
 		commInterface[i] = new NCommInterface(this);
 	}
-
-	tcout << _T("UDP Communication") << endl;
 }
 
 void

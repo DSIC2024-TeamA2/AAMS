@@ -51,7 +51,6 @@ UIManager::registerMsg(tstring msgName)
 void
 UIManager::discoverMsg(shared_ptr<NOM> nomMsg)
 {
-	tcout << nomMsg->getName() << endl;
 	discoveredMsg.insert(pair<unsigned int, shared_ptr<NOM>>(nomMsg->getInstanceID(), nomMsg));
 	::SendMessage(winHandle, UM_DiscoveredNOM, (WPARAM)nomMsg.get(), 0);
 }
@@ -59,16 +58,27 @@ UIManager::discoverMsg(shared_ptr<NOM> nomMsg)
 void
 UIManager::updateMsg(shared_ptr<NOM> nomMsg)
 {
-	// you can use the code below, if necessary
 	if (nomMsg->getName() == _T("ScenarioInfo"))
 	{
-		tcout << _T("UIManager ScenarioInfo OK") << endl;
+		tcout << _T("========= Send: ScenarioInfo =========") << endl;
+		tcout << _T("startTime: ") << nomMsg->getValue(_T("startTime"))->toInt() << endl;
+		tcout << _T("airThreatStartLatitude: ") << nomMsg->getValue(_T("airThreatStartLatitude"))->toDouble() << endl;
+		tcout << _T("airThreatStartLongitude: ") << nomMsg->getValue(_T("airThreatStartLongitude"))->toDouble() << endl;
+		tcout << _T("airThreatEndLatitude: ") << nomMsg->getValue(_T("airThreatEndLatitude"))->toDouble() << endl;
+		tcout << _T("airThreatEndLongitude: ") << nomMsg->getValue(_T("airThreatEndLongitude"))->toDouble() << endl;
+		tcout << _T("airThreatSpeed: ") << nomMsg->getValue(_T("airThreatSpeed"))->toFloat() << endl;
+		tcout << _T("antiAirMissileLatitude: ") << nomMsg->getValue(_T("antiAirMissileLatitude"))->toDouble() << endl;
+		tcout << _T("antiAirMissileLongitude: ") << nomMsg->getValue(_T("antiAirMissileLongitude"))->toDouble() << endl;
+		tcout << _T("antiAirMissileSpeed: ") << nomMsg->getValue(_T("antiAirMissileSpeed"))->toFloat() << endl;
+		tcout << _T("======================================") << endl;
 		nomMsg->copyTo(scenarioInfoMsg);
 		mec->updateMsg(scenarioInfoMsg);
 	}
 	else if (nomMsg->getName() == _T("SimulationStatusInfo"))
 	{
-		tcout << _T("UIManager SimulationStatusInfo OK") << endl;
+		tcout << _T("===== Send: SimulationStatusInfo =====") << endl;
+		tcout << _T("status: ") << nomMsg->getValue(_T("status"))->toInt() << endl;
+		tcout << _T("======================================") << endl;
 		nomMsg->copyTo(simulationStatusInfoMsg);
 		mec->updateMsg(simulationStatusInfoMsg);
 	}
@@ -81,7 +91,10 @@ UIManager::reflectMsg(shared_ptr<NOM> nomMsg)
 		|| nomMsg->getName() == _T("AntiAirMissileInfo")
 		|| nomMsg->getName() == _T("SimulationStatusInfo"))
 	{
-		tcout << _T("UIManager reflectMsg OK") << endl;
+		tcout << _T("===== Received: ");
+		tcout << nomMsg->getName();
+		tcout << " =====" << endl;
+
 		auto length = 0;
 		unsigned char* nomBytes = nomMsg->serialize(length);
 
